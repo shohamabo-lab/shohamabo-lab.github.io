@@ -14,14 +14,13 @@
         h1 { font-size: 3rem; color: var(--primary); font-weight: 900; margin-bottom: 5px; }
         .section-title { font-size: 2.2rem; margin: 50px 0 25px; color: var(--gold); font-weight: 800; border-bottom: 2px solid #334155; display: inline-block; padding-bottom: 10px; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 40px; }
-        .card { background: var(--card-bg); padding: 25px; border-radius: 12px; border: 1px solid #334155; transition: 0.3s; display: flex; flex-direction: column; justify-content: space-between; min-height: 300px; }
+        .card { background: var(--card-bg); padding: 25px; border-radius: 12px; border: 1px solid #334155; transition: 0.3s; display: flex; flex-direction: column; justify-content: space-between; min-height: 350px; }
         .premium-card { border: 2px solid var(--primary); box-shadow: 0 0 15px rgba(0, 123, 255, 0.2); }
-        .card:hover { transform: translateY(-5px); border-color: var(--gold); }
         .badge { padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; align-self: center; margin-bottom: 10px; font-weight: bold; }
         .free-badge { background: var(--free); color: white; }
         .premium-badge { background: var(--gold); color: var(--dark); }
         .price { font-size: 2.2rem; color: #fff; font-weight: 800; margin: 15px 0; }
-        .btn-free { background: rgba(255,255,255,0.1); color: white; border: 1px solid white; padding: 12px; border-radius: 50px; cursor: pointer; text-decoration: none; font-weight: bold; transition: 0.3s; }
+        .btn-free { background: rgba(255,255,255,0.1); color: white; border: 1px solid white; padding: 12px; border-radius: 50px; cursor: pointer; text-decoration: none; font-weight: bold; transition: 0.3s; text-align: center; }
         .btn-free:hover { background: white; color: var(--dark); }
         .footer { margin-top: 50px; padding: 20px; color: #64748b; font-size: 0.8rem; }
     </style>
@@ -46,16 +45,16 @@
         <div class="card premium-card">
             <span class="badge premium-badge">מסלול בסיס</span>
             <h3>מנפחים למתקדמים</h3>
-            <p>הצעד הראשון לשינוי המציאות הכלכלית שלך עם ליווי וכלים פרקטיים.</p>
+            <p>הצעד הראשון לשינוי המציאות הכלכלית שלך.</p>
             <div class="price">39 ש"ח</div>
-            <div id="paypal-39"></div>
+            <div id="paypal-39-container"></div>
         </div>
         <div class="card premium-card">
             <span class="badge premium-badge">המסלול המלא</span>
             <h3>מפת הדרכים ל-100,000</h3>
-            <p>התוכנית המקיפה לבניית הון עצמי והשקעה חכמה לטווח ארוך.</p>
+            <p>התוכנית המקיפה לבניית הון עצמי והשקעה חכמה.</p>
             <div class="price">199 ש"ח</div>
-            <div id="paypal-199"></div>
+            <div id="paypal-199-container"></div>
         </div>
     </div>
 
@@ -65,47 +64,49 @@
             <span class="badge free-badge">חינם</span>
             <h3>הפסיכולוגיה של הכיס</h3>
             <p>איך לשלוט בדחפים ולבנות מנטליות של עושר.</p>
-            <a href="psychology.html" class="btn-free">צפה בשיעור</a>
+            <a href="https://your-video-link-1.com" target="_blank" class="btn-free">צפה בשיעור</a>
         </div>
         <div class="card">
             <span class="badge free-badge">חינם</span>
             <h3>נכסים מול בורות כלכליים</h3>
             <p>ניתוח איפה הכסף שלך נמצא ואיך להפוך אותו לנכס.</p>
-            <a href="assets.html" class="btn-free">צפה בשיעור</a>
+            <a href="https://your-video-link-2.com" target="_blank" class="btn-free">צפה בשיעור</a>
         </div>
         <div class="card">
             <span class="badge free-badge">חינם</span>
             <h3>שוק ההון בגובה העיניים</h3>
             <p>איך להשקיע במדדים וקרנות סל בצורה פשוטה.</p>
-            <a href="stock.html" class="btn-free">צפה בשיעור</a>
+            <a href="https://your-video-link-3.com" target="_blank" class="btn-free">צפה בשיעור</a>
         </div>
         <div class="card">
             <span class="badge free-badge">חינם</span>
             <h3>פרוטוקול ה-10 לחודש</h3>
             <p>ניהול תזרים מזומנים חכם ושיטתי.</p>
-            <a href="protocol.html" class="btn-free">צפה בשיעור</a>
+            <a href="https://your-video-link-4.com" target="_blank" class="btn-free">צפה בשיעור</a>
         </div>
         <div class="card">
             <span class="badge free-badge">חינם</span>
             <h3>למתחילים לנפח</h3>
             <p>היסודות שכל אחד חייב לדעת על הכסף שלו.</p>
-            <a href="metchilim.html" class="btn-free">צפה בשיעור</a>
+            <a href="https://your-video-link-5.com" target="_blank" class="btn-free">צפה בשיעור</a>
         </div>
     </div>
-
-    <div class="footer">© 2026 מנפחים ת'כיס | שוחם אבו - כל הזכויות שמורות</div>
 </div>
 
 <script>
     function renderBtn(id, amount, name) {
-        paypal.Buttons({
-            style: { layout: 'horizontal', color: 'blue', shape: 'pill', label: 'buynow' },
-            createOrder: (data, actions) => { return actions.order.create({ purchase_units: [{ description: name, amount: { value: amount } }] }); },
-            onApprove: (data, actions) => { return actions.order.capture().then(details => { alert('תודה! נרשמת ל' + name); }); }
-        }).render(id);
+        if(document.querySelector(id)) {
+            paypal.Buttons({
+                style: { layout: 'horizontal', color: 'blue', shape: 'pill', label: 'buynow' },
+                createOrder: (data, actions) => { return actions.order.create({ purchase_units: [{ description: name, amount: { value: amount } }] }); },
+                onApprove: (data, actions) => { return actions.order.capture().then(details => { alert('תודה! נרשמת ל' + name); }); }
+            }).render(id);
+        }
     }
-    renderBtn('#paypal-39', '39.00', 'מנפחים למתקדמים');
-    renderBtn('#paypal-199', '199.00', 'מפת הדרכים ל-100,000');
+    window.onload = function() {
+        renderBtn('#paypal-39-container', '39.00', 'מנפחים למתקדמים');
+        renderBtn('#paypal-199-container', '199.00', 'מפת הדרכים ל-100,000');
+    };
 </script>
 </body>
 </html>
