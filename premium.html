@@ -1,520 +1,104 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>מנפחים מתקדמים - מנפחים ת'כיס</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;900&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0b1628;--yellow:#FFF100;--neon:#00E5FF;--text:#fff;--card:#111f38;--font:'Heebo',sans-serif}
-body{background:var(--bg);color:var(--text);font-family:var(--font);direction:rtl;overflow-x:hidden}
-a{text-decoration:none;color:inherit}
-nav{position:fixed;top:0;width:100%;background:rgba(11,22,40,0.95);backdrop-filter:blur(10px);z-index:1000;border-bottom:1px solid rgba(0,229,255,0.2);padding:0 20px}
-.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:65px}
-.logo{font-size:1.4rem;font-weight:900;color:var(--yellow)}
-.nav-links{display:flex;gap:8px;list-style:none;align-items:center}
-.nav-links a{font-size:0.85rem;padding:6px 10px;border-radius:6px;transition:all 0.2s;color:rgba(255,255,255,0.85)}
-.nav-links a:hover{color:var(--neon)}
-.nav-links a.active{color:var(--yellow);font-weight:700}
-.nav-cta{background:var(--yellow);color:#0b1628!important;font-weight:700;padding:8px 18px!important;border-radius:8px}
-.hamburger{display:none;background:none;border:none;color:var(--text);font-size:1.6rem;cursor:pointer}
-.mobile-menu{display:none;flex-direction:column;background:rgba(11,22,40,0.98);padding:20px;gap:10px}
-.mobile-menu a{display:block;padding:12px 16px;border-radius:8px;border:1px solid rgba(0,229,255,0.15);color:var(--text);font-size:1rem}
-.mobile-menu.open{display:flex}
-@media(max-width:768px){.nav-links{display:none}.hamburger{display:block}}
-
-/* HERO */
-.hero{min-height:60vh;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden;padding:100px 20px 60px}
-.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#040c18 0%,#0b1628 50%,#060e18 100%)}
-.hero-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:400px;background:radial-gradient(ellipse,rgba(255,241,0,0.07) 0%,transparent 70%);pointer-events:none}
-.hero-content{position:relative;z-index:1;max-width:800px}
-.hero-badge{display:inline-block;background:rgba(255,241,0,0.1);border:1px solid rgba(255,241,0,0.35);border-radius:50px;padding:8px 20px;font-size:0.85rem;color:var(--yellow);margin-bottom:24px}
-.hero h1{font-size:clamp(2.5rem,6vw,4.5rem);font-weight:900;line-height:1.1;margin-bottom:20px;color:var(--yellow)}
-.hero p{font-size:clamp(1rem,2vw,1.15rem);color:rgba(255,255,255,0.75);line-height:1.7;max-width:600px;margin:0 auto}
-
-/* PRODUCTS */
-.products-section{padding:80px 20px}
-.container{max-width:1100px;margin:0 auto}
-.products-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px;max-width:1000px;margin:0 auto}
-@media(max-width:768px){.products-grid{grid-template-columns:1fr}}
-
-.product-card{background:var(--card);border-radius:24px;padding:40px;position:relative;transition:all 0.3s}
-.product-card.basic{border:1px solid rgba(0,229,255,0.25)}
-.product-card.premium{border:2px solid var(--yellow);box-shadow:0 0 40px rgba(255,241,0,0.1)}
-.product-card.basic:hover{transform:translateY(-6px);border-color:var(--neon);box-shadow:0 12px 40px rgba(0,229,255,0.1)}
-.product-card.premium:hover{transform:translateY(-6px);box-shadow:0 12px 50px rgba(255,241,0,0.2)}
-
-.product-badge{display:inline-block;background:rgba(255,241,0,0.15);border:1px solid rgba(255,241,0,0.4);border-radius:50px;padding:5px 14px;font-size:0.8rem;color:var(--yellow);margin-bottom:20px;font-weight:700}
-.product-badge.popular{background:rgba(255,68,102,0.15);border-color:rgba(255,68,102,0.4);color:#ff8899}
-
-.product-price-block{margin-bottom:24px}
-.product-price{font-size:3.5rem;font-weight:900;color:var(--yellow);line-height:1}
-.product-price-note{font-size:0.85rem;color:rgba(255,255,255,0.5);margin-top:4px}
-.product-old-price{font-size:1.1rem;color:rgba(255,255,255,0.35);text-decoration:line-through;margin-right:8px}
-
-.product-title{font-size:1.4rem;font-weight:900;margin-bottom:12px;color:var(--text)}
-.product-desc{font-size:0.95rem;color:rgba(255,255,255,0.7);line-height:1.6;margin-bottom:28px}
-
-.product-features{list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:32px}
-.product-features li{display:flex;align-items:flex-start;gap:10px;font-size:0.9rem;color:rgba(255,255,255,0.85);line-height:1.4}
-.product-features li::before{content:'✅';flex-shrink:0}
-
-.product-access{display:inline-block;background:rgba(0,229,255,0.1);border:1px solid rgba(0,229,255,0.3);border-radius:8px;padding:6px 14px;font-size:0.8rem;color:var(--neon);margin-bottom:28px}
-
-.product-btn{width:100%;padding:16px;border-radius:14px;font-size:1.1rem;font-weight:900;font-family:var(--font);cursor:pointer;border:none;transition:all 0.3s;display:block;text-align:center}
-.product-btn.basic-btn{background:transparent;color:var(--neon);border:2px solid var(--neon)}
-.product-btn.basic-btn:hover{background:rgba(0,229,255,0.1);transform:translateY(-2px)}
-.product-btn.premium-btn{background:var(--yellow);color:#0b1628}
-.product-btn.premium-btn:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(255,241,0,0.5)}
-
-.paypal-note{font-size:0.75rem;color:rgba(255,255,255,0.35);text-align:center;margin-top:12px}
-
-/* STATS */
-.stats-section{padding:60px 20px;background:rgba(0,229,255,0.03);border-top:1px solid rgba(0,229,255,0.1);border-bottom:1px solid rgba(0,229,255,0.1)}
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;max-width:900px;margin:0 auto}
-@media(max-width:768px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
-.stat-card{text-align:center;padding:20px}
-.stat-num{font-size:1.8rem;font-weight:900;color:var(--yellow);margin-bottom:6px}
-.stat-label{font-size:0.8rem;color:rgba(255,255,255,0.55);line-height:1.4}
-
-/* GUARANTEE */
-.guarantee-section{padding:80px 20px;text-align:center}
-.guarantee-card{background:var(--card);border:1px solid rgba(0,229,255,0.2);border-radius:20px;padding:50px 40px;max-width:700px;margin:0 auto}
-.guarantee-icon{font-size:4rem;margin-bottom:20px}
-.guarantee-title{font-size:1.8rem;font-weight:900;color:var(--yellow);margin-bottom:16px}
-.guarantee-text{font-size:1rem;color:rgba(255,255,255,0.75);line-height:1.7;max-width:500px;margin:0 auto}
-
-/* FAQ */
-.faq-section{padding:80px 20px;background:linear-gradient(135deg,#0d2040 0%,#0b1628 100%)}
-.faq-title{font-size:clamp(1.8rem,3vw,2.5rem);font-weight:900;color:var(--yellow);text-align:center;margin-bottom:50px}
-.faq-list{max-width:700px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
-.faq-item{background:var(--card);border:1px solid rgba(0,229,255,0.15);border-radius:14px;overflow:hidden}
-.faq-q{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;cursor:pointer;font-size:1rem;font-weight:700;transition:all 0.2s}
-.faq-q:hover{background:rgba(0,229,255,0.05)}
-.faq-q span.arrow{color:var(--neon);transition:transform 0.3s;font-size:1.2rem}
-.faq-a{display:none;padding:0 24px 20px;font-size:0.95rem;color:rgba(255,255,255,0.75);line-height:1.7}
-.faq-item.open .faq-q span.arrow{transform:rotate(180deg)}
-.faq-item.open .faq-a{display:block}
-
-.fade-in{opacity:0;transform:translateY(30px);transition:opacity 0.7s ease,transform 0.7s ease}
-.fade-in.visible{opacity:1;transform:translateY(0)}
-
-footer{background:#080e1a;border-top:1px solid rgba(0,229,255,0.1);padding:50px 20px 30px}
-.footer-inner{max-width:1200px;margin:0 auto}
-.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px;margin-bottom:40px}
-@media(max-width:768px){.footer-top{grid-template-columns:1fr}}
-.footer-logo{font-size:1.6rem;font-weight:900;color:var(--yellow);margin-bottom:12px}
-.footer-desc{font-size:0.9rem;color:rgba(255,255,255,0.5);line-height:1.7}
-.footer-col h4{font-size:0.9rem;font-weight:700;color:var(--neon);margin-bottom:16px}
-.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
-.footer-col ul a{font-size:0.85rem;color:rgba(255,255,255,0.55);transition:color 0.2s}
-.footer-col ul a:hover{color:var(--yellow)}
-.footer-bottom{border-top:1px solid rgba(255,255,255,0.06);padding-top:24px}
-.footer-copy{font-size:0.8rem;color:rgba(255,255,255,0.3)}
-.disclaimer{font-size:0.75rem;color:rgba(255,255,255,0.35);line-height:1.5;margin-top:8px}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מנפחים ת'כיס - מפת הדרכים ל-100,000</title>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://www.paypal.com/sdk/js?client-id=ARfHcRnxdD-vvOg6s4BCXQCgelB5Jf555oadP61F1Bpq8QPwzDNuz3mS0-q7_wykK9XUBzUYc3EVS0gf&currency=ILS"></script>
+    <style>
+        :root { --primary: #007bff; --dark: #0f172a; --card-bg: #1e293b; --gold: #f59e0b; }
+        body { font-family: 'Heebo', sans-serif; background: var(--dark); color: white; margin: 0; padding: 0; }
+        .container { max-width: 1100px; margin: auto; padding: 40px 20px; text-align: center; }
+        .market-header { background: #1e222d; padding: 10px 0; border-bottom: 1px solid #333; }
+        h1 { font-size: 3.5rem; color: var(--primary); font-weight: 900; margin-bottom: 10px; }
+        .subtitle { font-size: 1.2rem; color: #94a3b8; margin-bottom: 40px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .card { background: var(--card-bg); padding: 30px; border-radius: 16px; border: 1px solid #334155; transition: 0.3s; display: flex; flex-direction: column; }
+        .card:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h3 { font-size: 1.6rem; margin: 0 0 15px 0; color: #fff; }
+        p { color: #94a3b8; font-size: 1rem; line-height: 1.5; flex-grow: 1; }
+        .price { font-size: 2.2rem; color: var(--gold); font-weight: 800; margin: 20px 0; }
+        .footer { margin-top: 60px; padding: 20px; color: #64748b; font-size: 0.9rem; border-top: 1px solid #334155; }
+    </style>
 </head>
 <body>
-
-<nav>
-  <div class="nav-inner">
-    <a href="index.html" class="logo">מנפחים ת'כיס 💰</a>
-    <ul class="nav-links">
-      <li><a href="index.html">בית</a></li>
-      <li><a href="metchilim.html">מתחילים לנפח</a></li>
-      <li><a href="psychology.html">פסיכולוגיה</a></li>
-      <li><a href="assets.html">נכסים</a></li>
-      <li><a href="bankayt.html">בנקאית</a></li>
-      <li><a href="stock.html">שוק ההון</a></li>
-      <li><a href="protocol.html">פרוטוקול ה-10</a></li>
-      <li><a href="premium.html" class="active nav-cta">מנפחים מתקדמים</a></li>
-    </ul>
-    <button class="hamburger" id="hamburger">☰</button>
-  </div>
-  <div class="mobile-menu" id="mobileMenu">
-    <a href="index.html">🏠 בית</a>
-    <a href="metchilim.html">🚀 מתחילים לנפח</a>
-    <a href="psychology.html">🧠 פסיכולוגיה</a>
-    <a href="assets.html">💎 נכסים</a>
-    <a href="bankayt.html">🏦 בנקאית</a>
-    <a href="stock.html">📈 שוק ההון</a>
-    <a href="protocol.html">✈️ פרוטוקול ה-10</a>
-    <a href="premium.html" style="color:#FFF100;border-color:rgba(255,241,0,0.4)">⭐ מנפחים מתקדמים</a>
-  </div>
-</nav>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-glow"></div>
-  <div class="hero-content fade-in">
-    <div class="hero-badge">⭐ למנפחים רציניים</div>
-    <h1>מנפחים מתקדמים</h1>
-    <p>הכלים והמדריכים שיעבירו אתכם מ"מבין קצת" ל"מנפח בפועל" — עם תוכנית מוכנה לביצוע</p>
-  </div>
-</section>
-
-<!-- STATS BAR -->
-<div class="stats-section">
-  <div class="stats-grid fade-in">
-    <div class="stat-card">
-      <div class="stat-num">₪199</div>
-      <div class="stat-label">מחיר המדריך המלא (היה ₪499)</div>
+<div class="market-header">
+    <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+        {
+          "symbols": [
+            { "proName": "FOREXCOM:SPX500", "title": "S&P 500" },
+            { "proName": "FOREXCOM:NSXUSD", "title": "NASDAQ 100" },
+            { "proName": "INDEX:TA35", "title": "תל אביב 35" },
+            { "proName": "BINANCE:BTCUSDT", "title": "ביטקוין" }
+          ],
+          "showSymbolLogo": true, "colorTheme": "dark", "isTransparent": true, "displayMode": "adaptive", "locale": "he_IL"
+        }
+        </script>
     </div>
-    <div class="stat-card">
-      <div class="stat-num">0.8%</div>
-      <div class="stat-label">דמי ניהול ממוצעים — שמשלמים הישראלים</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num">₪58K</div>
-      <div class="stat-label">חסכון ממוצע של ישראלי</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num">₪100K</div>
-      <div class="stat-label">היעד הראשון שצריך לשבור</div>
-    </div>
-  </div>
 </div>
-
-<!-- PRODUCTS -->
-<section class="products-section">
-  <div class="container">
-    <div style="text-align:center;margin-bottom:60px" class="fade-in">
-      <h2 style="font-size:clamp(1.8rem,3vw,2.5rem);font-weight:900;color:var(--yellow);margin-bottom:12px">בחר את הנשק שלך</h2>
-      <p style="font-size:1rem;color:rgba(255,255,255,0.6)">שני מוצרים שנבנו כדי שתיקח שליטה מלאה על הכסף שלך</p>
-    </div>
-    <div class="products-grid fade-in">
-
-      <!-- PRODUCT 1: Dashboard -->
-      <div class="product-card basic">
-        <div class="product-badge">דשבורד מנפחים</div>
-        <div class="product-price-block">
-          <div class="product-price">₪39</div>
-          <div class="product-price-note">תשלום חד פעמי — שלך לנצח</div>
+<div class="container">
+    <h1>מנפחים ת'כיס</h1>
+    <p class="subtitle">המסלול שלך להבנה פיננסית עמוקה וצמיחה בשוק ההון</p>
+    <div class="grid">
+        <div class="card">
+            <h3>למתחילים לנפח</h3>
+            <p>הבסיס שכל אחד חייב להכיר כדי להתחיל לנהל כסף נכון.</p>
+            <div class="price">39 ש"ח</div>
+            <div id="paypal-39"></div>
         </div>
-        <h3 class="product-title">דשבורד המנפחים — הכלי המבצעי</h3>
-        <p class="product-desc">קנית ידע — עכשיו צריך לנהל אותו. Excel + Notion מוכנים לשימוש, בעברית, מהיום הראשון.</p>
-        <ul class="product-features">
-          <li>Monthly automated budget tracker</li>
-          <li>Asset vs. Liability board</li>
-          <li>Interactive compound interest graph</li>
-          <li>The "10th of the month" protocol reminders</li>
-          <li>Investment portfolio tracker</li>
-          <li>Free future updates</li>
-        </ul>
-        <div style="background:rgba(255,241,0,0.08);border:1px dashed rgba(255,241,0,0.4);border-radius:12px;padding:16px;margin-bottom:20px">
-          <div style="font-size:0.75rem;color:var(--yellow);font-weight:900;letter-spacing:1px;margin-bottom:8px">🎁 SPECIAL BONUS</div>
-          <div style="font-size:0.9rem;color:rgba(255,255,255,0.9);line-height:1.5">Dashboard Masterclass Video (10 min) — how to maximize your Dashboard + <strong>Exclusive Financial Freedom Checklist (PDF)</strong></div>
+        <div class="card">
+            <h3>הפסיכולוגיה של הכיס</h3>
+            <p>איך לשלוט בדחפים, לשנות הרגלים ולבנות מנטליות של עושר.</p>
+            <div class="price">199 ש"ח</div>
+            <div id="paypal-199-1"></div>
         </div>
-        <!-- PayPal Button: replace data-hosted-button-id with your actual button ID -->
-        <!-- Return URL configured in PayPal: https://minapchimtkis.github.io/success.html -->
-        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" id="ppForm39">
-          <input type="hidden" name="cmd" value="_s-xclick">
-          <input type="hidden" name="hosted_button_id" value="2ZJE6WGMZP772">
-          <input type="hidden" name="return" value="https://minapchimtkis.github.io/success.html">
-          <input type="hidden" name="cancel_return" value="https://minapchimtkis.github.io/premium.html">
-          <input type="hidden" name="currency_code" value="ILS">
-          <button type="submit" class="product-btn basic-btn">אני רוצה את הדשבורד — ₪39</button>
-        </form>
-        <p class="paypal-note">🔒 תשלום מאובטח דרך PayPal • ILS ₪39</p>
-      </div>
-
-      <!-- PRODUCT 2: Full Guide -->
-      <div class="product-card premium">
-        <div class="product-badge popular">🔥 הכי מבוקש</div>
-        <div class="product-price-block">
-          <div>
-            <span class="product-old-price">₪499</span>
-            <span class="product-price">₪199</span>
-          </div>
-          <div class="product-price-note">תשלום חד פעמי • גישה לנצח + עדכונים</div>
+        <div class="card">
+            <h3>נכסים מול בורות כלכליים</h3>
+            <p>ניתוח מעמיק של איפה הכסף שלך באמת נמצא ואיך להפוך אותו לנכס מניב.</p>
+            <div class="price">199 ש"ח</div>
+            <div id="paypal-199-2"></div>
         </div>
-        <h3 class="product-title">מפת הדרכים ל-100,000 ש"ח הראשונים</h3>
-        <p class="product-desc">תכלס — מדריך שעבד עליו בן אדם אחד כמה חודשים. יותר ממה שתקבל בפגישה הראשונה עם יועץ.</p>
-        <div class="product-access">🔓 גישה מיידית לנצח</div>
-        <ul class="product-features">
-          <li>רשימת קרנות אירית מנצחות (CSPX, IWDA ועוד)</li>
-          <li>ניתוח מלא: ACWI / S&P 500 / SPTECH</li>
-          <li>מדריך פתיחת חשבון מסחר — צד אחר צד</li>
-          <li>פרוטוקול ה-10 לחודש המלא</li>
-          <li>סימולציות ריבית דריבית לפי הגיל שלך</li>
-          <li>מדריך מיסוי ועיתוי מכירה נכון</li>
-          <li>עדכונים עתידיים ללא תשלום</li>
-        </ul>
-        <!-- PayPal Button: replace data-hosted-button-id with your actual button ID -->
-        <!-- Return URL configured in PayPal: https://minapchimtkis.github.io/success.html -->
-        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" id="ppForm199">
-          <input type="hidden" name="cmd" value="_s-xclick">
-          <input type="hidden" name="hosted_button_id" value="7TEY6VG9RCJMG">
-          <input type="hidden" name="return" value="https://minapchimtkis.github.io/success.html">
-          <input type="hidden" name="cancel_return" value="https://minapchimtkis.github.io/premium.html">
-          <input type="hidden" name="currency_code" value="ILS">
-          <button type="submit" class="product-btn premium-btn">אני רוצה את המלא — ₪199 🚀</button>
-        </form>
-        <p class="paypal-note">🔒 תשלום מאובטח דרך PayPal • ILS ₪199</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- GUARANTEE -->
-<section class="guarantee-section fade-in">
-  <div class="container">
-    <div class="guarantee-card">
-      <div class="guarantee-icon">🛡️</div>
-      <h3 class="guarantee-title">ערבות שביעות רצון</h3>
-      <p class="guarantee-text">אם קראת את המדריך ב-7 הימים הראשונים ולא שווה לך — תחזרי ותקבל את הכסף בחזרה. ללא שאלות. כי אנחנו מאמינים שהמדריך מדבר בעד עצמו.</p>
-    </div>
-  </div>
-</section>
-
-<!-- SHARE SECTION -->
-<section style="padding:60px 20px;background:var(--bg)">
-  <div class="container fade-in">
-    <div style="background:linear-gradient(135deg,#111f38,#0d2040);border:1px solid rgba(255,241,0,0.2);border-radius:20px;padding:50px 40px;text-align:center;max-width:700px;margin:0 auto">
-      <div style="font-size:2rem;margin-bottom:12px">🤝</div>
-      <h2 style="font-size:1.8rem;font-weight:900;color:var(--yellow);margin-bottom:10px">ספר לחבר שלך על מנפחים ת'כיס</h2>
-      <p style="color:rgba(255,255,255,0.65);margin-bottom:28px;line-height:1.6;font-size:0.95rem">כל צעיר ישראלי שמגלה את זה מוקדם — חוסך שנים של בינוניות כלכלית. שתף עם מישהו שצריך לשמוע את זה.</p>
-      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-        <button onclick="shareWA()" style="display:flex;align-items:center;gap:8px;background:#25D366;color:#fff;border:none;border-radius:10px;padding:12px 20px;font-size:0.9rem;font-weight:700;font-family:Heebo,sans-serif;cursor:pointer;transition:all 0.2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-          שלח ב-WhatsApp
-        </button>
-        <button onclick="shareTW()" style="display:flex;align-items:center;gap:8px;background:#1DA1F2;color:#fff;border:none;border-radius:10px;padding:12px 20px;font-size:0.9rem;font-weight:700;font-family:Heebo,sans-serif;cursor:pointer;transition:all 0.2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.74-8.854L1.57 2.25H8.08l4.253 5.622 5.91-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-          שתף ב-X
-        </button>
-        <button onclick="copyURL(this)" style="display:flex;align-items:center;gap:8px;background:rgba(0,229,255,0.12);color:var(--neon);border:1px solid rgba(0,229,255,0.35);border-radius:10px;padding:12px 20px;font-size:0.9rem;font-weight:700;font-family:Heebo,sans-serif;cursor:pointer;transition:all 0.2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
-          🔗 העתק לינק
-        </button>
-        <button onclick="nativeShare()" style="display:flex;align-items:center;gap:8px;background:rgba(255,241,0,0.1);color:var(--yellow);border:1px solid rgba(255,241,0,0.3);border-radius:10px;padding:12px 20px;font-size:0.9rem;font-weight:700;font-family:Heebo,sans-serif;cursor:pointer;transition:all 0.2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''" id="nativeShareBtn" style="display:none">
-          📤 שתף
-        </button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section class="faq-section fade-in">
-  <div class="container">
-    <h2 class="faq-title">שאלות נפוצות</h2>
-    <div class="faq-list">
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          <span>מתי אני מקבל גישה לאחר הרכישה?</span>
-          <span class="arrow">▼</span>
+        <div class="card">
+            <h3>שוק ההון בגובה העיניים</h3>
+            <p>בלי סיבוכים: איך להשקיע בקרנות סל ומדדים בצורה חכמה ופשוטה.</p>
+            <div class="price">199 ש"ח</div>
+            <div id="paypal-199-3"></div>
         </div>
-        <div class="faq-a">גישה מיידית — תוך דקות מהרכישה. תקבל מייל עם הלינק להורדה.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          <span>האם צריך ניסיון קודם בהשקעות?</span>
-          <span class="arrow">▼</span>
+        <div class="card">
+            <h3>פרוטוקול ה-10 לחודש</h3>
+            <p>השיטה לניהול תזרים מזומנים חודשי שמשאירה לך יותר כסף בכיס.</p>
+            <div class="price">199 ש"ח</div>
+            <div id="paypal-199-4"></div>
         </div>
-        <div class="faq-a">ממש לא. המדריך נכתב מאפס, בעברית ברורה, ומתאים גם למי שמעולם לא נגע בבורסה.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          <span>מה ההבדל בין שני המוצרים?</span>
-          <span class="arrow">▼</span>
-        </div>
-        <div class="faq-a">הדשבורד (₪39) הוא כלי ניהול — Excel + Notion לעקוב אחרי הכסף שלך. המדריך המלא (₪199) הוא תוכנית פעולה שלמה — מה להשקיע, איפה, ואיך.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          <span>האם זה ייעוץ פיננסי?</span>
-          <span class="arrow">▼</span>
-        </div>
-        <div class="faq-a">לא. כל המידע הוא חינוכי בלבד. לא מחזיק רישיון ייעוץ. תמיד מומלץ להתייעץ עם יועץ מוסמך לפני קבלת החלטות כספיות.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          <span>האם יהיו עדכונים?</span>
-          <span class="arrow">▼</span>
-        </div>
-        <div class="faq-a">כן! כל עדכון עתידי מגיע אוטומטית ללא עלות נוספת. שלם פעם אחת, קבל לנצח.</div>
-      </div>
     </div>
-  </div>
-</section>
-
-<!-- COMPARISON TABLE -->
-<section style="padding:80px 20px;background:var(--bg)">
-  <div class="container fade-in">
-    <h2 style="font-size:clamp(1.8rem,3vw,2.5rem);font-weight:900;color:var(--yellow);text-align:center;margin-bottom:12px">השוואת מוצרים</h2>
-    <p style="text-align:center;color:rgba(255,255,255,0.6);margin-bottom:50px">מה כלול בכל מוצר — בדיוק</p>
-    <div style="max-width:800px;margin:0 auto;overflow-x:auto">
-      <table style="width:100%;border-collapse:collapse;font-family:Heebo,sans-serif">
-        <thead>
-          <tr>
-            <th style="text-align:right;padding:16px 20px;color:rgba(255,255,255,0.5);font-size:0.85rem;font-weight:400;border-bottom:1px solid rgba(255,255,255,0.08)">תכולה</th>
-            <th style="text-align:center;padding:16px 20px;color:var(--neon);font-size:1rem;font-weight:900;border-bottom:1px solid rgba(255,255,255,0.08)">דשבורד<br><span style="font-size:1.3rem;color:var(--yellow)">₪39</span></th>
-            <th style="text-align:center;padding:16px 20px;color:var(--yellow);font-size:1rem;font-weight:900;border-bottom:1px solid rgba(255,255,255,0.08);background:rgba(255,241,0,0.04)">מדריך מלא<br><span style="font-size:1.3rem">₪199</span></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr style="border-bottom:1px solid rgba(255,255,255,0.06)">
-            <td style="padding:14px 20px;color:rgba(255,255,255,0.8);font-size:0.9rem">מעקב תקציב חודשי</td>
-            <td style="text-align:center;color:#00ff88;font-size:1.2rem">✅</td>
-            <td style="text-align:center;color:#00ff88;font-size:1.2rem;background:rgba(255,241,0,0.03)">✅</td>
-          </tr>
-          <tr style="border-bottom:1px solid rgba(255,255,255,0.06)">
-            <td style="padding:14px 20px;color:rgba(255,255,255,0.8);font-size:0.9rem">לוח נכסים מול התחייבויות</td>
-            <td style="text-align:center;color:#00ff88;font-size:1.2rem">✅</td>
-            <td style="text-align:center;color:#00ff88;font-size:1.2rem;background:rgba(255,241,0,0.03)">✅</td>
-          </tr>
-          <tr style="border-bottom:1px solid rgba(255,255,255,0.06)">
-            <td style="padding:14px 20px;color:rgba(255,255,255,0.8);font-size:0.9rem">גרף ריבית דריבית אינטראקטיבי</td>
-            <td style="text-align:center;color:#00ff88;font-size:1.2rem">✅</td>
-            <td style="text-align:center;color:#00ff88;font-size:1.2rem;background:rgba(255,241,0,0.03)">✅</td>
-          </tr>
-          <tr style="border-bottom:1px solid rgba(255,255,255,0.06)">
-            <td style="padding:14px 20px;color:rgba(255,255,255,0.8);font-size:0.9rem">רשימת קרנות אירית (CSPX, IWDA)</td>
-            <td style="text-align:center;color:rgba(255,255,255,0.25);font-size:1.2rem">—</td>
-            <td style="text-align:center;color:#00ff88;font-size:1.2rem;background:rgba(255,241,0,0.03)">✅</td>
-          </tr>
-          <tr style="border-bottom:1px solid rgba(255,255,255,0.06)">
-            <td style="padding:14px 20px;color:rgba(255,255,255,0.8);font-size:0.9rem">ניתוח ACWI / S&P 500 / SPTECH</td>
-            <td style="text-align:center;color:rgba(255,255,255,0.25);font-size:1.2rem">—</td>
-            <td style="text-align:center;color:#00ff88;font-size:1.2rem;background:rgba(255,241,0,0.03)">✅</td>
-          </tr>
-          <tr style="border-bottom:1px solid rgba(255,255,255,0.06)">
-            <td style="padding:14px 20px;color:rgba(255,255,255,0.8);font-size:0.9rem">מדריך פתיחת חשבון מסחר</td>
-            <td style="text-align:center;color:rgba(255,255,255,0.25);font-size:1.2rem">—</td>
-            <td style="text-align:center;color:#00ff88;font-size:1.2rem;background:rgba(255,241,0,0.03)">✅</td>
-          </tr>
-          <tr style="border-bottom:1px solid rgba(255,255,255,0.06)">
-            <td style="padding:14px 20px;color:rgba(255,255,255,0.8);font-size:0.9rem">סימולציות לפי גיל</td>
-            <td style="text-align:center;color:rgba(255,255,255,0.25);font-size:1.2rem">—</td>
-            <td style="text-align:center;color:#00ff88;font-size:1.2rem;background:rgba(255,241,0,0.03)">✅</td>
-          </tr>
-          <tr style="border-bottom:1px solid rgba(255,255,255,0.06)">
-            <td style="padding:14px 20px;color:rgba(255,255,255,0.8);font-size:0.9rem">מדריך מיסוי ועיתוי מכירה</td>
-            <td style="text-align:center;color:rgba(255,255,255,0.25);font-size:1.2rem">—</td>
-            <td style="text-align:center;color:#00ff88;font-size:1.2rem;background:rgba(255,241,0,0.03)">✅</td>
-          </tr>
-          <tr style="border-bottom:1px solid rgba(255,255,255,0.06)">
-            <td style="padding:14px 20px;color:rgba(255,255,255,0.8);font-size:0.9rem">עדכונים עתידיים</td>
-            <td style="text-align:center;color:#00ff88;font-size:1.2rem">✅</td>
-            <td style="text-align:center;color:#00ff88;font-size:1.2rem;background:rgba(255,241,0,0.03)">✅</td>
-          </tr>
-          <tr style="background:rgba(255,241,0,0.04)">
-            <td style="padding:14px 20px;font-size:0.9rem"><span style="color:#FFF100;font-weight:900">🎁 BONUS:</span> <span style="color:rgba(255,255,255,0.85)">Dashboard Masterclass + Investing Checklist PDF</span></td>
-            <td style="text-align:center;color:#00ff88;font-size:1.2rem">✅</td>
-            <td style="text-align:center;color:#00ff88;font-size:1.2rem;background:rgba(255,241,0,0.03)">✅</td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="footer">
+        © 2026 מנפחים ת'כיס | שוחם אבו - כל הזכויות שמורות
     </div>
-    <div style="display:flex;gap:16px;justify-content:center;margin-top:40px;flex-wrap:wrap">
-      <button onclick="document.getElementById('ppForm39').submit()" style="background:transparent;color:var(--neon);border:2px solid var(--neon);border-radius:12px;padding:14px 32px;font-size:1rem;font-weight:900;font-family:Heebo,sans-serif;cursor:pointer;transition:all 0.3s" onmouseover="this.style.background='rgba(0,229,255,0.1)'" onmouseout="this.style.background='transparent'">דשבורד — ₪39</button>
-      <button onclick="document.getElementById('ppForm199').submit()" style="background:var(--yellow);color:#0b1628;border:none;border-radius:12px;padding:14px 32px;font-size:1rem;font-weight:900;font-family:Heebo,sans-serif;cursor:pointer;transition:all 0.3s" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 30px rgba(255,241,0,0.5)'" onmouseout="this.style.transform='';this.style.boxShadow=''">מדריך מלא — ₪199 🔥</button>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="footer-inner">
-    <div class="footer-top">
-      <div>
-        <div class="footer-logo">מנפחים ת'כיס 💰</div>
-        <p class="footer-desc">חינוך פיננסי לדור הצעיר בישראל. כי ידע פיננסי הוא הכוח שאף אחד לא לימד אתכם.</p>
-        <div style="display:flex;gap:10px;margin-top:16px">
-          <a href="https://www.instagram.com/minapchim_tkis" target="_blank" rel="noopener" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:8px 14px;font-size:0.8rem;color:rgba(255,255,255,0.6);text-decoration:none">📸 Instagram</a>
-          <a href="https://www.tiktok.com/@minapchim_tkis" target="_blank" rel="noopener" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:8px 14px;font-size:0.8rem;color:rgba(255,255,255,0.6);text-decoration:none">🎵 TikTok</a>
-        </div>
-      </div>
-      <div class="footer-col">
-        <h4>ניווט</h4>
-        <ul>
-          <li><a href="index.html">בית</a></li>
-          <li><a href="metchilim.html">מתחילים לנפח</a></li>
-          <li><a href="psychology.html">פסיכולוגיה</a></li>
-          <li><a href="assets.html">נכסים</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>למידה</h4>
-        <ul>
-          <li><a href="bankayt.html">בנקאית</a></li>
-          <li><a href="stock.html">שוק ההון</a></li>
-          <li><a href="protocol.html">פרוטוקול ה-10</a></li>
-          <li><a href="premium.html">מתקדמים</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p class="footer-copy">© 2025 מנפחים ת'כיס. כל הזכויות שמורות.</p>
-      <p class="disclaimer">⚠️ המידע באתר זה הוא לימודי בלבד ואינו מהווה ייעוץ פיננסי. יש להתייעץ עם בעל רישיון לפני קבלת החלטות פיננסיות.</p>
-    </div>
-  </div>
-</footer>
-
+</div>
 <script>
-document.getElementById('hamburger').addEventListener('click',function(){
-  document.getElementById('mobileMenu').classList.toggle('open');
-  this.textContent=document.getElementById('mobileMenu').classList.contains('open')?'✕':'☰';
-});
-
-function toggleFaq(el) {
-  const item = el.parentElement;
-  const wasOpen = item.classList.contains('open');
-  document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
-  if (!wasOpen) item.classList.add('open');
-}
-
-// Share functions
-const SITE_URL = 'https://minapchimtkis.github.io/';
-const SHARE_MSG = '🔥 מצאתי אתר מדהים לחינוך פיננסי בעברית — מנפחים ת\'כיס! לומדים שוק ההון, ריבית דריבית ואיך לנפח את הכיס 💰';
-
-function shareWA() {
-  window.open('https://wa.me/?text=' + encodeURIComponent(SHARE_MSG + '\n' + SITE_URL), '_blank');
-}
-function shareTW() {
-  window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(SHARE_MSG) + '&url=' + encodeURIComponent(SITE_URL), '_blank');
-}
-function copyURL(btn) {
-  navigator.clipboard.writeText(SITE_URL).then(() => {
-    const orig = btn.textContent;
-    btn.textContent = '✅ הועתק!';
-    setTimeout(() => btn.textContent = orig, 2000);
-  });
-}
-function nativeShare() {
-  if (navigator.share) navigator.share({ title: 'מנפחים ת\'כיס', text: SHARE_MSG, url: SITE_URL });
-}
-// Show native share button if supported
-if (navigator.share) document.getElementById('nativeShareBtn').style.display = 'flex';
-
-const observer=new IntersectionObserver((e)=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')})},{threshold:0.08});
-document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));
-// Stat counter animation
-document.querySelectorAll('[data-count]').forEach(el=>{
-  new IntersectionObserver(([entry])=>{
-    if(!entry.isIntersecting||el.dataset.animated)return;
-    el.dataset.animated='1';
-    const target=parseFloat(el.dataset.count),prefix=el.dataset.prefix||'',suffix=el.dataset.suffix||'',dec=parseInt(el.dataset.decimal||'0'),dur=1400,t0=performance.now();
-    (function step(now){
-      const p=Math.min((now-t0)/dur,1),ease=1-Math.pow(1-p,3),cur=target*ease;
-      el.textContent=prefix+(dec?cur.toFixed(dec):Math.round(cur).toLocaleString('he-IL'))+suffix;
-      if(p<1)requestAnimationFrame(step);
-    })(t0);
-  },{threshold:0.3}).observe(el);
-});
-// Scroll progress
-const _p=document.createElement('div');_p.style.cssText='position:fixed;top:0;right:0;height:3px;background:linear-gradient(90deg,#FFF100,#00E5FF);z-index:9999;width:0;pointer-events:none';document.body.prepend(_p);
-window.addEventListener('scroll',()=>{const s=document.documentElement;_p.style.width=(s.scrollTop/(s.scrollHeight-s.clientHeight)*100)+'%'});
-// Floating CTA
-const _f=document.createElement('a');_f.href='premium.html';_f.textContent='💰 להתחיל';_f.style.cssText='position:fixed;bottom:28px;left:28px;background:#FFF100;color:#0b1628;font-weight:900;font-family:Heebo,sans-serif;padding:14px 22px;border-radius:50px;font-size:0.95rem;box-shadow:0 4px 20px rgba(255,241,0,0.4);z-index:900;text-decoration:none;opacity:0;pointer-events:none;transition:all 0.3s';document.body.appendChild(_f);
-const _t=document.createElement('button');_t.textContent='↑';_t.style.cssText='position:fixed;bottom:28px;right:28px;width:46px;height:46px;background:rgba(0,229,255,0.15);border:1px solid rgba(0,229,255,0.4);border-radius:50%;color:#00E5FF;font-size:1.2rem;cursor:pointer;z-index:900;opacity:0;pointer-events:none;transition:all 0.3s';document.body.appendChild(_t);
-window.addEventListener('scroll',()=>{const s=window.scrollY>400;[_f,_t].forEach(e=>{e.style.opacity=s?'1':'0';e.style.pointerEvents=s?'auto':'none'})});
-_t.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
-_f.addEventListener('mouseover',()=>{_f.style.transform='translateY(-3px) scale(1.05)'});_f.addEventListener('mouseout',()=>{_f.style.transform=''});
-_t.addEventListener('mouseover',()=>{_t.style.background='rgba(0,229,255,0.3)'});_t.addEventListener('mouseout',()=>{_t.style.background='rgba(0,229,255,0.15)'});
+    function renderBtn(id, amount, name) {
+        paypal.Buttons({
+            style: { layout: 'horizontal', color: 'blue', shape: 'pill', label: 'buynow' },
+            createOrder: (data, actions) => {
+                return actions.order.create({
+                    purchase_units: [{ description: name, amount: { value: amount } }]
+                });
+            },
+            onApprove: (data, actions) => {
+                return actions.order.capture().then(details => {
+                    alert('תודה ' + details.payer.name.given_name + '! נרשמת בהצלחה ל' + name);
+                });
+            }
+        }).render(id);
+    }
+    renderBtn('#paypal-39', '39.00', 'למתחילים לנפח');
+    renderBtn('#paypal-199-1', '199.00', 'הפסיכולוגיה של הכיס');
+    renderBtn('#paypal-199-2', '199.00', 'נכסים מול בורות כלכליים');
+    renderBtn('#paypal-199-3', '199.00', 'שוק ההון בגובה העיניים');
+    renderBtn('#paypal-199-4', '199.00', 'פרוטוקול ה-10 לחודש');
 </script>
 </body>
 </html>
