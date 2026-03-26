@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>שוק ההון בגובה העיניים - מנפחים ת'כיס</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0b1628;--yellow:#FFF100;--neon:#00E5FF;--text:#fff;--card:#111f38;--font:'Heebo',sans-serif}
+body{background:var(--bg);color:var(--text);font-family:var(--font);direction:rtl;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+nav{position:fixed;top:0;width:100%;background:rgba(11,22,40,0.95);backdrop-filter:blur(10px);z-index:1000;border-bottom:1px solid rgba(0,229,255,0.2);padding:0 20px}
+.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:65px}
+.logo{font-size:1.4rem;font-weight:900;color:var(--yellow)}
+.nav-links{display:flex;gap:8px;list-style:none;align-items:center}
+.nav-links a{font-size:0.85rem;padding:6px 10px;border-radius:6px;transition:all 0.2s;color:rgba(255,255,255,0.85)}
+.nav-links a:hover{color:var(--neon)}
+.nav-links a.active{color:var(--yellow);font-weight:700}
+.nav-cta{background:var(--yellow);color:#0b1628!important;font-weight:700;padding:8px 18px!important;border-radius:8px}
+.hamburger{display:none;background:none;border:none;color:var(--text);font-size:1.6rem;cursor:pointer}
+.mobile-menu{display:none;flex-direction:column;background:rgba(11,22,40,0.98);padding:20px;gap:10px}
+.mobile-menu a{display:block;padding:12px 16px;border-radius:8px;border:1px solid rgba(0,229,255,0.15);color:var(--text);font-size:1rem}
+.mobile-menu.open{display:flex}
+@media(max-width:768px){.nav-links{display:none}.hamburger{display:block}}
+
+.hero{min-height:65vh;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden;padding:100px 20px 60px}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#040c18 0%,#0b1628 50%,#05101e 100%)}
+.chart-bg{position:absolute;bottom:0;left:0;right:0;height:200px;opacity:0.15}
+.hero-content{position:relative;z-index:1;max-width:800px}
+.hero-badge{display:inline-block;background:rgba(0,229,255,0.1);border:1px solid rgba(0,229,255,0.3);border-radius:50px;padding:8px 20px;font-size:0.85rem;color:var(--neon);margin-bottom:24px}
+.hero h1{font-size:clamp(2.5rem,6vw,4.5rem);font-weight:900;line-height:1.1;margin-bottom:20px;color:var(--yellow)}
+.hero p{font-size:clamp(1rem,2vw,1.15rem);color:rgba(255,255,255,0.75);line-height:1.7}
+
+/* LIVE MARKET */
+.market-section{padding:40px 20px;background:rgba(0,229,255,0.03);border-bottom:1px solid rgba(0,229,255,0.1)}
+.container{max-width:1100px;margin:0 auto}
+.market-header{text-align:center;font-size:0.85rem;color:rgba(255,255,255,0.5);margin-bottom:20px;letter-spacing:2px}
+.market-cards{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.market-card{background:var(--card);border:1px solid rgba(0,229,255,0.2);border-radius:14px;padding:20px 28px;text-align:center;min-width:150px;transition:all 0.3s;cursor:pointer}
+.market-card:hover{border-color:var(--neon);transform:translateY(-3px);box-shadow:0 8px 25px rgba(0,229,255,0.1)}
+.market-card-name{font-size:0.85rem;color:rgba(255,255,255,0.6);margin-bottom:6px}
+.market-card-price{font-size:1.2rem;font-weight:900;margin-bottom:4px}
+.market-card-change{font-size:1rem;font-weight:700}
+.positive{color:#00ff88}
+.negative{color:#ff4466}
+.loading-text{color:rgba(255,255,255,0.4);animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:0.4}50%{opacity:1}}
+.market-note{text-align:center;font-size:0.75rem;color:rgba(255,255,255,0.3);margin-top:16px}
+
+/* LESSON SECTIONS */
+.lesson{padding:80px 20px}
+.lesson:nth-child(odd){background:var(--bg)}
+.lesson:nth-child(even){background:linear-gradient(135deg,#0d2040 0%,#0b1628 100%)}
+.lesson-inner{display:grid;grid-template-columns:auto 1fr;gap:50px;align-items:start}
+@media(max-width:768px){.lesson-inner{grid-template-columns:1fr;gap:30px}}
+.lesson-num{font-size:5rem;font-weight:900;color:rgba(0,229,255,0.12);line-height:1;min-width:120px;text-align:center;padding-top:10px}
+.lesson-tag{display:inline-block;background:rgba(0,229,255,0.1);border:1px solid rgba(0,229,255,0.3);border-radius:50px;padding:5px 14px;font-size:0.75rem;color:var(--neon);margin-bottom:16px}
+.lesson-title{font-size:clamp(1.4rem,3vw,2rem);font-weight:900;color:var(--yellow);margin-bottom:20px;line-height:1.3}
+.lesson-img{width:100%;height:160px;border-radius:12px;margin-bottom:20px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(0,229,255,0.15);font-size:3rem}
+.lesson-text{font-size:1rem;color:rgba(255,255,255,0.8);line-height:1.85;margin-bottom:20px}
+.lesson-highlight{background:rgba(0,229,255,0.07);border:1px solid rgba(0,229,255,0.2);border-radius:12px;padding:16px 20px;margin:16px 0}
+.lesson-highlight p{font-size:0.9rem;color:rgba(255,255,255,0.85);line-height:1.6}
+.lesson-items{display:flex;flex-direction:column;gap:12px;margin-bottom:20px}
+.lesson-item{display:flex;align-items:flex-start;gap:12px;background:rgba(0,0,0,0.2);border-radius:10px;padding:14px;border-right:3px solid rgba(0,229,255,0.3)}
+.lesson-item-label{font-size:0.85rem;font-weight:900;color:var(--neon);min-width:90px;flex-shrink:0}
+.lesson-item-text{font-size:0.9rem;color:rgba(255,255,255,0.8);line-height:1.5}
+.lesson-bottom{background:rgba(0,0,0,0.3);border-right:3px solid var(--yellow);border-radius:0 10px 10px 0;padding:14px 18px;margin-top:16px}
+.lesson-bottom-label{font-size:0.75rem;color:rgba(255,255,255,0.4);margin-bottom:4px;letter-spacing:1px}
+.lesson-bottom p{font-size:0.95rem;font-weight:700;color:var(--text);line-height:1.5}
+
+/* GLOSSARY */
+.glossary-section{padding:80px 20px}
+.glossary-title{font-size:clamp(1.8rem,3vw,2.5rem);font-weight:900;color:var(--yellow);margin-bottom:12px;text-align:center}
+.glossary-sub{font-size:1rem;color:rgba(255,255,255,0.6);text-align:center;margin-bottom:50px}
+.glossary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1000px;margin:0 auto}
+@media(max-width:768px){.glossary-grid{grid-template-columns:1fr}}
+.gloss-card{background:var(--card);border:1px solid rgba(0,229,255,0.2);border-radius:14px;padding:24px;transition:all 0.3s}
+.gloss-card:hover{border-color:var(--neon);transform:translateY(-3px)}
+.gloss-term{font-size:1rem;font-weight:900;color:var(--neon);margin-bottom:8px}
+.gloss-def{font-size:0.85rem;color:rgba(255,255,255,0.75);line-height:1.6}
+
+.warning-box{background:rgba(255,200,0,0.07);border:1px solid rgba(255,200,0,0.3);border-radius:12px;padding:20px;margin-top:40px;max-width:700px;margin-left:auto;margin-right:auto;text-align:center}
+.warning-box p{font-size:0.9rem;color:rgba(255,255,255,0.8);line-height:1.6}
+
+.fade-in{opacity:0;transform:translateY(30px);transition:opacity 0.7s ease,transform 0.7s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+footer{background:#080e1a;border-top:1px solid rgba(0,229,255,0.1);padding:50px 20px 30px}
+.footer-inner{max-width:1200px;margin:0 auto}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px;margin-bottom:40px}
+@media(max-width:768px){.footer-top{grid-template-columns:1fr}}
+.footer-logo{font-size:1.6rem;font-weight:900;color:var(--yellow);margin-bottom:12px}
+.footer-desc{font-size:0.9rem;color:rgba(255,255,255,0.5);line-height:1.7}
+.footer-col h4{font-size:0.9rem;font-weight:700;color:var(--neon);margin-bottom:16px}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.footer-col ul a{font-size:0.85rem;color:rgba(255,255,255,0.55);transition:color 0.2s}
+.footer-col ul a:hover{color:var(--yellow)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.06);padding-top:24px}
+.footer-copy{font-size:0.8rem;color:rgba(255,255,255,0.3)}
+.disclaimer{font-size:0.75rem;color:rgba(255,255,255,0.35);line-height:1.5;margin-top:8px}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">מנפחים ת'כיס 💰</a>
+    <ul class="nav-links">
+      <li><a href="index.html">בית</a></li>
+      <li><a href="metchilim.html">מתחילים לנפח</a></li>
+      <li><a href="psychology.html">פסיכולוגיה</a></li>
+      <li><a href="assets.html">נכסים</a></li>
+      <li><a href="bankayt.html">בנקאית</a></li>
+      <li><a href="stock.html" class="active">שוק ההון</a></li>
+      <li><a href="protocol.html">פרוטוקול ה-10</a></li>
+      <li><a href="premium.html" class="nav-cta">מנפחים מתקדמים</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger">☰</button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">🏠 בית</a>
+    <a href="metchilim.html">🚀 מתחילים לנפח</a>
+    <a href="psychology.html">🧠 פסיכולוגיה</a>
+    <a href="assets.html">💎 נכסים</a>
+    <a href="bankayt.html">🏦 בנקאית</a>
+    <a href="stock.html">📈 שוק ההון</a>
+    <a href="protocol.html">✈️ פרוטוקול ה-10</a>
+    <a href="premium.html" style="color:#FFF100;border-color:rgba(255,241,0,0.4)">⭐ מנפחים מתקדמים</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <svg class="chart-bg" viewBox="0 0 1200 200" preserveAspectRatio="none">
+    <polyline points="0,180 100,160 200,170 300,120 400,130 500,90 600,100 700,60 800,70 900,40 1000,50 1100,20 1200,30" fill="none" stroke="#00E5FF" stroke-width="2"/>
+  </svg>
+  <div class="hero-content fade-in">
+    <div class="hero-badge">📈 פירוק עולם ההשקעות</div>
+    <h1>שוק ההון בגובה העיניים 📈</h1>
+    <p>פירוק עולם ההשקעות לחתיכות פשוטות, בלי מילים גבוהות — כי כסף שלך לא צריך להחכים בבנק</p>
+  </div>
+</section>
+
+<!-- LIVE MARKET -->
+<div class="market-section">
+  <div class="container">
+    <div class="market-header">📊 נתוני שוק בזמן אמת</div>
+    <div class="market-cards" id="marketCards">
+      <div class="market-card">
+        <div class="market-card-name">ACWI</div>
+        <div class="market-card-price" id="s-acwi-price">...</div>
+        <div class="market-card-change loading-text" id="s-acwi-change">טוען...</div>
+      </div>
+      <div class="market-card">
+        <div class="market-card-name">NASDAQ</div>
+        <div class="market-card-price" id="s-nasdaq-price">...</div>
+        <div class="market-card-change loading-text" id="s-nasdaq-change">טוען...</div>
+      </div>
+      <div class="market-card">
+        <div class="market-card-name">S&P 500</div>
+        <div class="market-card-price" id="s-sp500-price">...</div>
+        <div class="market-card-change loading-text" id="s-sp500-change">טוען...</div>
+      </div>
+      <div class="market-card">
+        <div class="market-card-name">TA-125</div>
+        <div class="market-card-price" id="s-ta125-price">...</div>
+        <div class="market-card-change loading-text" id="s-ta125-change">טוען...</div>
+      </div>
+    </div>
+    <p class="market-note">נתונים בזמן אמת משוק ההון העולמי • עשוי להיות עם עיכוב קל</p>
+  </div>
+</div>
+
+<!-- LESSON 01 -->
+<div class="lesson fade-in">
+  <div class="container">
+    <div class="lesson-inner">
+      <div class="lesson-num">01</div>
+      <div class="lesson-content">
+        <div class="lesson-tag">הבסיס</div>
+        <h2 class="lesson-title">המשחק הוא 80% פסיכולוגיה (ו-20% מתמטיקה)</h2>
+        <div class="lesson-img" style="background:linear-gradient(135deg,#050e1a,#0d1a2e)">🧠</div>
+        <p class="lesson-text">לפני שרצים לגרפים, בואו נדבר תכל'ס: לנהל כסף זה בעיקר בראש. להשקיע זה אולי קצת מלחיץ בהתחלה, אבל זה הביטוח הכי טוב שלכם לעתיד.</p>
+        <div class="lesson-highlight">
+          <p>הסדר הנכון: קודם כל עושים סדר בכיס (תקציב שמתאים לכם), ורק אז קופצים למים. לכל אחד יש "קיבה" אחרת לסיכון וזה הכי בסדר בעולם.</p>
+        </div>
+        <div class="lesson-bottom">
+          <div class="lesson-bottom-label">שורה תחתונה</div>
+          <p>המשקיע הכי מצליח הוא לא הכי חכם — הוא הכי סבלני.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LESSON 02 -->
+<div class="lesson fade-in">
+  <div class="container">
+    <div class="lesson-inner">
+      <div class="lesson-num">02</div>
+      <div class="lesson-content">
+        <div class="lesson-tag">מניות ואג"ח</div>
+        <h2 class="lesson-title">המנוע והבלמים — מניות מול אג"ח</h2>
+        <div class="lesson-img" style="background:linear-gradient(135deg,#0a1020,#111828)">⚡</div>
+        <p class="lesson-text">אל תשימו את כל הביצים בסל אחד. תכירו את השחקנים:</p>
+        <div class="lesson-items">
+          <div class="lesson-item">
+            <span class="lesson-item-label">מניות (המנוע):</span>
+            <span class="lesson-item-text">פה נמצא הכסף הגדול. אתם הופכים לבעלים של חברות ענק. זה זז מהר, זה מרגש, וזה המנוע של התיק שלכם.</span>
+          </div>
+          <div class="lesson-item">
+            <span class="lesson-item-label">אג"ח (הבלמים):</span>
+            <span class="lesson-item-text">מוצר סולידי ושקט. פה אתם ה"בנק" שמלווה כסף למדינה ומקבל ריבית. פחות "אקשן", אבל נותן לכם לישון בשקט.</span>
+          </div>
+        </div>
+        <div class="lesson-bottom">
+          <div class="lesson-bottom-label">שורה תחתונה</div>
+          <p>תיק מאוזן = מנוע + בלמים. בלי שניהם לא נוסעים בבטחה.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LESSON 03 -->
+<div class="lesson fade-in">
+  <div class="container">
+    <div class="lesson-inner">
+      <div class="lesson-num">03</div>
+      <div class="lesson-content">
+        <div class="lesson-tag">איך משקיעים</div>
+        <h2 class="lesson-title">איך משקיעים? סוס מנצח או נבחרת חלומות</h2>
+        <div class="lesson-img" style="background:linear-gradient(135deg,#0a1824,#0d2040)">🏆</div>
+        <div class="lesson-items">
+          <div class="lesson-item">
+            <span class="lesson-item-label">מניה בודדת:</span>
+            <span class="lesson-item-text">להמר על סוס אחד (כמו טסלה או אנבידיה). אם הוא מפציץ — אתם מלכים, אם הוא צולל — כל הכסף שלכם איתו. דורש המון זמן ומחקר.</span>
+          </div>
+          <div class="lesson-item">
+            <span class="lesson-item-label">ETF / מדד:</span>
+            <span class="lesson-item-text">במקום לבחור חברה אחת, קונים את כל ה"סל" (כמו S&P 500 או ACWI). כוחה של הקבוצה תמיד מנצחת את הפרט. גם אם חברה אחת נכשלת — ה-499 האחרות דוחפות אתכם למעלה.</span>
+          </div>
+        </div>
+        <div class="lesson-bottom">
+          <div class="lesson-bottom-label">שורה תחתונה</div>
+          <p>ETF = הדרך הכי חכמה לצעיר ישראלי להשקיע. פשוט, זול, ומפוזר.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LESSON 04 -->
+<div class="lesson fade-in">
+  <div class="container">
+    <div class="lesson-inner">
+      <div class="lesson-num">04</div>
+      <div class="lesson-content">
+        <div class="lesson-tag">איפה הכסף חי</div>
+        <h2 class="lesson-title">איפה הכסף שלכם "מת" (הבנק) ואיפה הוא "חי"</h2>
+        <div class="lesson-img" style="background:linear-gradient(135deg,#040e1a,#0a1a28)">💀➡️🌱</div>
+        <div class="lesson-items">
+          <div class="lesson-item">
+            <span class="lesson-item-label">חיסכון בבנק:</span>
+            <span class="lesson-item-text">היתרון? הכסף שם. החיסרון? הוא פשוט נרקב. בזמן שהבנק נותן לכם ריבית מעליבה, הכל מסביב מתייקר. בסוף השנה — הכסף שלכם שווה פחות בסופר.</span>
+          </div>
+          <div class="lesson-item">
+            <span class="lesson-item-label">קרנות נאמנות:</span>
+            <span class="lesson-item-text">מישהו "מקצועי" מנהל לכם את הכסף. זה נוח, אבל שימו לב לעמלות — לפעמים הן שואבות לכם את כל הרווח.</span>
+          </div>
+          <div class="lesson-item">
+            <span class="lesson-item-label">ETF עולמי:</span>
+            <span class="lesson-item-text">כסף שעובד לכם 24/7. הכלכלה העולמית עובדת בשבילכם בזמן שאתם בים. זה מרתון, לא ספרינט.</span>
+          </div>
+        </div>
+        <div class="lesson-bottom">
+          <div class="lesson-bottom-label">שורה תחתונה</div>
+          <p>תשקיעו חכם, תשחררו את הלחץ מהמסך, ולכו לים עם משקה קר. הכלכלה העולמית עובדת בשבילכם.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GLOSSARY -->
+<div class="glossary-section fade-in" style="background:linear-gradient(135deg,#0a1824,#0b1628)">
+  <div class="container">
+    <h2 class="glossary-title">מילון שוק ההון</h2>
+    <p class="glossary-sub">המונחים שתפגשו בדרך — בעברית, בלי בולשיט</p>
+    <div class="glossary-grid">
+      <div class="gloss-card">
+        <div class="gloss-term">מניה 📈</div>
+        <div class="gloss-def">חלק מחברה אמיתית ששייך לכם — אם החברה עולה, אתם מרוויחים</div>
+      </div>
+      <div class="gloss-card">
+        <div class="gloss-term">אג"ח 🏛️</div>
+        <div class="gloss-def">הלוואה שנתתם ומחזירה לכם ריבית. סולידי ורגוע — פחות מרגש, יותר יציב</div>
+      </div>
+      <div class="gloss-card">
+        <div class="gloss-term">מדד (Index) 📊</div>
+        <div class="gloss-def">"סל" של חברות חזקות — S&P 500 = 500 החברות הגדולות בארה"ב</div>
+      </div>
+      <div class="gloss-card">
+        <div class="gloss-term">אינפלציה 🔥</div>
+        <div class="gloss-def">הגנב השקט ששוחק לכם את הכסף בבנק — ₪100 היום = פחות בעתיד</div>
+      </div>
+      <div class="gloss-card">
+        <div class="gloss-term">דמי ניהול 💸</div>
+        <div class="gloss-def">ה"מס" שאתם משלמים למי שמנהל לכם את הכסף — תבדקו שלא עוקצים אתכם</div>
+      </div>
+      <div class="gloss-card">
+        <div class="gloss-term">ETF 🌍</div>
+        <div class="gloss-def">קרן סל שנסחרת בבורסה — דרך פשוטה וזולה לקנות סל של מניות רחב</div>
+      </div>
+    </div>
+    <div class="warning-box fade-in">
+      <p>⚠️ הערה: המידע פה הוא לימודי ובסיסי בלבד. חובה להתייעץ עם איש מקצוע ולהתאים את התוכנית אישית אליכם.</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">מנפחים ת'כיס 💰</div>
+        <p class="footer-desc">חינוך פיננסי לדור הצעיר בישראל. כי ידע פיננסי הוא הכוח שאף אחד לא לימד אתכם.</p>
+        <div style="display:flex;gap:10px;margin-top:16px">
+          <a href="https://www.instagram.com/minapchim_tkis" target="_blank" rel="noopener" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:8px 14px;font-size:0.8rem;color:rgba(255,255,255,0.6);text-decoration:none">📸 Instagram</a>
+          <a href="https://www.tiktok.com/@minapchim_tkis" target="_blank" rel="noopener" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:8px 14px;font-size:0.8rem;color:rgba(255,255,255,0.6);text-decoration:none">🎵 TikTok</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>ניווט</h4>
+        <ul>
+          <li><a href="index.html">בית</a></li>
+          <li><a href="metchilim.html">מתחילים לנפח</a></li>
+          <li><a href="psychology.html">פסיכולוגיה</a></li>
+          <li><a href="assets.html">נכסים</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>למידה</h4>
+        <ul>
+          <li><a href="bankayt.html">בנקאית</a></li>
+          <li><a href="stock.html">שוק ההון</a></li>
+          <li><a href="protocol.html">פרוטוקול ה-10</a></li>
+          <li><a href="premium.html">מתקדמים</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2025 מנפחים ת'כיס. כל הזכויות שמורות.</p>
+      <p class="disclaimer">⚠️ המידע באתר זה הוא לימודי בלבד ואינו מהווה ייעוץ פיננסי. יש להתייעץ עם בעל רישיון לפני קבלת החלטות פיננסיות.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('hamburger').addEventListener('click',function(){
+  document.getElementById('mobileMenu').classList.toggle('open');
+  this.textContent=document.getElementById('mobileMenu').classList.contains('open')?'✕':'☰';
+});
+
+async function fetchTicker(symbol) {
+  const urls = [
+    `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=1d&range=1d`,
+    `https://query2.finance.yahoo.com/v8/finance/chart/${symbol}?interval=1d&range=1d`
+  ];
+  for (const url of urls) {
+    try {
+      const r = await fetch(url);
+      if (!r.ok) continue;
+      const d = await r.json();
+      const meta = d.chart.result[0].meta;
+      const price = meta.regularMarketPrice;
+      const prev = meta.previousClose || meta.chartPreviousClose;
+      const change = ((price - prev)/prev*100).toFixed(2);
+      return { price, change: parseFloat(change) };
+    } catch(e){}
+  }
+  return null;
+}
+
+const stocks = [
+  {id:'acwi', symbol:'ACWI'},
+  {id:'nasdaq', symbol:'%5EIXIC'},
+  {id:'sp500', symbol:'%5EGSPC'},
+  {id:'ta125', symbol:'%5ETA125.TA'}
+];
+
+async function loadStocks() {
+  for (const s of stocks) {
+    const data = await fetchTicker(s.symbol);
+    const pe = document.getElementById('s-'+s.id+'-price');
+    const ce = document.getElementById('s-'+s.id+'-change');
+    if (data) {
+      pe.textContent = data.price.toLocaleString('en-US',{maximumFractionDigits:2});
+      const sign = data.change >= 0 ? '+' : '';
+      ce.textContent = sign + data.change + '%';
+      ce.className = 'market-card-change ' + (data.change >= 0 ? 'positive' : 'negative');
+    } else {
+      pe.textContent = '—';
+      ce.textContent = 'לא זמין';
+      ce.className = 'market-card-change';
+      ce.style.color = 'rgba(255,255,255,0.4)';
+    }
+  }
+}
+loadStocks();
+setInterval(loadStocks, 60000);
+
+const observer=new IntersectionObserver((e)=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')})},{threshold:0.08});
+document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));
+const _p=document.createElement('div');_p.style.cssText='position:fixed;top:0;right:0;height:3px;background:linear-gradient(90deg,#FFF100,#00E5FF);z-index:9999;width:0;pointer-events:none';document.body.prepend(_p);
+window.addEventListener('scroll',()=>{const s=document.documentElement;_p.style.width=(s.scrollTop/(s.scrollHeight-s.clientHeight)*100)+'%'});
+const _f=document.createElement('a');_f.href='premium.html';_f.textContent='💰 להתחיל';_f.style.cssText='position:fixed;bottom:28px;left:28px;background:#FFF100;color:#0b1628;font-weight:900;font-family:Heebo,sans-serif;padding:14px 22px;border-radius:50px;font-size:0.95rem;box-shadow:0 4px 20px rgba(255,241,0,0.4);z-index:900;text-decoration:none;opacity:0;pointer-events:none;transition:all 0.3s';document.body.appendChild(_f);
+const _t=document.createElement('button');_t.textContent='↑';_t.style.cssText='position:fixed;bottom:28px;right:28px;width:46px;height:46px;background:rgba(0,229,255,0.15);border:1px solid rgba(0,229,255,0.4);border-radius:50%;color:#00E5FF;font-size:1.2rem;cursor:pointer;z-index:900;opacity:0;pointer-events:none;transition:all 0.3s';document.body.appendChild(_t);
+window.addEventListener('scroll',()=>{const s=window.scrollY>400;[_f,_t].forEach(e=>{e.style.opacity=s?'1':'0';e.style.pointerEvents=s?'auto':'none'})});
+_t.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+_f.addEventListener('mouseover',()=>{_f.style.transform='translateY(-3px) scale(1.05)'});_f.addEventListener('mouseout',()=>{_f.style.transform=''});
+_t.addEventListener('mouseover',()=>{_t.style.background='rgba(0,229,255,0.3)'});_t.addEventListener('mouseout',()=>{_t.style.background='rgba(0,229,255,0.15)'});
+</script>
+</body>
+</html>

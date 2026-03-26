@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>תשלום התקבל! - מנפחים ת'כיס</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0b1628;--yellow:#FFF100;--neon:#00E5FF;--text:#fff;--card:#111f38;--font:'Heebo',sans-serif}
+body{background:var(--bg);color:var(--text);font-family:var(--font);direction:rtl;overflow-x:hidden;min-height:100vh;display:flex;flex-direction:column}
+a{text-decoration:none;color:inherit}
+
+nav{position:fixed;top:0;width:100%;background:rgba(11,22,40,0.95);backdrop-filter:blur(10px);z-index:1000;border-bottom:1px solid rgba(0,229,255,0.2);padding:0 20px}
+.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:65px}
+.logo{font-size:1.4rem;font-weight:900;color:var(--yellow)}
+.nav-links{display:flex;gap:8px;list-style:none;align-items:center}
+.nav-links a{font-size:0.85rem;padding:6px 10px;border-radius:6px;transition:all 0.2s;color:rgba(255,255,255,0.85)}
+.nav-links a:hover{color:var(--neon)}
+.nav-cta{background:var(--yellow);color:#0b1628!important;font-weight:700;padding:8px 18px!important;border-radius:8px}
+.hamburger{display:none;background:none;border:none;color:var(--text);font-size:1.6rem;cursor:pointer}
+.mobile-menu{display:none;flex-direction:column;background:rgba(11,22,40,0.98);padding:20px;gap:10px}
+.mobile-menu a{display:block;padding:12px 16px;border-radius:8px;border:1px solid rgba(0,229,255,0.15);color:var(--text);font-size:1rem}
+.mobile-menu.open{display:flex}
+@media(max-width:768px){.nav-links{display:none}.hamburger{display:block}}
+
+/* CONFETTI CANVAS */
+#confetti-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+
+/* SUCCESS CONTENT */
+.success-wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:100px 20px 60px;position:relative;z-index:1}
+.success-card{background:var(--card);border:1px solid rgba(0,229,255,0.25);border-radius:28px;padding:60px 50px;text-align:center;max-width:680px;width:100%;box-shadow:0 0 60px rgba(0,229,255,0.07)}
+@media(max-width:600px){.success-card{padding:40px 24px}}
+
+.check-icon{width:90px;height:90px;background:rgba(0,255,136,0.1);border:2px solid rgba(0,255,136,0.4);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 28px;font-size:2.5rem;animation:popIn 0.6s cubic-bezier(0.175,0.885,0.32,1.275) both}
+@keyframes popIn{0%{transform:scale(0);opacity:0}100%{transform:scale(1);opacity:1}}
+
+.success-title{font-size:clamp(2rem,5vw,3rem);font-weight:900;color:var(--yellow);margin-bottom:12px;line-height:1.1}
+.success-sub{font-size:1.1rem;color:rgba(255,255,255,0.8);margin-bottom:8px;line-height:1.6}
+.success-email{font-size:0.9rem;color:var(--neon);margin-bottom:40px}
+
+/* NEXT STEPS */
+.steps{display:flex;flex-direction:column;gap:16px;margin-bottom:40px;text-align:right}
+.step{display:flex;align-items:flex-start;gap:16px;background:rgba(0,0,0,0.25);border-radius:12px;padding:16px 20px;border:1px solid rgba(255,255,255,0.06)}
+.step-num{background:var(--yellow);color:#0b1628;font-weight:900;font-size:0.85rem;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.step-content h4{font-size:0.95rem;font-weight:700;margin-bottom:4px}
+.step-content p{font-size:0.85rem;color:rgba(255,255,255,0.6);line-height:1.5}
+
+/* SHARE SECTION */
+.share-section{background:rgba(255,241,0,0.06);border:1px solid rgba(255,241,0,0.2);border-radius:16px;padding:28px;margin-bottom:32px}
+.share-title{font-size:1rem;font-weight:700;color:var(--yellow);margin-bottom:6px}
+.share-sub{font-size:0.85rem;color:rgba(255,255,255,0.6);margin-bottom:20px}
+.share-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.share-btn{display:flex;align-items:center;gap:8px;padding:11px 18px;border-radius:10px;font-size:0.85rem;font-weight:700;font-family:var(--font);cursor:pointer;border:none;transition:all 0.2s}
+.share-btn.whatsapp{background:#25D366;color:#fff}
+.share-btn.whatsapp:hover{background:#20ba5a;transform:translateY(-2px)}
+.share-btn.twitter{background:#1DA1F2;color:#fff}
+.share-btn.twitter:hover{background:#1a8fd1;transform:translateY(-2px)}
+.share-btn.copy{background:rgba(0,229,255,0.15);color:var(--neon);border:1px solid rgba(0,229,255,0.3)}
+.share-btn.copy:hover{background:rgba(0,229,255,0.25);transform:translateY(-2px)}
+
+.back-btn{display:inline-block;background:var(--yellow);color:#0b1628;font-weight:900;padding:14px 36px;border-radius:12px;font-size:1rem;transition:all 0.3s}
+.back-btn:hover{transform:translateY(-3px);box-shadow:0 8px 25px rgba(255,241,0,0.4)}
+
+/* ORDER ID */
+.order-badge{display:inline-block;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:8px 16px;font-size:0.8rem;color:rgba(255,255,255,0.4);margin-top:20px;letter-spacing:1px}
+
+footer{background:#080e1a;border-top:1px solid rgba(0,229,255,0.1);padding:30px 20px;position:relative;z-index:1}
+.footer-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-logo{font-size:1.2rem;font-weight:900;color:var(--yellow)}
+.footer-copy{font-size:0.8rem;color:rgba(255,255,255,0.3)}
+.disclaimer{font-size:0.72rem;color:rgba(255,255,255,0.25);margin-top:6px;line-height:1.5}
+</style>
+</head>
+<body>
+
+<canvas id="confetti-canvas"></canvas>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">מנפחים ת'כיס 💰</a>
+    <ul class="nav-links">
+      <li><a href="index.html">בית</a></li>
+      <li><a href="metchilim.html">מתחילים לנפח</a></li>
+      <li><a href="psychology.html">פסיכולוגיה</a></li>
+      <li><a href="assets.html">נכסים</a></li>
+      <li><a href="bankayt.html">בנקאית</a></li>
+      <li><a href="stock.html">שוק ההון</a></li>
+      <li><a href="protocol.html">פרוטוקול ה-10</a></li>
+      <li><a href="premium.html" class="nav-cta">מנפחים מתקדמים</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger">☰</button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">🏠 בית</a>
+    <a href="metchilim.html">🚀 מתחילים לנפח</a>
+    <a href="psychology.html">🧠 פסיכולוגיה</a>
+    <a href="assets.html">💎 נכסים</a>
+    <a href="bankayt.html">🏦 בנקאית</a>
+    <a href="stock.html">📈 שוק ההון</a>
+    <a href="protocol.html">✈️ פרוטוקול ה-10</a>
+    <a href="premium.html" style="color:#FFF100;border-color:rgba(255,241,0,0.4)">⭐ מנפחים מתקדמים</a>
+  </div>
+</nav>
+
+<div class="success-wrap">
+  <div class="success-card">
+    <div class="check-icon">✅</div>
+    <h1 class="success-title">תשלום התקבל! 🎉</h1>
+    <p class="success-sub">ברכות — אתה רשמית חלק ממשפחת המנפחים!</p>
+    <p class="success-email">📩 פרטי הגישה ישלחו למייל שלך תוך מספר דקות</p>
+
+    <!-- NEXT STEPS -->
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>בדוק את תיבת המייל שלך</h4>
+          <p>תקבל מייל עם הלינק להורדה + קוד גישה. אם לא מגיע — בדוק ספאם.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>פתח את המדריך</h4>
+          <p>קרא לפי הסדר — כל שלב בנוי על הקודם. אל תדלג.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>הפעל את פרוטוקול ה-10</h4>
+          <p>ב-10 לחודש הקרוב — עשה את הצעד הראשון. זה כל מה שנדרש.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h4>ספר לחבר שלך 🤝</h4>
+          <p>ידע פיננסי מתרבה כשמשתפים. שתף עם מישהו שצריך את זה.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SHARE -->
+    <div class="share-section">
+      <div class="share-title">ספר לחבר שלך על מנפחים ת'כיס 🙌</div>
+      <div class="share-sub">כל שיתוף עוזר לעוד צעיר ישראלי לקחת שליטה על הכסף שלו</div>
+      <div class="share-btns">
+        <button class="share-btn whatsapp" onclick="shareWhatsApp()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          WhatsApp
+        </button>
+        <button class="share-btn twitter" onclick="shareTwitter()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.74-8.854L1.57 2.25H8.08l4.253 5.622 5.91-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          X (Twitter)
+        </button>
+        <button class="share-btn copy" id="copyBtn" onclick="copyLink()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          העתק לינק
+        </button>
+      </div>
+    </div>
+
+    <a href="index.html" class="back-btn">חזרה לאתר 🏠</a>
+
+    <div class="order-badge" id="orderBadge">מזהה הזמנה: טוען...</div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">מנפחים ת'כיס 💰</div>
+    <div>
+      <p class="footer-copy">© 2025 מנפחים ת'כיס. כל הזכויות שמורות.</p>
+      <p class="disclaimer">⚠️ המידע באתר זה הוא לימודי בלבד ואינו מהווה ייעוץ פיננסי.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Hamburger
+document.getElementById('hamburger').addEventListener('click', function() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+  this.textContent = document.getElementById('mobileMenu').classList.contains('open') ? '✕' : '☰';
+});
+
+// Parse PayPal return params
+const params = new URLSearchParams(window.location.search);
+const txnId = params.get('tx') || params.get('txn_id') || null;
+const orderId = document.getElementById('orderBadge');
+if (txnId) {
+  orderId.textContent = 'מזהה עסקה: ' + txnId;
+} else {
+  orderId.textContent = 'תשלום אושר בהצלחה ✅';
+}
+
+// Share functions
+const SHARE_URL = 'https://minapchimtkis.github.io/';
+const SHARE_TEXT = '🔥 מצאתי אתר מדהים לחינוך פיננסי בעברית — מנפחים ת\'כיס! לומדים שוק ההון, ריבית דריבית ואיך לנפח את הכיס. שווה לבדוק:';
+
+function shareWhatsApp() {
+  window.open('https://wa.me/?text=' + encodeURIComponent(SHARE_TEXT + ' ' + SHARE_URL), '_blank');
+}
+
+function shareTwitter() {
+  window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(SHARE_TEXT) + '&url=' + encodeURIComponent(SHARE_URL), '_blank');
+}
+
+function copyLink() {
+  navigator.clipboard.writeText(SHARE_URL).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = '✅ הועתק!';
+    setTimeout(() => { btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> העתק לינק'; }, 2000);
+  });
+}
+
+// Confetti animation
+(function() {
+  const canvas = document.getElementById('confetti-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+
+  const colors = ['#FFF100', '#00E5FF', '#00ff88', '#ff4466', '#ffffff', '#FFD700'];
+  const particles = [];
+
+  for (let i = 0; i < 120; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height - canvas.height,
+      w: Math.random() * 10 + 4,
+      h: Math.random() * 5 + 3,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      speed: Math.random() * 2.5 + 1.5,
+      angle: Math.random() * Math.PI * 2,
+      spin: (Math.random() - 0.5) * 0.15,
+      drift: (Math.random() - 0.5) * 1.5
+    });
+  }
+
+  let frame = 0;
+  function animate() {
+    if (frame > 300) { ctx.clearRect(0, 0, canvas.width, canvas.height); return; }
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      p.y += p.speed;
+      p.x += p.drift;
+      p.angle += p.spin;
+      if (p.y > canvas.height) { p.y = -10; p.x = Math.random() * canvas.width; }
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.angle);
+      ctx.fillStyle = p.color;
+      ctx.globalAlpha = Math.max(0, 1 - frame / 300);
+      ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+      ctx.restore();
+    });
+    frame++;
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
+
+// Scroll progress
+const _prog = document.createElement('div');
+_prog.style.cssText = 'position:fixed;top:0;right:0;height:3px;background:linear-gradient(90deg,#FFF100,#00E5FF);z-index:9999;width:0;pointer-events:none';
+document.body.prepend(_prog);
+window.addEventListener('scroll', () => {
+  const s = document.documentElement;
+  _prog.style.width = (s.scrollTop / (s.scrollHeight - s.clientHeight) * 100) + '%';
+});
+</script>
+</body>
+</html>
