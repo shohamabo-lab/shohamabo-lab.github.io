@@ -3,102 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>מנפחים ת'כיס - מפת הדרכים ל-100,000</title>
+    <title>מנפחים ת'כיס - תוכניות ומסלולים</title>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://www.paypal.com/sdk/js?client-id=ARfHcRnxdD-vvOg6s4BCXQCgelB5Jf555oadP61F1Bpq8QPwzDNuz3mS0-q7_wykK9XUBzUYc3EVS0gf&currency=ILS"></script>
     <style>
-        :root { --primary: #007bff; --dark: #0f172a; --card-bg: #1e293b; --gold: #f59e0b; }
+        :root { --primary: #007bff; --dark: #0f172a; --card-bg: #1e293b; --gold: #f59e0b; --free: #10b981; }
         body { font-family: 'Heebo', sans-serif; background: var(--dark); color: white; margin: 0; padding: 0; }
+        .market-header { background: #1e222d; padding: 5px 0; border-bottom: 1px solid #334155; }
         .container { max-width: 1100px; margin: auto; padding: 40px 20px; text-align: center; }
-        .market-header { background: #1e222d; padding: 10px 0; border-bottom: 1px solid #333; }
-        h1 { font-size: 3.5rem; color: var(--primary); font-weight: 900; margin-bottom: 10px; }
-        .subtitle { font-size: 1.2rem; color: #94a3b8; margin-bottom: 40px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .card { background: var(--card-bg); padding: 30px; border-radius: 16px; border: 1px solid #334155; transition: 0.3s; display: flex; flex-direction: column; }
-        .card:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        h3 { font-size: 1.6rem; margin: 0 0 15px 0; color: #fff; }
-        p { color: #94a3b8; font-size: 1rem; line-height: 1.5; flex-grow: 1; }
-        .price { font-size: 2.2rem; color: var(--gold); font-weight: 800; margin: 20px 0; }
-        .footer { margin-top: 60px; padding: 20px; color: #64748b; font-size: 0.9rem; border-top: 1px solid #334155; }
+        h1 { font-size: 3rem; color: var(--primary); font-weight: 900; margin-bottom: 5px; }
+        .section-title { font-size: 2.2rem; margin: 50px 0 25px; color: var(--gold); font-weight: 800; border-bottom: 2px solid #334155; display: inline-block; padding-bottom: 10px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 40px; }
+        .card { background: var(--card-bg); padding: 25px; border-radius: 12px; border: 1px solid #334155; transition: 0.3s; display: flex; flex-direction: column; justify-content: space-between; min-height: 300px; }
+        .premium-card { border: 2px solid var(--primary); box-shadow: 0 0 15px rgba(0, 123, 255, 0.2); }
+        .card:hover { transform: translateY(-5px); border-color: var(--gold); }
+        .badge { padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; align-self: center; margin-bottom: 10px; font-weight: bold; }
+        .free-badge { background: var(--free); color: white; }
+        .premium-badge { background: var(--gold); color: var(--dark); }
+        .price { font-size: 2.2rem; color: #fff; font-weight: 800; margin: 15px 0; }
+        .btn-free { background: rgba(255,255,255,0.1); color: white; border: 1px solid white; padding: 12px; border-radius: 50px; cursor: pointer; text-decoration: none; font-weight: bold; transition: 0.3s; }
+        .btn-free:hover { background: white; color: var(--dark); }
+        .footer { margin-top: 50px; padding: 20px; color: #64748b; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 <div class="market-header">
-    <div class="tradingview-widget-container">
-        <div class="tradingview-widget-container__widget"></div>
-        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
-        {
-          "symbols": [
-            { "proName": "FOREXCOM:SPX500", "title": "S&P 500" },
-            { "proName": "FOREXCOM:NSXUSD", "title": "NASDAQ 100" },
-            { "proName": "INDEX:TA35", "title": "תל אביב 35" },
-            { "proName": "BINANCE:BTCUSDT", "title": "ביטקוין" }
-          ],
-          "showSymbolLogo": true, "colorTheme": "dark", "isTransparent": true, "displayMode": "adaptive", "locale": "he_IL"
-        }
-        </script>
-    </div>
+    <div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div>
+    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+    { "symbols": [
+        { "proName": "FOREXCOM:SPX500", "title": "S&P 500" },
+        { "proName": "FOREXCOM:NSXUSD", "title": "NASDAQ 100" },
+        { "proName": "BINANCE:BTCUSDT", "title": "ביטקוין" }
+      ], "colorTheme": "dark", "isTransparent": true, "locale": "he_IL" }
+    </script></div>
 </div>
+
 <div class="container">
     <h1>מנפחים ת'כיס</h1>
-    <p class="subtitle">המסלול שלך להבנה פיננסית עמוקה וצמיחה בשוק ההון</p>
+
+    <div class="section-title">תוכניות הפרימיום 🚀</div>
     <div class="grid">
-        <div class="card">
-            <h3>למתחילים לנפח</h3>
-            <p>הבסיס שכל אחד חייב להכיר כדי להתחיל לנהל כסף נכון.</p>
+        <div class="card premium-card">
+            <span class="badge premium-badge">מסלול בסיס</span>
+            <h3>מנפחים למתקדמים</h3>
+            <p>הצעד הראשון לשינוי המציאות הכלכלית שלך עם ליווי וכלים פרקטיים.</p>
             <div class="price">39 ש"ח</div>
             <div id="paypal-39"></div>
         </div>
+        <div class="card premium-card">
+            <span class="badge premium-badge">המסלול המלא</span>
+            <h3>מפת הדרכים ל-100,000</h3>
+            <p>התוכנית המקיפה לבניית הון עצמי והשקעה חכמה לטווח ארוך.</p>
+            <div class="price">199 ש"ח</div>
+            <div id="paypal-199"></div>
+        </div>
+    </div>
+
+    <div class="section-title">מסלולי ידע בחינם 🎁</div>
+    <div class="grid">
         <div class="card">
+            <span class="badge free-badge">חינם</span>
             <h3>הפסיכולוגיה של הכיס</h3>
-            <p>איך לשלוט בדחפים, לשנות הרגלים ולבנות מנטליות של עושר.</p>
-            <div class="price">199 ש"ח</div>
-            <div id="paypal-199-1"></div>
+            <p>איך לשלוט בדחפים ולבנות מנטליות של עושר.</p>
+            <a href="#" class="btn-free">צפה בשיעור</a>
         </div>
         <div class="card">
+            <span class="badge free-badge">חינם</span>
             <h3>נכסים מול בורות כלכליים</h3>
-            <p>ניתוח מעמיק של איפה הכסף שלך באמת נמצא ואיך להפוך אותו לנכס מניב.</p>
-            <div class="price">199 ש"ח</div>
-            <div id="paypal-199-2"></div>
+            <p>ניתוח איפה הכסף שלך נמצא ואיך להפוך אותו לנכס.</p>
+            <a href="#" class="btn-free">צפה בשיעור</a>
         </div>
         <div class="card">
+            <span class="badge free-badge">חינם</span>
             <h3>שוק ההון בגובה העיניים</h3>
-            <p>בלי סיבוכים: איך להשקיע בקרנות סל ומדדים בצורה חכמה ופשוטה.</p>
-            <div class="price">199 ש"ח</div>
-            <div id="paypal-199-3"></div>
+            <p>איך להשקיע במדדים וקרנות סל בצורה פשוטה.</p>
+            <a href="#" class="btn-free">צפה בשיעור</a>
         </div>
         <div class="card">
+            <span class="badge free-badge">חינם</span>
             <h3>פרוטוקול ה-10 לחודש</h3>
-            <p>השיטה לניהול תזרים מזומנים חודשי שמשאירה לך יותר כסף בכיס.</p>
-            <div class="price">199 ש"ח</div>
-            <div id="paypal-199-4"></div>
+            <p>ניהול תזרים מזומנים חכם ושיטתי.</p>
+            <a href="#" class="btn-free">צפה בשיעור</a>
+        </div>
+        <div class="card">
+            <span class="badge free-badge">חינם</span>
+            <h3>למתחילים לנפח</h3>
+            <p>היסודות שכל אחד חייב לדעת על הכסף שלו.</p>
+            <a href="#" class="btn-free">צפה בשיעור</a>
         </div>
     </div>
-    <div class="footer">
-        © 2026 מנפחים ת'כיס | שוחם אבו - כל הזכויות שמורות
-    </div>
+
+    <div class="footer">© 2026 מנפחים ת'כיס | שוחם אבו - כל הזכויות שמורות</div>
 </div>
+
 <script>
     function renderBtn(id, amount, name) {
         paypal.Buttons({
             style: { layout: 'horizontal', color: 'blue', shape: 'pill', label: 'buynow' },
-            createOrder: (data, actions) => {
-                return actions.order.create({
-                    purchase_units: [{ description: name, amount: { value: amount } }]
-                });
-            },
-            onApprove: (data, actions) => {
-                return actions.order.capture().then(details => {
-                    alert('תודה ' + details.payer.name.given_name + '! נרשמת בהצלחה ל' + name);
-                });
-            }
+            createOrder: (data, actions) => { return actions.order.create({ purchase_units: [{ description: name, amount: { value: amount } }] }); },
+            onApprove: (data, actions) => { return actions.order.capture().then(details => { alert('תודה! נרשמת ל' + name); }); }
         }).render(id);
     }
-    renderBtn('#paypal-39', '39.00', 'למתחילים לנפח');
-    renderBtn('#paypal-199-1', '199.00', 'הפסיכולוגיה של הכיס');
-    renderBtn('#paypal-199-2', '199.00', 'נכסים מול בורות כלכליים');
-    renderBtn('#paypal-199-3', '199.00', 'שוק ההון בגובה העיניים');
-    renderBtn('#paypal-199-4', '199.00', 'פרוטוקול ה-10 לחודש');
+    renderBtn('#paypal-39', '39.00', 'מנפחים למתקדמים');
+    renderBtn('#paypal-199', '199.00', 'מפת הדרכים ל-100,000');
 </script>
 </body>
 </html>
