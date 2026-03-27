@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>מנפחים ת'כיס — מסלולי פרימיום</title>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;700;900&display=swap" rel="stylesheet">
-    <script src="https://www.paypal.com/sdk/js?client-id=ARfHcRnxdD-vvOg6s4BCXQCgelB5Jf555oadP61F1Bpq8QPwzDNuz3mS0-q7_wykK9XUBzUYc3EVS0gf&currency=ILS"></script>
     <style>
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
         :root{--blue:#0ea5e9;--yellow:#facc15;--yellow2:#fde68a;--green:#10b981;--dark:#020812;--card:#0a1628;--border:#1e3a5f;--text:#e2e8f0;--muted:#64748b;--radius:14px;}
@@ -57,9 +56,20 @@
         .price-num{font-size:2.8rem;font-weight:900;color:#fff;line-height:1;}
         .price-cur{font-size:1rem;color:var(--muted);}
         .price-note{font-size:0.78rem;color:var(--muted);}
-        .paypal-box{min-height:50px;}
-        .pp-loading{height:45px;background:rgba(255,255,255,0.04);border-radius:40px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:0.85rem;animation:pulse 1.5s ease-in-out infinite;}
-        @keyframes pulse{0%,100%{opacity:0.5}50%{opacity:1}}
+
+        .pay-btn{
+            display:block;width:100%;
+            background:var(--yellow);color:#000;
+            border:none;border-radius:50px;
+            padding:14px;font-size:1rem;font-weight:800;
+            font-family:'Heebo',sans-serif;
+            text-align:center;text-decoration:none;
+            cursor:pointer;transition:all 0.2s;
+            box-shadow:0 0 20px rgba(250,204,21,0.3);
+            margin-top:auto;
+        }
+        .pay-btn:hover{background:var(--yellow2);transform:translateY(-2px);box-shadow:0 0 30px rgba(250,204,21,0.5);}
+        .pay-trust{font-size:0.75rem;color:var(--muted);text-align:center;margin-top:8px;}
 
         .free-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;}
         .f-card{background:var(--card);border:1px solid #1a2e48;border-radius:var(--radius);padding:26px 22px;display:flex;flex-direction:column;gap:12px;transition:transform 0.2s,border-color 0.2s;text-decoration:none;color:inherit;}
@@ -74,7 +84,6 @@
         footer{background:#030c18;border-top:1px solid rgba(14,165,233,0.15);text-align:center;padding:28px 20px;color:var(--muted);font-size:0.8rem;}
         footer a{color:var(--muted);text-decoration:none;}
         footer a:hover{color:#fff;}
-
         .fade-up{opacity:0;transform:translateY(24px);transition:opacity 0.55s ease,transform 0.55s ease;}
         .fade-up.visible{opacity:1;transform:translateY(0);}
     </style>
@@ -127,6 +136,7 @@
         <h2>בחר את המסלול שלך</h2>
     </div>
     <div class="premium-grid">
+
         <div class="p-card fade-up">
             <div class="p-badge">🌱 מסלול בסיס</div>
             <h3>מנפחים למתקדמים</h3>
@@ -143,10 +153,10 @@
                 <div class="price-num">39</div>
                 <div><div class="price-cur">₪</div><div class="price-note">חד פעמי</div></div>
             </div>
-            <div class="paypal-box">
-                <div class="pp-loading" id="l39">טוען תשלום...</div>
-                <div id="pp39"></div>
-            </div>
+            <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=shohamabo%40gmail.com&item_name=מנפחים+למתקדמים&amount=39.00&currency_code=ILS&return=https://shohamabo-lab.github.io/members-area.html&cancel_return=https://shohamabo-lab.github.io/premium.html" target="_blank" class="pay-btn">
+                לרכישה עכשיו 🚀
+            </a>
+            <p class="pay-trust">🔒 תשלום מאובטח דרך PayPal</p>
         </div>
 
         <div class="p-card featured fade-up" style="transition-delay:.1s">
@@ -164,11 +174,12 @@
                 <div class="price-num">199</div>
                 <div><div class="price-cur">₪</div><div class="price-note">חד פעמי</div></div>
             </div>
-            <div class="paypal-box">
-                <div class="pp-loading" id="l199">טוען תשלום...</div>
-                <div id="pp199"></div>
-            </div>
+            <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=shohamabo%40gmail.com&item_name=מפת+הדרכים+ל-100000&amount=199.00&currency_code=ILS&return=https://shohamabo-lab.github.io/members-area.html&cancel_return=https://shohamabo-lab.github.io/premium.html" target="_blank" class="pay-btn">
+                לרכישה עכשיו 🚀
+            </a>
+            <p class="pay-trust">🔒 תשלום מאובטח דרך PayPal</p>
         </div>
+
     </div>
 </div>
 
@@ -207,7 +218,7 @@
         <a href="metchilim.html" class="f-card fade-up" style="transition-delay:.20s">
             <div class="f-badge">חינם</div>
             <h3>למתחילים לנפח</h3>
-            <p>היסודות שכל אחד חייב לדעת על הכסף שלו — נקודת ההתחלה.</p>
+            <p>היסודות שכל אחד חייב לדעת על הכסף שלו.</p>
             <div class="f-cta"><span>לשיעור</span><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></div>
         </a>
     </div>
@@ -222,40 +233,6 @@
     document.addEventListener('click', e => { if(!e.target.closest('nav')&&!e.target.closest('#mob')) document.getElementById('mob').classList.remove('open'); });
     const obs = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);} }), {threshold:0.1});
     document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
-
-    const done = {};
-    function renderBtn(containerId, loadingId, amount, name) {
-        if (done[containerId]) return;
-        done[containerId] = true;
-        const loading = document.getElementById(loadingId);
-        if (loading) loading.style.display = 'none';
-        paypal.Buttons({
-            style: { layout:'horizontal', color:'blue', shape:'pill', label:'buynow', height:45 },
-            createOrder: (data, actions) => actions.order.create({
-                purchase_units: [{ description: name, amount: { value: amount, currency_code: 'ILS' } }]
-            }),
-            onApprove: (data, actions) => actions.order.capture().then(details => {
-                alert('🎉 תודה ' + (details.payer.name?.given_name || '') + '!\nנרשמת בהצלחה ל' + name);
-            }),
-            onError: err => {
-                console.error(err);
-                if (loading) { loading.style.display = 'flex'; loading.textContent = 'שגיאה — נסה לרענן'; }
-            }
-        }).render('#' + containerId);
-    }
-
-    function initPayPal() {
-        if (!window.paypal) return;
-        renderBtn('pp39',  'l39',  '39.00',  'מנפחים למתקדמים');
-        renderBtn('pp199', 'l199', '199.00', 'מפת הדרכים ל-100,000');
-    }
-
-    if (window.paypal) { initPayPal(); }
-    else {
-        const sdk = document.querySelector('script[src*="paypal.com/sdk"]');
-        if (sdk) sdk.addEventListener('load', initPayPal);
-        else window.addEventListener('load', initPayPal);
-    }
 </script>
 </body>
 </html>
