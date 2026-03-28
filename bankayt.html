@@ -7,7 +7,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;700;900&display=swap" rel="stylesheet">
     <style>
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-        :root{--yellow:#facc15;--yellow2:#fde68a;--blue:#0ea5e9;--blue2:#38bdf8;--green:#10b981;--dark:#020812;--card:#0a1628;--border:#1e3a5f;--text:#e2e8f0;--muted:#64748b;--radius:14px;}
+        :root {
+            --bg: #0b1628;
+            --yellow: #FFF100;
+            --neon: #00E5FF;
+            --text: #fff;
+            --card: #111f38;
+            --font: 'Heebo', sans-serif;
+            --blue: #00E5FF;
+            --blue2: #38d4f5;
+            --yellow2: #ffe566;
+            --dark: #0b1628;
+            --border: #1a3050;
+            --muted: #64748b;
+            --radius: 14px;
+        }
         html{scroll-behavior:smooth;}
         body{font-family:'Heebo',sans-serif;background:var(--dark);color:var(--text);overflow-x:hidden;}
         body::before{content:'';position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(14,165,233,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(14,165,233,0.04) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;}
@@ -24,7 +38,7 @@
         .hamburger{display:none;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;}
         .mobile-menu{display:none;flex-direction:column;position:fixed;top:62px;inset-inline:0;background:#060f1e;border-bottom:1px solid var(--border);padding:12px 20px;z-index:199;gap:2px;}
         .mobile-menu.open{display:flex;}
-        .mobile-menu a{color:#e2e8f0;text-decoration:none;font-size:0.95rem;padding:10px 0;border-bottom:1px solid #1e3a5f;}
+        .mobile-menu a{color:#e2e8f0;text-decoration:none;font-size:0.95rem;padding:10px 0;border-bottom:1px solid #1a3050;}
         @media(max-width:780px){.nav-links{display:none;}.hamburger{display:block;}}
 
         .ticker-wrap{background:#030c18;border-bottom:1px solid rgba(14,165,233,0.15);}
@@ -94,8 +108,8 @@
         .logo-container:hover .logo-ring{animation:spinRing 1s linear infinite;}
         .logo-container:hover .logo-glow-outer{background:radial-gradient(circle,rgba(14,165,233,0.35) 0%,rgba(250,204,21,0.2) 50%,transparent 70%);}
         .nav-logo-text{font-size:1.1rem;font-weight:900;}
-        .nav-logo-text .blue{color:#38bdf8;}
-        .nav-logo-text .yellow{color:#facc15;}
+        .nav-logo-text .blue{color:#38d4f5;}
+        .nav-logo-text .yellow{color:#FFF100;}
 
         </style>
 </head>
