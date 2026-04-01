@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מנפחים פרימיום — אזור חברים</title>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+        :root{
+            --yellow:#facc15;--yellow2:#fde68a;--yellow-dim:rgba(250,204,21,0.1);
+            --blue:#0ea5e9;--blue2:#38bdf8;--green:#10b981;--red:#ef4444;
+            --dark:#020812;--dark2:#060f1e;--card:#0a1628;--border:#1e3a5f;
+            --text:#e2e8f0;--muted:#64748b;--radius:14px;
+        }
+        html{scroll-behavior:smooth;}
+        body{font-family:'Heebo',sans-serif;background:var(--dark);color:var(--text);min-height:100vh;overflow-x:hidden;}
+        body::before{content:'';position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(14,165,233,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(14,165,233,0.04) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;}
+        *{position:relative;z-index:1;}
+
+        /* ── LOGIN SCREEN ── */
+        #login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;}
+        .login-box{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:48px 40px;max-width:420px;width:100%;text-align:center;}
+        .login-logo{width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid var(--yellow);box-shadow:0 0 30px rgba(250,204,21,0.3);margin:0 auto 24px;display:block;}
+        .login-box h1{font-size:1.8rem;font-weight:900;color:#fff;margin-bottom:8px;}
+        .login-box p{color:var(--muted);font-size:0.95rem;margin-bottom:32px;line-height:1.6;}
+        .login-input{width:100%;background:#07101f;border:1px solid var(--border);border-radius:50px;padding:14px 20px;color:#fff;font-size:1rem;font-family:'Heebo',sans-serif;outline:none;text-align:center;letter-spacing:4px;transition:border-color 0.2s;margin-bottom:14px;}
+        .login-input:focus{border-color:var(--yellow);}
+        .login-btn{width:100%;background:var(--yellow);color:#000;border:none;border-radius:50px;padding:14px;font-size:1rem;font-weight:800;font-family:'Heebo',sans-serif;cursor:pointer;transition:all 0.2s;}
+        .login-btn:hover{background:var(--yellow2);}
+        .login-error{color:#f87171;font-size:0.85rem;margin-top:10px;display:none;}
+
+        /* ── MAIN APP ── */
+        #app{display:none;}
+
+        nav{position:sticky;top:0;z-index:200;background:rgba(2,8,18,0.9);backdrop-filter:blur(16px);border-bottom:1px solid rgba(14,165,233,0.2);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:62px;}
+        .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+        .nav-logo img{height:36px;width:36px;border-radius:50%;object-fit:cover;border:2px solid var(--yellow);}
+        .nav-logo span{font-size:1rem;font-weight:900;color:#fff;}
+        .nav-badge{background:var(--yellow);color:#000;font-size:0.72rem;font-weight:800;padding:3px 10px;border-radius:20px;}
+
+        /* ── HERO ── */
+        .hero{text-align:center;padding:56px 20px 40px;}
+        .hero h1{font-size:clamp(1.8rem,5vw,3rem);font-weight:900;color:#fff;margin-bottom:10px;}
+        .hero h1 span{color:var(--yellow);}
+        .hero p{color:var(--muted);font-size:1rem;max-width:480px;margin:0 auto;}
+
+        /* ── TABS ── */
+        .tabs-wrap{max-width:1060px;margin:0 auto;padding:0 20px 80px;}
+        .tabs-nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px;justify-content:center;}
+        .tab-btn{background:var(--card);border:1px solid var(--border);border-radius:50px;padding:10px 20px;color:var(--muted);font-size:0.85rem;font-weight:700;font-family:'Heebo',sans-serif;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:6px;}
+        .tab-btn:hover{color:#fff;border-color:var(--blue);}
+        .tab-btn.active{background:var(--yellow);border-color:var(--yellow);color:#000;}
+        .tab-content{display:none;}
+        .tab-content.active{display:block;}
+
+        /* ── SHARED CARD ── */
+        .tool-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:36px 32px;}
+        .tool-title{font-size:1.4rem;font-weight:900;color:#fff;margin-bottom:6px;}
+        .tool-sub{color:var(--muted);font-size:0.92rem;margin-bottom:28px;line-height:1.6;}
+
+        /* ── FORM FIELDS ── */
+        .field-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
+        @media(max-width:520px){.field-grid{grid-template-columns:1fr;}}
+        .field label{display:block;font-size:0.82rem;color:var(--muted);font-weight:600;margin-bottom:6px;}
+        .field input,.field select{width:100%;background:#07101f;border:1px solid var(--border);border-radius:10px;padding:12px 14px;color:#fff;font-size:1rem;font-family:'Heebo',sans-serif;outline:none;transition:border-color 0.2s;}
+        .field input:focus,.field select:focus{border-color:var(--blue);}
+        .full{grid-column:1/-1;}
+        .slider-val{color:var(--yellow);font-weight:700;}
+        input[type="range"]{width:100%;-webkit-appearance:none;height:5px;border-radius:4px;background:var(--border);outline:none;cursor:pointer;margin-top:8px;}
+        input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--yellow);cursor:pointer;}
+
+        .tool-btn{background:var(--yellow);color:#000;border:none;border-radius:50px;padding:13px 32px;font-size:0.95rem;font-weight:800;font-family:'Heebo',sans-serif;cursor:pointer;transition:all 0.2s;margin-bottom:24px;}
+        .tool-btn:hover{background:var(--yellow2);}
+
+        /* ── RESULTS ── */
+        .results-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px;}
+        @media(max-width:480px){.results-grid{grid-template-columns:1fr;}}
+        .res-box{background:#07101f;border:1px solid var(--border);border-radius:12px;padding:18px 14px;text-align:center;}
+        .res-box.main{border-color:var(--yellow);background:rgba(250,204,21,0.06);}
+        .res-box.green{border-color:var(--green);background:rgba(16,185,129,0.06);}
+        .res-box.red{border-color:var(--red);background:rgba(239,68,68,0.06);}
+        .res-label{font-size:0.75rem;color:var(--muted);font-weight:600;margin-bottom:6px;}
+        .res-val{font-size:1.5rem;font-weight:900;color:#fff;}
+        .res-box.main .res-val{color:var(--yellow);}
+        .res-box.green .res-val{color:#6ee7b7;}
+        .res-box.red .res-val{color:#fca5a5;}
+
+        /* ── TABLE ── */
+        .data-table{width:100%;border-collapse:collapse;font-size:0.9rem;}
+        .data-table th{background:#07101f;color:var(--muted);font-size:0.78rem;font-weight:700;padding:10px 14px;text-align:right;border-bottom:1px solid var(--border);}
+        .data-table td{padding:12px 14px;border-bottom:1px solid rgba(30,58,95,0.5);color:var(--text);}
+        .data-table tr:last-child td{border-bottom:none;}
+        .data-table tr:hover td{background:rgba(255,255,255,0.02);}
+        .badge-green{background:rgba(16,185,129,0.15);color:#6ee7b7;padding:3px 10px;border-radius:20px;font-size:0.78rem;font-weight:700;}
+        .badge-red{background:rgba(239,68,68,0.15);color:#fca5a5;padding:3px 10px;border-radius:20px;font-size:0.78rem;font-weight:700;}
+        .add-row-btn{background:rgba(14,165,233,0.1);border:1px solid rgba(14,165,233,0.3);color:var(--blue2);border-radius:30px;padding:8px 18px;font-size:0.85rem;font-weight:700;font-family:'Heebo',sans-serif;cursor:pointer;margin-top:14px;transition:all 0.2s;}
+        .add-row-btn:hover{background:rgba(14,165,233,0.2);}
+        .delete-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:1rem;padding:4px 8px;transition:color 0.2s;}
+        .delete-btn:hover{color:#f87171;}
+
+        /* ── BUDGET BARS ── */
+        .budget-bar-wrap{margin-bottom:16px;}
+        .budget-bar-label{display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:6px;}
+        .budget-bar-label span:first-child{font-weight:700;color:#fff;}
+        .budget-bar-label span:last-child{color:var(--muted);}
+        .budget-bar-bg{background:#07101f;border-radius:8px;height:10px;overflow:hidden;}
+        .budget-bar-fill{height:100%;border-radius:8px;transition:width 0.5s ease;}
+
+        /* ── ALERT BOX ── */
+        .alert-box{background:rgba(250,204,21,0.08);border:1px solid rgba(250,204,21,0.25);border-radius:14px;padding:20px 22px;display:flex;gap:14px;align-items:flex-start;}
+        .alert-icon{font-size:1.6rem;flex-shrink:0;}
+        .alert-text h3{font-size:1rem;font-weight:800;color:var(--yellow2);margin-bottom:6px;}
+        .alert-text p{font-size:0.88rem;color:#94a3b8;line-height:1.65;}
+        .alert-text .days-count{font-size:2rem;font-weight:900;color:var(--yellow);display:block;margin-top:8px;}
+
+        footer{border-top:1px solid var(--border);text-align:center;padding:24px 20px;color:var(--muted);font-size:0.78rem;}
+    </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     LOGIN SCREEN
+══════════════════════════════════════ -->
+<div id="login-screen">
+    <div class="login-box">
+        <img src="../logo.jpg" alt="לוגו" class="login-logo">
+        <h1>מנפחים פרימיום 🔐</h1>
+        <p>אזור חברים בלעדי. הכנס את הסיסמה שקיבלת לאחר הרכישה.</p>
+        <input type="password" class="login-input" id="pw-input" placeholder="••••••••" onkeydown="if(event.key==='Enter')tryLogin()">
+        <button class="login-btn" onclick="tryLogin()">כניסה 🚀</button>
+        <p class="login-error" id="login-error">סיסמה שגויה. נסה שוב.</p>
+        <p style="margin-top:20px;font-size:0.78rem;color:var(--muted)">לא קיבלת סיסמה? <a href="mailto:minapchim@gmail.com" style="color:var(--blue2)">צור קשר</a></p>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     MAIN APP
+══════════════════════════════════════ -->
+<div id="app">
+
+<nav>
+    <a href="../index.html" class="nav-logo">
+        <img src="../logo.jpg" alt="לוגו">
+        <span>מנפחים ת'כיס</span>
+    </a>
+    <span class="nav-badge">⭐ פרימיום</span>
+</nav>
+
+<div class="hero">
+    <h1>שלום, <span>מנפח!</span> 👋</h1>
+    <p>כל הכלים שלך במקום אחד. בחר כלי והתחל לנפח.</p>
+</div>
+
+<div class="tabs-wrap">
+    <div class="tabs-nav">
+        <button class="tab-btn active" onclick="switchTab('budget')">📊 מעקב תקציב</button>
+        <button class="tab-btn" onclick="switchTab('assets')">⚖️ נכסים והתחייבויות</button>
+        <button class="tab-btn" onclick="switchTab('calc')">📈 סימולטור ריבית דריבית</button>
+        <button class="tab-btn" onclick="switchTab('protocol')">🔔 פרוטוקול ה-10</button>
+        <button class="tab-btn" onclick="switchTab('portfolio')">💼 תיק השקעות</button>
+    </div>
+
+    <!-- ── TAB 1: תקציב ── -->
+    <div id="tab-budget" class="tab-content active">
+        <div class="tool-card">
+            <div class="tool-title">📊 מעקב תקציב חודשי</div>
+            <div class="tool-sub">הכנס את ההכנסות וההוצאות שלך וקבל תמונה ברורה של איפה הכסף הולך.</div>
+
+            <div class="field-grid">
+                <div class="field">
+                    <label>הכנסה חודשית נטו (₪)</label>
+                    <input type="number" id="b-income" placeholder="10000" oninput="calcBudget()">
+                </div>
+                <div class="field">
+                    <label>שכירות / משכנתא (₪)</label>
+                    <input type="number" id="b-rent" placeholder="3000" oninput="calcBudget()">
+                </div>
+                <div class="field">
+                    <label>מזון וקניות (₪)</label>
+                    <input type="number" id="b-food" placeholder="1500" oninput="calcBudget()">
+                </div>
+                <div class="field">
+                    <label>תחבורה (₪)</label>
+                    <input type="number" id="b-transport" placeholder="800" oninput="calcBudget()">
+                </div>
+                <div class="field">
+                    <label>בילויים ופנאי (₪)</label>
+                    <input type="number" id="b-fun" placeholder="600" oninput="calcBudget()">
+                </div>
+                <div class="field">
+                    <label>הוצאות אחרות (₪)</label>
+                    <input type="number" id="b-other" placeholder="400" oninput="calcBudget()">
+                </div>
+                <div class="field">
+                    <label>השקעות וחיסכון (₪)</label>
+                    <input type="number" id="b-invest" placeholder="1000" oninput="calcBudget()">
+                </div>
+            </div>
+
+            <div id="budget-results" style="display:none">
+                <div class="results-grid" style="grid-template-columns:repeat(2,1fr);margin-bottom:24px">
+                    <div class="res-box main"><div class="res-label">סה"כ הוצאות</div><div class="res-val" id="b-total-out">₪0</div></div>
+                    <div class="res-box" id="b-balance-box"><div class="res-label">יתרה חודשית</div><div class="res-val" id="b-balance">₪0</div></div>
+                </div>
+
+                <div class="budget-bar-wrap">
+                    <div class="budget-bar-label"><span>שכירות</span><span id="b-rent-pct">0%</span></div>
+                    <div class="budget-bar-bg"><div class="budget-bar-fill" id="b-rent-bar" style="background:#0ea5e9;width:0%"></div></div>
+                </div>
+                <div class="budget-bar-wrap">
+                    <div class="budget-bar-label"><span>מזון</span><span id="b-food-pct">0%</span></div>
+                    <div class="budget-bar-bg"><div class="budget-bar-fill" id="b-food-bar" style="background:#f59e0b;width:0%"></div></div>
+                </div>
+                <div class="budget-bar-wrap">
+                    <div class="budget-bar-label"><span>תחבורה</span><span id="b-transport-pct">0%</span></div>
+                    <div class="budget-bar-bg"><div class="budget-bar-fill" id="b-transport-bar" style="background:#8b5cf6;width:0%"></div></div>
+                </div>
+                <div class="budget-bar-wrap">
+                    <div class="budget-bar-label"><span>בילויים</span><span id="b-fun-pct">0%</span></div>
+                    <div class="budget-bar-bg"><div class="budget-bar-fill" id="b-fun-bar" style="background:#ec4899;width:0%"></div></div>
+                </div>
+                <div class="budget-bar-wrap">
+                    <div class="budget-bar-label"><span>השקעות</span><span id="b-invest-pct">0%</span></div>
+                    <div class="budget-bar-bg"><div class="budget-bar-fill" id="b-invest-bar" style="background:#10b981;width:0%"></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── TAB 2: נכסים ── -->
+    <div id="tab-assets" class="tab-content">
+        <div class="tool-card">
+            <div class="tool-title">⚖️ לוח נכסים מול התחייבויות</div>
+            <div class="tool-sub">הכנס את הנכסים וההתחייבויות שלך וגלה את השווי הנקי שלך.</div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+                <div>
+                    <h3 style="color:#6ee7b7;font-size:0.85rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px">✓ נכסים</h3>
+                    <table class="data-table" id="assets-table">
+                        <thead><tr><th>פריט</th><th>שווי (₪)</th><th></th></tr></thead>
+                        <tbody id="assets-body"></tbody>
+                    </table>
+                    <button class="add-row-btn" onclick="addRow('assets')">+ הוסף נכס</button>
+                </div>
+                <div>
+                    <h3 style="color:#fca5a5;font-size:0.85rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px">✗ התחייבויות</h3>
+                    <table class="data-table" id="liab-table">
+                        <thead><tr><th>פריט</th><th>סכום (₪)</th><th></th></tr></thead>
+                        <tbody id="liab-body"></tbody>
+                    </table>
+                    <button class="add-row-btn" onclick="addRow('liab')">+ הוסף התחייבות</button>
+                </div>
+            </div>
+
+            <div class="results-grid" style="margin-top:24px">
+                <div class="res-box green"><div class="res-label">סה"כ נכסים</div><div class="res-val" id="total-assets">₪0</div></div>
+                <div class="res-box red"><div class="res-label">סה"כ התחייבויות</div><div class="res-val" id="total-liab">₪0</div></div>
+                <div class="res-box main"><div class="res-label">שווי נקי</div><div class="res-val" id="net-worth">₪0</div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── TAB 3: סימולטור ── -->
+    <div id="tab-calc" class="tab-content">
+        <div class="tool-card">
+            <div class="tool-title">📈 סימולטור ריבית דריבית</div>
+            <div class="tool-sub">גלה כמה שווה הכסף שלך בעתיד. שנה מספרים וראה את הקסם קורה.</div>
+
+            <div class="field-grid">
+                <div class="field">
+                    <label>סכום התחלתי (₪)</label>
+                    <input type="number" id="c-initial" value="0" min="0" oninput="calcInterest()">
+                </div>
+                <div class="field">
+                    <label>השקעה חודשית (₪)</label>
+                    <input type="number" id="c-monthly" value="500" min="0" oninput="calcInterest()">
+                </div>
+                <div class="field full">
+                    <label>מספר שנים: <span class="slider-val" id="c-years-label">20 שנים</span></label>
+                    <input type="range" id="c-years" min="1" max="40" value="20" oninput="document.getElementById('c-years-label').textContent=this.value+' שנים';calcInterest()">
+                </div>
+                <div class="field full">
+                    <label>תשואה שנתית: <span class="slider-val" id="c-rate-label">8%</span></label>
+                    <input type="range" id="c-rate" min="1" max="20" value="8" step="0.5" oninput="document.getElementById('c-rate-label').textContent=this.value+'%';calcInterest()">
+                </div>
+            </div>
+
+            <div class="results-grid">
+                <div class="res-box main"><div class="res-label">סכום סופי</div><div class="res-val" id="c-total">₪0</div></div>
+                <div class="res-box green"><div class="res-label">רווח כולל</div><div class="res-val" id="c-profit">₪0</div></div>
+                <div class="res-box"><div class="res-label">מכפיל הון</div><div class="res-val" id="c-multiplier">x0</div></div>
+            </div>
+
+            <!-- Timeline -->
+            <div id="c-timeline" style="margin-top:24px;display:flex;flex-direction:column;gap:8px"></div>
+        </div>
+    </div>
+
+    <!-- ── TAB 4: פרוטוקול ה-10 ── -->
+    <div id="tab-protocol" class="tab-content">
+        <div class="tool-card">
+            <div class="tool-title">🔔 פרוטוקול ה-10 לחודש</div>
+            <div class="tool-sub">היום ה-10 לחודש הוא היום שמשלמים לעצמך קודם. הכלי הזה עוזר לך לא לשכוח ולא לדלג.</div>
+
+            <div id="protocol-alert" class="alert-box" style="margin-bottom:24px">
+                <div class="alert-icon">🔔</div>
+                <div class="alert-text">
+                    <h3 id="protocol-title">טוען...</h3>
+                    <p id="protocol-msg"></p>
+                    <span class="days-count" id="protocol-days"></span>
+                </div>
+            </div>
+
+            <div class="field-grid">
+                <div class="field">
+                    <label>יעד השקעה חודשי (₪)</label>
+                    <input type="number" id="p-goal" placeholder="1000" oninput="saveProtocol()">
+                </div>
+                <div class="field">
+                    <label>הושקע החודש (₪)</label>
+                    <input type="number" id="p-done" placeholder="0" oninput="saveProtocol()">
+                </div>
+            </div>
+
+            <div class="results-grid" style="grid-template-columns:repeat(2,1fr)">
+                <div class="res-box green"><div class="res-label">הושקע</div><div class="res-val" id="p-done-val">₪0</div></div>
+                <div class="res-box main"><div class="res-label">נשאר להשקיע</div><div class="res-val" id="p-remaining">₪0</div></div>
+            </div>
+
+            <div style="margin-top:24px">
+                <h3 style="color:#fff;font-size:1rem;font-weight:800;margin-bottom:14px">✅ רשימת משימות ה-10</h3>
+                <div id="checklist" style="display:flex;flex-direction:column;gap:10px"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── TAB 5: תיק השקעות ── -->
+    <div id="tab-portfolio" class="tab-content">
+        <div class="tool-card">
+            <div class="tool-title">💼 מעקב תיק השקעות</div>
+            <div class="tool-sub">הכנס את ההחזקות שלך ועקוב אחרי הביצועים של כל נייר ערך.</div>
+
+            <table class="data-table" style="margin-bottom:14px">
+                <thead>
+                    <tr>
+                        <th>נייר ערך</th>
+                        <th>מחיר קנייה (₪)</th>
+                        <th>כמות</th>
+                        <th>מחיר נוכחי (₪)</th>
+                        <th>רווח/הפסד</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="portfolio-body"></tbody>
+            </table>
+            <button class="add-row-btn" onclick="addPortfolioRow()">+ הוסף נייר ערך</button>
+
+            <div class="results-grid" style="margin-top:24px">
+                <div class="res-box"><div class="res-label">עלות השקעה</div><div class="res-val" id="port-cost">₪0</div></div>
+                <div class="res-box main"><div class="res-label">שווי נוכחי</div><div class="res-val" id="port-value">₪0</div></div>
+                <div class="res-box" id="port-pl-box"><div class="res-label">רווח / הפסד</div><div class="res-val" id="port-pl">₪0</div></div>
+            </div>
+        </div>
+    </div>
+
+</div><!-- /tabs-wrap -->
+
+<footer>© 2025 מנפחים ת'כיס | אזור חברים פרימיום</footer>
+
+</div><!-- /app -->
+
+<script>
+// ══════════════════════════════
+// LOGIN
+// ══════════════════════════════
+const PASSWORD = 'menapcim39'; // ← שנה את הסיסמה כאן!
+
+function tryLogin() {
+    const val = document.getElementById('pw-input').value;
+    const err = document.getElementById('login-error');
+    if (val === PASSWORD) {
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('app').style.display = 'block';
+        initAll();
+    } else {
+        err.style.display = 'block';
+        document.getElementById('pw-input').value = '';
+        document.getElementById('pw-input').focus();
+    }
+}
+
+// ══════════════════════════════
+// TABS
+// ══════════════════════════════
+function switchTab(id) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    event.target.classList.add('active');
+}
+
+// ══════════════════════════════
+// UTILS
+// ══════════════════════════════
+const fmt = n => '₪' + Math.round(n).toLocaleString('he-IL');
+const v = id => parseFloat(document.getElementById(id).value) || 0;
+
+// ══════════════════════════════
+// TAB 1: תקציב
+// ══════════════════════════════
+function calcBudget() {
+    const income = v('b-income');
+    if (!income) return;
+    const expenses = {
+        rent: v('b-rent'), food: v('b-food'),
+        transport: v('b-transport'), fun: v('b-fun'),
+        other: v('b-other'), invest: v('b-invest')
+    };
+    const totalOut = Object.values(expenses).reduce((a,b) => a+b, 0);
+    const balance = income - totalOut;
+
+    document.getElementById('b-total-out').textContent = fmt(totalOut);
+    document.getElementById('b-balance').textContent = fmt(balance);
+    const box = document.getElementById('b-balance-box');
+    box.className = 'res-box ' + (balance >= 0 ? 'green' : 'red');
+    document.getElementById('budget-results').style.display = 'block';
+
+    const setBar = (key, id) => {
+        const pct = income > 0 ? Math.min((expenses[key]/income)*100, 100) : 0;
+        document.getElementById('b-'+id+'-pct').textContent = pct.toFixed(0)+'%';
+        document.getElementById('b-'+id+'-bar').style.width = pct+'%';
+    };
+    setBar('rent','rent'); setBar('food','food');
+    setBar('transport','transport'); setBar('fun','fun'); setBar('invest','invest');
+}
+
+// ══════════════════════════════
+// TAB 2: נכסים
+// ══════════════════════════════
+function addRow(type) {
+    const tbody = document.getElementById(type === 'assets' ? 'assets-body' : 'liab-body');
+    const id = Date.now();
+    const label = type === 'assets' ? 'נכס' : 'התחייבות';
+    const row = document.createElement('tr');
+    row.id = 'row-' + id;
+    row.innerHTML = `
+        <td><input style="background:transparent;border:none;color:#fff;font-family:'Heebo',sans-serif;width:100%;font-size:0.88rem" placeholder="${label} חדש" oninput="calcNetWorth()"></td>
+        <td><input type="number" style="background:transparent;border:none;color:#fff;font-family:'Heebo',sans-serif;width:80px;font-size:0.88rem" placeholder="0" oninput="calcNetWorth()"></td>
+        <td><button class="delete-btn" onclick="document.getElementById('row-${id}').remove();calcNetWorth()">✕</button></td>`;
+    tbody.appendChild(row);
+}
+
+function calcNetWorth() {
+    const sum = (tbody) => Array.from(document.getElementById(tbody).querySelectorAll('input[type=number]'))
+        .reduce((a, el) => a + (parseFloat(el.value)||0), 0);
+    const ta = sum('assets-body'), tl = sum('liab-body'), nw = ta - tl;
+    document.getElementById('total-assets').textContent = fmt(ta);
+    document.getElementById('total-liab').textContent = fmt(tl);
+    document.getElementById('net-worth').textContent = fmt(nw);
+}
+
+// ══════════════════════════════
+// TAB 3: סימולטור
+// ══════════════════════════════
+function calcInterest() {
+    const P = v('c-initial'), m = v('c-monthly');
+    const y = parseFloat(document.getElementById('c-years').value);
+    const r = parseFloat(document.getElementById('c-rate').value) / 100 / 12;
+    const n = y * 12;
+    const total = P * Math.pow(1+r,n) + m * (Math.pow(1+r,n)-1) / r;
+    const invested = P + m * n;
+    const profit = total - invested;
+    const multi = invested > 0 ? (total/invested).toFixed(1) : '∞';
+
+    document.getElementById('c-total').textContent = fmt(total);
+    document.getElementById('c-profit').textContent = fmt(profit);
+    document.getElementById('c-multiplier').textContent = 'x' + multi;
+
+    // Timeline
+    const tl = document.getElementById('c-timeline');
+    tl.innerHTML = '';
+    [5, 10, 15, 20, 30].filter(yr => yr <= y).forEach(yr => {
+        const nn = yr * 12;
+        const val = P * Math.pow(1+r,nn) + m * (Math.pow(1+r,nn)-1) / r;
+        const div = document.createElement('div');
+        div.style.cssText = 'display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#07101f;border-radius:10px;font-size:0.88rem';
+        div.innerHTML = `<span style="color:var(--muted)">בעוד ${yr} שנים</span><span style="color:var(--yellow);font-weight:800">${fmt(val)}</span>`;
+        tl.appendChild(div);
+    });
+}
+
+// ══════════════════════════════
+// TAB 4: פרוטוקול ה-10
+// ══════════════════════════════
+function initProtocol() {
+    const today = new Date();
+    const day = today.getDate();
+    const month = today.toLocaleString('he-IL', {month:'long'});
+    const year = today.getFullYear();
+
+    const tenth = new Date(year, today.getMonth(), 10);
+    const diff = Math.ceil((tenth - today) / (1000*60*60*24));
+
+    const title = document.getElementById('protocol-title');
+    const msg = document.getElementById('protocol-msg');
+    const days = document.getElementById('protocol-days');
+
+    if (day === 10) {
+        title.textContent = '🎉 היום זה יום ה-10!';
+        msg.textContent = 'עצור הכל. עכשיו משלמים לעצמך קודם. פתח את חשבון ההשקעות ועשה את ההעברה.';
+        days.textContent = 'עשה זאת עכשיו!';
+        document.getElementById('protocol-alert').style.borderColor = 'var(--green)';
+    } else if (diff > 0) {
+        title.textContent = `ה-10 ל${month} מגיע בעוד:`;
+        msg.textContent = 'תתכונן. כשיגיע היום ה-10, פתח את הכלי הזה ועשה את ההעברה לפני כל הוצאה אחרת.';
+        days.textContent = diff + ' ימים';
+    } else {
+        const nextTenth = new Date(year, today.getMonth()+1, 10);
+        const nextDiff = Math.ceil((nextTenth - today) / (1000*60*60*24));
+        title.textContent = `ה-10 הבא בעוד:`;
+        msg.textContent = 'החודש כבר עבר. תוודא שביצעת את ההשקעה החודשית. הבא מגיע בקרוב.';
+        days.textContent = nextDiff + ' ימים';
+    }
+
+    // Checklist
+    const tasks = [
+        'העבר את סכום ההשקעה לחשבון המסחר',
+        'בדוק את קרן החירום שלך',
+        'עדכן את מעקב התקציב',
+        'בדוק את ביצועי תיק ההשקעות',
+        'שמור על הסדר — אל תגע בכסף ה-10 לאחר ההעברה'
+    ];
+    const cl = document.getElementById('checklist');
+    tasks.forEach((task, i) => {
+        const saved = localStorage.getItem('task-' + i) === 'true';
+        const div = document.createElement('div');
+        div.style.cssText = 'display:flex;align-items:center;gap:12px;padding:12px 16px;background:#07101f;border-radius:10px;cursor:pointer;transition:background 0.2s';
+        div.innerHTML = `<div style="width:22px;height:22px;border-radius:6px;border:2px solid ${saved?'var(--green)':'var(--border)'};background:${saved?'var(--green)':'transparent'};display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:0.8rem">${saved?'✓':''}</div><span style="font-size:0.9rem;color:${saved?'#6ee7b7':'#cbd5e1'};${saved?'text-decoration:line-through;opacity:0.6':''}">${task}</span>`;
+        div.onclick = () => {
+            const newVal = localStorage.getItem('task-'+i) !== 'true';
+            localStorage.setItem('task-'+i, newVal);
+            initProtocol();
+        };
+        cl.appendChild(div);
+    });
+}
+
+function saveProtocol() {
+    const goal = v('p-goal'), done = v('p-done');
+    document.getElementById('p-done-val').textContent = fmt(done);
+    document.getElementById('p-remaining').textContent = fmt(Math.max(0, goal - done));
+}
+
+// ══════════════════════════════
+// TAB 5: תיק השקעות
+// ══════════════════════════════
+function addPortfolioRow() {
+    const tbody = document.getElementById('portfolio-body');
+    const id = Date.now();
+    const row = document.createElement('tr');
+    row.id = 'prow-' + id;
+    row.innerHTML = `
+        <td><input style="background:transparent;border:none;color:#fff;font-family:'Heebo',sans-serif;width:90px;font-size:0.88rem" placeholder="S&P 500" oninput="calcPortfolio()"></td>
+        <td><input type="number" style="background:transparent;border:none;color:#fff;font-family:'Heebo',sans-serif;width:80px;font-size:0.88rem" placeholder="100" oninput="calcPortfolio()"></td>
+        <td><input type="number" style="background:transparent;border:none;color:#fff;font-family:'Heebo',sans-serif;width:60px;font-size:0.88rem" placeholder="10" oninput="calcPortfolio()"></td>
+        <td><input type="number" style="background:transparent;border:none;color:#fff;font-family:'Heebo',sans-serif;width:80px;font-size:0.88rem" placeholder="120" oninput="calcPortfolio()"></td>
+        <td id="pl-${id}"><span class="badge-green">₪0</span></td>
+        <td><button class="delete-btn" onclick="document.getElementById('prow-${id}').remove();calcPortfolio()">✕</button></td>`;
+    tbody.appendChild(row);
+}
+
+function calcPortfolio() {
+    const rows = document.getElementById('portfolio-body').querySelectorAll('tr');
+    let totalCost = 0, totalValue = 0;
+
+    rows.forEach(row => {
+        const inputs = row.querySelectorAll('input[type=number]');
+        if (inputs.length < 3) return;
+        const buyPrice = parseFloat(inputs[0].value)||0;
+        const qty = parseFloat(inputs[1].value)||0;
+        const curPrice = parseFloat(inputs[2].value)||0;
+        const cost = buyPrice * qty;
+        const value = curPrice * qty;
+        const pl = value - cost;
+        totalCost += cost;
+        totalValue += value;
+
+        const plCell = row.querySelector('[id^="pl-"]');
+        if (plCell) {
+            plCell.innerHTML = pl >= 0
+                ? `<span class="badge-green">+${fmt(pl)}</span>`
+                : `<span class="badge-red">${fmt(pl)}</span>`;
+        }
+    });
+
+    const pl = totalValue - totalCost;
+    document.getElementById('port-cost').textContent = fmt(totalCost);
+    document.getElementById('port-value').textContent = fmt(totalValue);
+    document.getElementById('port-pl').textContent = fmt(pl);
+    const box = document.getElementById('port-pl-box');
+    box.className = 'res-box ' + (pl >= 0 ? 'green' : 'red');
+}
+
+// ══════════════════════════════
+// INIT
+// ══════════════════════════════
+function initAll() {
+    calcBudget();
+    calcInterest();
+    initProtocol();
+    // Add default rows
+    addRow('assets'); addRow('assets');
+    addRow('liab'); addRow('liab');
+    addPortfolioRow(); addPortfolioRow();
+}
+</script>
+</body>
+</html>

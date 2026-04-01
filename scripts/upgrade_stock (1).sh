@@ -1,0 +1,356 @@
+#!/bin/bash
+set -e
+echo "🔍 מוודא תיקייה..."
+if [ ! -f "index.html" ]; then echo "❌ לא נמצא index.html"; exit 1; fi
+cp stock.html stock.html.bak
+echo "✅ גיבוי נשמר"
+
+cat > stock.html << 'HTMLEOF'
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>שוק ההון בגובה העיניים - מנפחים ת'כיס</title>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+        :root{--yellow:#facc15;--yellow2:#fde68a;--blue:#0ea5e9;--blue2:#38bdf8;--green:#10b981;--dark:#020812;--card:#0a1628;--border:#1e3a5f;--text:#e2e8f0;--muted:#64748b;--radius:14px;}
+        html{scroll-behavior:smooth;}
+        body{font-family:'Heebo',sans-serif;background:var(--dark);color:var(--text);overflow-x:hidden;}
+        body::before{content:'';position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(14,165,233,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(14,165,233,0.04) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;}
+        *{position:relative;z-index:1;}
+
+        nav{position:sticky;top:0;z-index:200;background:rgba(2,8,18,0.9);backdrop-filter:blur(16px);border-bottom:1px solid rgba(14,165,233,0.2);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:62px;}
+        .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+        .nav-logo img{height:38px;width:38px;border-radius:50%;object-fit:cover;border:2px solid var(--yellow);}
+        .nav-logo span{font-size:1.1rem;font-weight:900;color:#fff;}
+        .nav-links{display:flex;gap:4px;list-style:none;}
+        .nav-links a{color:#94a3b8;text-decoration:none;font-size:0.85rem;font-weight:600;padding:6px 11px;border-radius:8px;transition:all 0.2s;}
+        .nav-links a:hover{color:#fff;background:rgba(14,165,233,0.1);}
+        .nav-links a.active{color:#fff;background:rgba(14,165,233,0.15);}
+        .hamburger{display:none;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;}
+        .mobile-menu{display:none;flex-direction:column;position:fixed;top:62px;inset-inline:0;background:#060f1e;border-bottom:1px solid var(--border);padding:12px 20px;z-index:199;gap:2px;}
+        .mobile-menu.open{display:flex;}
+        .mobile-menu a{color:#e2e8f0;text-decoration:none;font-size:0.95rem;padding:10px 0;border-bottom:1px solid #1e3a5f;}
+        @media(max-width:780px){.nav-links{display:none;}.hamburger{display:block;}}
+
+        .ticker-wrap{background:#030c18;border-bottom:1px solid rgba(14,165,233,0.15);}
+
+        .hero{text-align:center;padding:70px 20px 50px;overflow:hidden;}
+        .hero-glow{position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:700px;height:400px;background:radial-gradient(ellipse,rgba(14,165,233,0.12) 0%,rgba(250,204,21,0.05) 50%,transparent 70%);pointer-events:none;}
+        .hero-icon{font-size:3.5rem;margin-bottom:20px;display:block;}
+        .hero h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:900;color:#fff;margin-bottom:12px;line-height:1.1;}
+        .hero h1 span{color:var(--yellow);text-shadow:0 0 30px rgba(250,204,21,0.4);}
+        .hero-sub{color:#94a3b8;font-size:1.05rem;max-width:540px;margin:0 auto;line-height:1.75;}
+
+        .divider{height:1px;max-width:860px;margin:60px auto;background:linear-gradient(90deg,transparent,rgba(14,165,233,0.25) 30%,rgba(250,204,21,0.25) 70%,transparent);}
+
+        .content{max-width:860px;margin:0 auto;padding:0 20px 80px;}
+
+        .lesson{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:36px 32px;margin-bottom:24px;transition:border-color 0.2s;}
+        .lesson:hover{border-color:rgba(14,165,233,0.4);}
+        .lesson-num{font-size:0.72rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--yellow);margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+        .lesson-num::after{content:'';flex:1;height:1px;background:rgba(250,204,21,0.2);}
+        .lesson h2{font-size:clamp(1.2rem,3vw,1.6rem);font-weight:900;color:#fff;margin-bottom:18px;line-height:1.3;}
+        .lesson-intro{color:#94a3b8;font-size:1rem;line-height:1.8;margin-bottom:22px;}
+
+        .tip-list{list-style:none;display:flex;flex-direction:column;gap:14px;}
+        .tip-item{display:flex;gap:14px;align-items:flex-start;}
+        .tip-icon{width:36px;height:36px;border-radius:10px;background:rgba(14,165,233,0.1);border:1px solid rgba(14,165,233,0.2);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;margin-top:2px;}
+        .tip-item.warning .tip-icon{background:rgba(239,68,68,0.1);border-color:rgba(239,68,68,0.2);}
+        .tip-item.success .tip-icon{background:rgba(16,185,129,0.1);border-color:rgba(16,185,129,0.2);}
+        .tip-item.gold .tip-icon{background:rgba(250,204,21,0.1);border-color:rgba(250,204,21,0.2);}
+        .tip-title{font-size:0.92rem;font-weight:800;color:#fff;margin-bottom:4px;}
+        .tip-text{font-size:0.88rem;color:#94a3b8;line-height:1.65;}
+
+        .lesson-bottom{margin-top:22px;padding-top:18px;border-top:1px solid var(--border);font-size:0.88rem;font-weight:700;color:var(--blue2);display:flex;align-items:center;gap:8px;}
+        .lesson-bottom::before{content:'💡';}
+
+        /* COMPARE TABLE */
+        .compare-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:22px;}
+        @media(max-width:580px){.compare-grid{grid-template-columns:1fr;}}
+        .compare-card{border-radius:12px;padding:18px 16px;text-align:center;}
+        .compare-card.blue{background:rgba(14,165,233,0.07);border:1px solid rgba(14,165,233,0.2);}
+        .compare-card.yellow{background:rgba(250,204,21,0.07);border:1px solid rgba(250,204,21,0.2);}
+        .compare-card.green{background:rgba(16,185,129,0.07);border:1px solid rgba(16,185,129,0.2);}
+        .compare-card .c-icon{font-size:1.8rem;margin-bottom:8px;}
+        .compare-card .c-title{font-size:0.88rem;font-weight:800;color:#fff;margin-bottom:6px;}
+        .compare-card .c-text{font-size:0.8rem;color:#94a3b8;line-height:1.55;}
+
+        /* DICT */
+        .dict-wrap{max-width:860px;margin:0 auto;padding:0 20px 80px;}
+        .dict-head{text-align:center;margin-bottom:36px;}
+        .dict-tag{font-size:0.72rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--yellow);display:block;margin-bottom:10px;}
+        .dict-head h2{font-size:clamp(1.6rem,3.5vw,2.2rem);font-weight:900;color:#fff;}
+        .dict-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;}
+        .dict-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px 20px;}
+        .dict-card h3{font-size:0.95rem;font-weight:800;color:var(--yellow2);margin-bottom:8px;}
+        .dict-card p{font-size:0.87rem;color:#94a3b8;line-height:1.65;}
+
+        .warning-box{max-width:860px;margin:0 auto 80px;padding:0 20px;}
+        .warning-inner{background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.25);border-radius:16px;padding:24px 28px;font-size:0.9rem;color:#94a3b8;line-height:1.75;text-align:center;}
+        .warning-inner strong{color:var(--yellow2);}
+
+        footer{background:#030c18;border-top:1px solid rgba(14,165,233,0.15);text-align:center;padding:28px 20px;color:var(--muted);font-size:0.8rem;}
+        footer a{color:var(--muted);text-decoration:none;}
+        footer a:hover{color:#fff;}
+
+        .fade-up{opacity:0;transform:translateY(24px);transition:opacity 0.6s ease,transform 0.6s ease;}
+        .fade-up.visible{opacity:1;transform:translateY(0);}
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html" class="nav-logo">
+        <img src="logo.jpg" alt="לוגו">
+        <span>מנפחים ת'כיס 💰</span>
+    </a>
+    <ul class="nav-links">
+        <li><a href="index.html">בית</a></li>
+        <li><a href="metchilim.html">מתחילים לנפח</a></li>
+        <li><a href="psychology.html">פסיכולוגיה</a></li>
+        <li><a href="assets.html">נכסים</a></li>
+        <li><a href="bankayt.html">בנקאית</a></li>
+        <li><a href="stock.html" class="active">שוק ההון</a></li>
+        <li><a href="protocol.html">פרוטוקול ה-10</a></li>
+        <li><a href="premium.html">⭐ פרימיום</a></li>
+    </ul>
+    <button class="hamburger" onclick="document.getElementById('mob').classList.toggle('open')">☰</button>
+</nav>
+<div class="mobile-menu" id="mob">
+    <a href="index.html">🏠 בית</a>
+    <a href="metchilim.html">🚀 מתחילים לנפח</a>
+    <a href="psychology.html">🧠 פסיכולוגיה של הכיס</a>
+    <a href="assets.html">💎 נכסים מול בורות</a>
+    <a href="bankayt.html">🏦 לדבר בנקאית</a>
+    <a href="stock.html">📈 שוק ההון</a>
+    <a href="protocol.html">✈️ פרוטוקול ה-10</a>
+    <a href="premium.html">⭐ מנפחים מתקדמים</a>
+</div>
+
+<div class="ticker-wrap">
+    <div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div>
+    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+    {"symbols":[{"proName":"FOREXCOM:SPX500","title":"S&P 500"},{"proName":"FOREXCOM:NSXUSD","title":"NASDAQ 100"},{"proName":"AMEX:ACWI","title":"ACWI"},{"proName":"TASE:TA125","title":"TA-125"},{"proName":"FX_IDC:USDILS","title":"דולר/שקל"}],"colorTheme":"dark","isTransparent":true,"locale":"he_IL"}
+    </script></div>
+</div>
+
+<section class="hero">
+    <div class="hero-glow"></div>
+    <span class="hero-icon">📈</span>
+    <h1>שוק ההון <span>בגובה העיניים</span></h1>
+    <p class="hero-sub">פירוק עולם ההשקעות לחתיכות פשוטות. בלי מילים גבוהות, בלי בולשיט. כי הכסף שלך לא צריך להחכים בבנק.</p>
+</section>
+
+<!-- TradingView Market Quotes Widget -->
+<div style="max-width:860px;margin:0 auto 20px;padding:0 20px">
+    <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-quotes.js" async>
+        {"width":"100%","height":300,"symbolsGroups":[{"name":"מדדים עולמיים","symbols":[{"name":"FOREXCOM:SPX500","displayName":"S&P 500"},{"name":"FOREXCOM:NSXUSD","displayName":"NASDAQ 100"},{"name":"AMEX:ACWI","displayName":"ACWI עולמי"},{"name":"TASE:TA125","displayName":"TA-125"},{"name":"BINANCE:BTCUSDT","displayName":"ביטקוין"},{"name":"FX_IDC:USDILS","displayName":"דולר/שקל"}]}],"colorTheme":"dark","isTransparent":true,"locale":"he_IL"}
+        </script>
+    </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="content">
+
+    <!-- 01 -->
+    <div class="lesson fade-up">
+        <div class="lesson-num">01</div>
+        <h2>איך פותחים חשבון מסחר (המדריך לזריזים) 📲</h2>
+        <p class="lesson-intro">לפני שמשקיעים שקל אחד צריך מקום לשים אותו. פתיחת חשבון מסחר היום לוקחת פחות מרבע שעה.</p>
+        <ul class="tip-list">
+            <li class="tip-item success">
+                <div class="tip-icon">🏛️</div>
+                <div class="tip-content">
+                    <div class="tip-title">בוחרים איפה משחקים</div>
+                    <div class="tip-text">בנק (יקר ומסורבל), בית השקעות ישראלי (הכי נפוץ) או ברוקר דיגיטלי (זול ומהיר). לרוב הצעירים, בית השקעות דיגיטלי הוא הבחירה הנכונה.</div>
+                </div>
+            </li>
+            <li class="tip-item success">
+                <div class="tip-icon">📱</div>
+                <div class="tip-content">
+                    <div class="tip-title">נרשמים בדיגיטל</div>
+                    <div class="tip-text">נכנסים לאתר או לאפליקציה. שם, מייל, תעודת זהות. הסיפור הרגיל.</div>
+                </div>
+            </li>
+            <li class="tip-item success">
+                <div class="tip-icon">🤳</div>
+                <div class="tip-content">
+                    <div class="tip-title">סלפי וזהות</div>
+                    <div class="tip-text">מצלמים את התעודה, עושים סלפי זריז לאימות (חוקי המדינה, אין מה לעשות) וממלאים כמה שאלות בסיסיות על הכסף שלכם.</div>
+                </div>
+            </li>
+            <li class="tip-item success">
+                <div class="tip-icon">✅</div>
+                <div class="tip-content">
+                    <div class="tip-title">שיחת אישור וחתימה</div>
+                    <div class="tip-text">נציג יחזור אליכם או שתקבלו אישור במייל. חותמים דיגיטלית על המסמכים ואתם בפנים.</div>
+                </div>
+            </li>
+        </ul>
+        <div class="lesson-bottom">לפני שפותחים, וודאו שיש קרן חירום של 6 חודשי מחייה. זה השלב הראשון.</div>
+    </div>
+
+    <!-- 02 -->
+    <div class="lesson fade-up" style="transition-delay:.08s">
+        <div class="lesson-num">02</div>
+        <h2>קרן אירית מול קרן ישראלית: הקרב על המס 🇮🇪</h2>
+        <p class="lesson-intro">זה אחד הדברים שהכי שווה להבין לפני שקונים קרן ראשונה. ההבדל בטווח הארוך יכול להיות עשרות אלפי שקלים.</p>
+        <div class="compare-grid">
+            <div class="compare-card blue">
+                <div class="c-icon">🇮🇪</div>
+                <div class="c-title">קרן אירית</div>
+                <div class="c-text">פחות מס על דיבידנדים. בטווח הארוך, עוד המון כסף שנשאר אצלכם ולא הולך לדוד סם.</div>
+            </div>
+            <div class="compare-card yellow">
+                <div class="c-icon">🇮🇱</div>
+                <div class="c-title">קרן ישראלית</div>
+                <div class="c-text">הכל בעברית, הכל מונגש. אין צורך להתעסק עם המרות מט"ח מסובכות.</div>
+            </div>
+            <div class="compare-card green">
+                <div class="c-icon">🏆</div>
+                <div class="c-title">השורה התחתונה</div>
+                <div class="c-text">אירית למי שרץ מרתון ורוצה למקסם כל שקל. ישראלית למי שרוצה להתחיל פשוט.</div>
+            </div>
+        </div>
+        <div class="lesson-bottom">כל אחד יעשה מחקר מעמיק ורק אז יבחר. אין תשובה אחת נכונה לכולם.</div>
+    </div>
+
+    <!-- 03 -->
+    <div class="lesson fade-up" style="transition-delay:.16s">
+        <div class="lesson-num">03</div>
+        <h2>ACWI מול S&P 500: איפה המנוע שלכם? 🌍</h2>
+        <p class="lesson-intro">אחת השאלות הכי נפוצות. אין תשובה מושלמת, אבל יש הרבה מה להבין לפני שבוחרים.</p>
+        <ul class="tip-list">
+            <li class="tip-item gold">
+                <div class="tip-icon">🇺🇸</div>
+                <div class="tip-content">
+                    <div class="tip-title">S&P 500 — הנבחרת האמריקאית</div>
+                    <div class="tip-text">500 החברות הכי חזקות בארה"ב. המנוע הקלאסי. חזק, יציב ומוכיח את עצמו כבר עשרות שנים. הלחם והחמאה של כל תיק.</div>
+                </div>
+            </li>
+            <li class="tip-item success">
+                <div class="tip-icon">🌍</div>
+                <div class="tip-content">
+                    <div class="tip-title">ACWI — הנבחרת העולמית</div>
+                    <div class="tip-text">מדד שכולל את כל העולם. ארה"ב, אירופה, אסיה. אם ארה"ב תתעטש, שאר העולם יחזיק אתכם. פחות סיכון, צמיחה קצת יותר איטית.</div>
+                </div>
+            </li>
+            <li class="tip-item warning">
+                <div class="tip-icon">🚀</div>
+                <div class="tip-content">
+                    <div class="tip-title">נאסד"ק — הטורבו</div>
+                    <div class="tip-text">כל ענקיות הטכנולוגיה. טסות מהר למעלה, אבל יכולות גם לרדת מהר. לא למי שלב חלש.</div>
+                </div>
+            </li>
+        </ul>
+        <div class="lesson-bottom">במנפחים מתחילים בבסיס ומתנפחים לאט. יש עוד מדדים, שווקים מתעוררים ומתפתחים, אבל הבסיס קודם.</div>
+    </div>
+
+    <!-- 04 -->
+    <div class="lesson fade-up" style="transition-delay:.24s">
+        <div class="lesson-num">04</div>
+        <h2>כמה להשקיע? (המספרים שבאמת משנים) 💰</h2>
+        <p class="lesson-intro">אין מספר קסם. אבל יש כללי אצבע שעוזרים לקבל החלטות חכמות.</p>
+        <ul class="tip-list">
+            <li class="tip-item gold">
+                <div class="tip-icon">🔥</div>
+                <div class="tip-content">
+                    <div class="tip-title">בגיל 20-30 זה הזמן להתפרע (בקטע טוב)</div>
+                    <div class="tip-text">אתם בשיא הכוח. הריבית דריבית עובדת לטובתכם בטירוף. תנסו לדחוף כמה שיותר לכיוון 20% מההכנסה ואם אפשר יותר.</div>
+                </div>
+            </li>
+            <li class="tip-item success">
+                <div class="tip-icon">📅</div>
+                <div class="tip-content">
+                    <div class="tip-title">עקביות מנצחת סכום</div>
+                    <div class="tip-text">עדיף להשקיע 500 שקל כל חודש בעקביות מאשר 5,000 שקל פעם בשנה ולהפסיק. זה מרתון, לא ספרינט.</div>
+                </div>
+            </li>
+            <li class="tip-item warning">
+                <div class="tip-icon">🛡️</div>
+                <div class="tip-content">
+                    <div class="tip-title">לפני שמשקיעים שקל אחד</div>
+                    <div class="tip-text">וודאו שיש קרן חירום של 6 חודשי מחייה בקרן כספית ושסגרתם תקציב. קודם בטחון, אחר כך שוק ההון.</div>
+                </div>
+            </li>
+        </ul>
+        <div class="lesson-bottom">הכלל של מנפחים: אין מספר קסם. כל אחד והקיבה שלו והתקציב שלו.</div>
+    </div>
+
+</div>
+
+<div class="divider"></div>
+
+<!-- DICTIONARY -->
+<div class="dict-wrap">
+    <div class="dict-head fade-up">
+        <span class="dict-tag">📚 מילון</span>
+        <h2>מילון מנפחים שוק ההון</h2>
+    </div>
+    <div class="dict-grid">
+        <div class="dict-card fade-up">
+            <h3>מניה 📈</h3>
+            <p>חלק מחברה אמיתית ששייך לכם. אם החברה עולה, אתם מרוויחים.</p>
+        </div>
+        <div class="dict-card fade-up" style="transition-delay:.06s">
+            <h3>אג"ח 🏛️</h3>
+            <p>הלוואה שנתתם ומחזירה לכם ריבית. סולידי ורגוע, פחות מרגש, יותר יציב.</p>
+        </div>
+        <div class="dict-card fade-up" style="transition-delay:.12s">
+            <h3>ETF 🌍</h3>
+            <p>קרן סל שנסחרת בבורסה. דרך פשוטה וזולה לקנות סל מניות רחב בלחיצה אחת.</p>
+        </div>
+        <div class="dict-card fade-up" style="transition-delay:.18s">
+            <h3>מדד (Index) 📊</h3>
+            <p>סל של חברות חזקות. S&P 500 הוא 500 החברות הגדולות בארה"ב.</p>
+        </div>
+        <div class="dict-card fade-up" style="transition-delay:.24s">
+            <h3>אינפלציה 🔥</h3>
+            <p>הגנב השקט ששוחק את הכסף שלכם בבנק. 100 שקל היום שווים פחות בעתיד.</p>
+        </div>
+        <div class="dict-card fade-up" style="transition-delay:.30s">
+            <h3>דמי ניהול 💸</h3>
+            <p>המס שמשלמים למי שמנהל את הכסף. תבדקו שלא עוקצים אתכם.</p>
+        </div>
+        <div class="dict-card fade-up" style="transition-delay:.36s">
+            <h3>קרן כספית 💵</h3>
+            <p>מכשיר בטוח לשמירת קרן החירום. נזיל ומציע ריבית טובה יותר מהבנק.</p>
+        </div>
+        <div class="dict-card fade-up" style="transition-delay:.42s">
+            <h3>קרן אירית 🇮🇪</h3>
+            <p>קרן הרשומה באירלנד. משלמת פחות מס על דיבידנדים. בטווח הארוך שווה כסף רב.</p>
+        </div>
+    </div>
+</div>
+
+<div class="warning-box fade-up">
+    <div class="warning-inner">
+        <strong>⚠️ הערה חשובה:</strong> המידע הוא לימודי וכללי בלבד. לכל אחד יש צרכים שונים ומטרות שונות. חובה להתייעץ עם איש מקצוע מוסמך לפני שקופצים למים. המידע אינו מהווה ייעוץ פיננסי ואינו מהווה הנעה לפעולה בביצוע קניית ניירות ערך.
+    </div>
+</div>
+
+<footer>
+    <p>© 2025 מנפחים ת'כיס | <a href="index.html">בית</a> | <a href="premium.html">פרימיום</a> | <a href="https://www.instagram.com/minapchim_tkis">Instagram</a></p>
+</footer>
+
+<script>
+    document.addEventListener('click', e => { if(!e.target.closest('nav')&&!e.target.closest('#mob')) document.getElementById('mob').classList.remove('open'); });
+    const obs = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);} }), {threshold:0.08});
+    document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
+HTMLEOF
+
+git add stock.html
+git commit -m "feat: rewrite stock.html with new content, TradingView live data, no dashes"
+git push origin master
+
+echo ""
+echo "✅ stock.html עלה! בדוק: https://shohamabo-lab.github.io/stock.html"
