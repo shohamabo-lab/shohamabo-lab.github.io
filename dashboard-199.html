@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מנפחים פרימיום</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Heebo',sans-serif;background:#000;color:#fff;direction:rtl;min-height:100vh;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+
+#lock{position:fixed;inset:0;background:#000;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;gap:14px;overflow-y:auto}
+.lw{position:relative;width:110px;height:110px;margin-bottom:6px}
+.lr{position:absolute;inset:-10px;border-radius:50%;border:2px solid transparent;background:linear-gradient(#000,#000) padding-box,conic-gradient(#facc15,#1d4ed8,#fde68a,#fff,#facc15) border-box;animation:sp 4s linear infinite}
+.lg{position:absolute;inset:-18px;border-radius:50%;background:radial-gradient(circle,rgba(250,204,21,.15),transparent 70%);animation:gp 2.5s ease-in-out infinite}
+.li{width:110px;height:110px;border-radius:50%;object-fit:cover;border:3px solid #facc15;display:block;position:relative;z-index:2;animation:fl 3s ease-in-out infinite;filter:drop-shadow(0 0 20px rgba(250,204,21,.5))}
+@keyframes sp{to{transform:rotate(360deg)}}
+@keyframes gp{0%,100%{transform:scale(1);opacity:.7}50%{transform:scale(1.15);opacity:1}}
+@keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes sh{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+
+.lbadge{background:rgba(250,204,21,.1);border:1px solid rgba(250,204,21,.35);border-radius:50px;padding:5px 18px;font-size:.78rem;color:#facc15;font-weight:700}
+.ltitle{font-size:2rem;font-weight:900;color:#facc15;text-align:center}
+.lsub{font-size:.85rem;color:rgba(255,255,255,.4);text-align:center}
+.lcard{background:rgba(255,255,255,.04);border:1px solid rgba(250,204,21,.2);border-radius:20px;padding:24px;width:100%;max-width:340px;display:flex;flex-direction:column;gap:12px}
+.linput{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:12px;padding:13px;color:#fff;font-size:1rem;font-family:'Heebo',sans-serif;width:100%;text-align:center;outline:none;letter-spacing:3px}
+.linput:focus{border-color:#facc15}
+.lbtn{background:linear-gradient(135deg,#b45309,#facc15,#fde68a);color:#000;font-weight:900;font-family:'Heebo',sans-serif;font-size:1rem;padding:14px;border-radius:50px;border:none;cursor:pointer;width:100%}
+.lerr{color:#ef4444;font-size:.8rem;text-align:center;display:none}
+.lok{color:#facc15;font-size:.88rem;text-align:center;font-weight:700;display:none}
+.lhint{font-size:.7rem;color:rgba(255,255,255,.25);text-align:center}
+
+#app{display:none;min-height:100vh;padding-bottom:80px}
+
+.hdr{position:sticky;top:0;z-index:100;background:rgba(0,0,0,.92);border-bottom:1px solid rgba(250,204,21,.15);padding:0 16px;height:52px;display:flex;align-items:center;justify-content:space-between}
+.hdr-logo{display:flex;align-items:center;gap:8px;font-size:.9rem;font-weight:900}
+.hdr-logo img{width:28px;height:28px;border-radius:50%;border:1.5px solid #facc15;object-fit:cover}
+.hgold{color:#facc15}
+.hout{font-size:.72rem;color:rgba(255,255,255,.35);background:none;border:none;font-family:'Heebo',sans-serif;cursor:pointer}
+
+.tabs{display:flex;background:rgba(0,0,0,.9);border-bottom:1px solid rgba(255,255,255,.06);position:sticky;top:52px;z-index:99;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex-shrink:0;padding:10px 13px;font-size:.65rem;font-weight:700;color:rgba(255,255,255,.35);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;background:none;border-top:none;border-left:none;border-right:none;font-family:'Heebo',sans-serif}
+.tab.on{color:#facc15;border-bottom-color:#facc15}
+
+.pane{display:none;padding:14px}
+.pane.on{display:block}
+
+.card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:16px;margin-bottom:12px}
+.cg{background:rgba(250,204,21,.05);border-color:rgba(250,204,21,.25)}
+.cn{background:rgba(30,58,138,.12);border-color:rgba(30,58,138,.35)}
+.slbl{font-size:.6rem;color:rgba(255,255,255,.35);font-weight:700;letter-spacing:2px;text-transform:uppercase;display:block;margin-bottom:10px}
+
+.pt{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.pamt{font-size:1.8rem;font-weight:900;color:#facc15}
+.ppct{font-size:.8rem;color:#facc15;background:rgba(250,204,21,.1);border:1px solid rgba(250,204,21,.3);border-radius:20px;padding:3px 10px}
+.ptrack{background:rgba(255,255,255,.07);border-radius:50px;height:8px;overflow:hidden;margin-bottom:8px}
+.pfill{height:100%;background:linear-gradient(90deg,#b45309,#facc15,#fde68a);border-radius:50px;transition:width 1s ease;position:relative;overflow:hidden}
+.pfill::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);animation:sh 2s infinite}
+.pmeta{display:flex;justify-content:space-between;font-size:.7rem;color:rgba(255,255,255,.3)}
+.pproj{color:#facc15;font-weight:700}
+
+.inp{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:10px;color:#fff;font-family:'Heebo',sans-serif;font-size:.95rem;font-weight:700;outline:none;text-align:center;width:100%}
+.inp:focus{border-color:#facc15}
+.row{display:flex;gap:8px;margin-top:10px}
+.bg{background:linear-gradient(135deg,#b45309,#facc15);color:#000;font-weight:900;font-family:'Heebo',sans-serif;border:none;border-radius:10px;padding:10px 16px;cursor:pointer;font-size:.82rem;white-space:nowrap}
+
+.boost{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:14px;margin-bottom:10px}
+.bhead{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.bicon{font-size:1.5rem}
+.bname{font-size:.88rem;font-weight:800}
+.bdesc{font-size:.7rem;color:rgba(255,255,255,.35);margin-top:1px}
+.brow{display:flex;gap:8px}
+.binp{flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:8px;color:#fff;font-family:'Heebo',sans-serif;font-size:.88rem;font-weight:700;outline:none;text-align:center}
+.binp:focus{border-color:#facc15}
+.badd{background:linear-gradient(135deg,#b45309,#facc15);color:#000;font-weight:900;font-family:'Heebo',sans-serif;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font-size:.78rem}
+
+.vi{background:rgba(30,58,138,.1);border:1px solid rgba(30,58,138,.3);border-radius:14px;padding:14px;margin-bottom:10px}
+.vname{font-size:.9rem;font-weight:900;color:#93c5fd;margin-bottom:3px}
+.vtag{font-size:.65rem;background:rgba(30,58,138,.5);border:1px solid rgba(30,58,138,.6);border-radius:20px;padding:2px 10px;color:#60a5fa;display:inline-block;margin-bottom:8px}
+.vperk{display:flex;gap:6px;margin-bottom:5px;font-size:.78rem;color:rgba(255,255,255,.8);line-height:1.4}
+.vlink{display:inline-block;margin-top:8px;background:linear-gradient(135deg,#b45309,#facc15);color:#000;font-weight:900;font-size:.75rem;padding:6px 14px;border-radius:20px;text-decoration:none}
+.vtip{background:rgba(250,204,21,.07);border:1px solid rgba(250,204,21,.25);border-radius:10px;padding:10px;margin-top:10px;font-size:.77rem;color:#fde68a;line-height:1.5;font-weight:600}
+
+.ctable{width:100%;border-collapse:collapse;font-size:.75rem;margin-top:10px}
+.ctable th{padding:8px;text-align:center;color:#facc15;font-weight:700;border-bottom:1px solid rgba(250,204,21,.2)}
+.ctable td{padding:8px;text-align:center;border-bottom:1px solid rgba(255,255,255,.04);color:rgba(255,255,255,.75)}
+.good{color:#4ade80;font-weight:700}
+.bad{color:#f87171}
+.win{background:rgba(250,204,21,.04)}
+
+.dg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.db{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:12px;text-align:center}
+.dpct{font-size:1.5rem;font-weight:900;color:#facc15}
+.dname{font-size:.78rem;font-weight:700;margin:3px 0 2px}
+.dsub{font-size:.65rem;color:rgba(255,255,255,.35);line-height:1.3}
+
+.pfield label{font-size:.65rem;color:rgba(255,255,255,.35);font-weight:700;letter-spacing:1px;display:block;margin-bottom:4px}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.palert{border-radius:12px;padding:10px;margin-bottom:8px;font-size:.78rem;line-height:1.5;display:none}
+.awarn{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#fca5a5}
+.aok{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);color:#86efac}
+
+.sr{background:rgba(250,204,21,.06);border:1px solid rgba(250,204,21,.3);border-radius:14px;padding:14px;margin-top:12px;display:none;text-align:center}
+.stitle{font-size:.92rem;font-weight:900;color:#facc15;margin-bottom:4px;line-height:1.4}
+.sfuture{font-size:1.4rem;font-weight:900;color:#facc15;margin-bottom:10px}
+.sbtns{display:flex;gap:8px}
+.syes{flex:1;background:linear-gradient(135deg,#b45309,#facc15);color:#000;font-weight:900;font-family:'Heebo',sans-serif;border:none;border-radius:10px;padding:11px;cursor:pointer;font-size:.82rem}
+.sno{flex:1;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#f87171;font-weight:900;font-family:'Heebo',sans-serif;border-radius:10px;padding:11px;cursor:pointer;font-size:.82rem}
+
+.lv{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:14px;margin-bottom:8px;display:flex;gap:12px;align-items:center;cursor:pointer}
+.lv.done{background:rgba(250,204,21,.05);border-color:rgba(250,204,21,.3)}
+.lchk{width:32px;height:32px;border-radius:50%;border:2px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.9rem}
+.lv.done .lchk{background:linear-gradient(135deg,#b45309,#facc15);border:none;color:#000;font-weight:900;font-size:.85rem}
+.ltag{font-size:.6rem;color:rgba(255,255,255,.35);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:2px}
+.ltitle{font-size:.9rem;font-weight:800}
+.lv.done .ltitle{color:#facc15}
+.lsub2{font-size:.72rem;color:rgba(255,255,255,.35);margin-top:2px}
+
+.cgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.cfield label{font-size:.65rem;color:rgba(255,255,255,.35);font-weight:700;letter-spacing:1px;display:block;margin-bottom:4px}
+.rg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.rbox{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:12px;text-align:center}
+.rmain{border-color:rgba(250,204,21,.35)!important;background:rgba(250,204,21,.05)!important}
+.rlbl{font-size:.6rem;color:rgba(255,255,255,.35);margin-bottom:4px;font-weight:600}
+.rval{font-size:1rem;font-weight:900}
+.rmain .rval{color:#facc15}
+
+.cwrap{position:relative;height:180px;margin-top:12px}
+
+footer{padding:16px;border-top:1px solid rgba(255,255,255,.05)}
+footer p{font-size:.62rem;color:rgba(255,255,255,.2);line-height:1.7;text-align:center}
+
+.flash{position:fixed;top:62px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.92);border:1px solid #facc15;border-radius:50px;padding:9px 22px;font-family:'Heebo',sans-serif;font-weight:700;font-size:.85rem;z-index:9997;color:#fff;white-space:nowrap;box-shadow:0 0 30px rgba(250,204,21,.3);pointer-events:none}
+</style>
+</head>
+<body>
+
+<div id="lock">
+  <div class="lw">
+    <div class="lg"></div>
+    <div class="lr"></div>
+    <img src="https://static.wixstatic.com/media/b642ea_f56ee4778b714a6694ee08c6cf2539cf~mv2.jpg" class="li" alt="לוגו">
+  </div>
+  <div class="lbadge">⭐️ מנפחים פרימיום ⭐️</div>
+  <div class="ltitle">מנפחים 100K</div>
+  <div class="lsub">הדרך ל-100,000 ₪ מתחילה כאן</div>
+  <div class="lcard">
+    <input type="password" class="linput" id="passIn" placeholder="● ● ● ● ● ● ● ●">
+    <button class="lbtn" id="lockBtn">התחל/י לנפח 💰</button>
+    <div class="lok" id="lockOk">✦ גישה אושרה. ברוך הבא ל-1%. ✦</div>
+    <div class="lerr" id="lockErr">❌ סיסמה שגויה. נסה שוב.</div>
+    <div class="lhint">קיבלת את הסיסמה במייל אחרי הרכישה</div>
+  </div>
+</div>
+
+<div id="app">
+  <div class="hdr">
+    <div class="hdr-logo">
+      <img src="https://static.wixstatic.com/media/b642ea_f56ee4778b714a6694ee08c6cf2539cf~mv2.jpg" alt="לוגו">
+      <span class="hgold">מנפחים פרימיום</span>
+    </div>
+    <button class="hout" id="logoutBtn">יציאה</button>
+  </div>
+
+  <div class="tabs">
+    <button class="tab on" data-tab="dash">🎯 דשבורד</button>
+    <button class="tab" data-tab="vault">🔐 כספת</button>
+    <button class="tab" data-tab="pay">📋 תלוש</button>
+    <button class="tab" data-tab="sim">💸 סימולטור</button>
+    <button class="tab" data-tab="map">🗺️ מסלול</button>
+    <button class="tab" data-tab="calc">📊 מחשבון</button>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="pane-dash" class="pane on">
+    <div class="card cg">
+      <div class="pt">
+        <div>
+          <div style="font-size:.6rem;color:rgba(255,255,255,.35);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px">המסע ל-100K</div>
+          <div class="pamt" id="dispBal">₪0</div>
+        </div>
+        <div class="ppct" id="dispPct">0%</div>
+      </div>
+      <div class="ptrack"><div class="pfill" id="progBar" style="width:0%"></div></div>
+      <div class="pmeta">
+        <span>₪0</span>
+        <span class="pproj" id="projTxt">הכנס יתרה</span>
+        <span>₪100,000</span>
+      </div>
+      <span class="slbl" style="margin-top:14px">💰 עדכן יתרה (₪)</span>
+      <div class="row">
+        <input type="number" class="inp" id="balIn" placeholder="0" min="0">
+        <button class="bg" id="saveBalBtn">שמור ✓</button>
+      </div>
+    </div>
+
+    <span class="slbl">⚡ בוסטים</span>
+    <div class="boost">
+      <div class="bhead"><div class="bicon">💼</div><div><div class="bname">קיבלתי משכורת</div><div class="bdesc">הוסף 20% מהמשכורת שקיבלת</div></div></div>
+      <div class="brow"><input type="number" class="binp" id="b1" placeholder="סכום המשכורת (₪)"><button class="badd" id="b1btn">+20% 🚀</button></div>
+    </div>
+    <div class="boost">
+      <div class="bhead"><div class="bicon">🎁</div><div><div class="bname">קיבלתי מתנה / מענק</div><div class="bdesc">הוסף את הסכום שהשקעת</div></div></div>
+      <div class="brow"><input type="number" class="binp" id="b2" placeholder="סכום (₪)"><button class="badd" id="b2btn">הוסף 🎉</button></div>
+    </div>
+    <div class="boost">
+      <div class="bhead"><div class="bicon">🚫</div><div><div class="bname">ויתרתי על קנייה מיותרת</div><div class="bdesc">כמה חסכת היום?</div></div></div>
+      <div class="brow"><input type="number" class="binp" id="b3" placeholder="סכום שחסכת (₪)"><button class="badd" id="b3btn">+חיסכון 💪</button></div>
+    </div>
+
+    <div class="card" style="margin-top:12px">
+      <span class="slbl">📈 צמיחה מצטברת</span>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+        <div style="width:10px;height:10px;border-radius:50%;background:#facc15;box-shadow:0 0 8px rgba(250,204,21,.8)"></div>
+        <span style="font-size:.72rem;color:#facc15;font-weight:700">📍 אתה כאן — <span id="hereLabel">₪0</span></span>
+      </div>
+      <div class="cwrap"><canvas id="growthChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- VAULT -->
+  <div id="pane-vault" class="pane">
+    <div class="card cn">
+      <span class="slbl">🏦 בנקים לנוער</span>
+      <div class="vi"><div class="vname">בנק דיסקונט</div><div class="vtag">גילאי 14 עד 25</div><div class="vperk"><span>✅</span><span>חשבון צעיר הכולל פטור מעמלות עו״ש ומענק הצטרפות</span></div><a href="https://www.discountbank.co.il/private/open_account/youth-account/" target="_blank" class="vlink">פתח חשבון ←</a></div>
+      <div class="vi"><div class="vname">בנק הפועלים</div><div class="vtag">חשבון Young</div><div class="vperk"><span>✅</span><span>חבילת חשבון דינמית הכוללת אפליקציה מתקדמת והטבות בלעדיות</span></div><a href="https://www.bankhapoalim.co.il/he/open-account/poalim-young" target="_blank" class="vlink">פתח חשבון ←</a></div>
+      <div class="vi"><div class="vname">בנק FIBI</div><div class="vtag">חשבון צעירים</div><div class="vperk"><span>✅</span><span>חבילת צעירים מקצועית עם פטור מעמלות והטבות בניהול הכסף</span></div><a href="https://www.fibi.co.il/private/fibiaccount/accounttypes/young/" target="_blank" class="vlink">פתח חשבון ←</a></div>
+      <div class="vi"><div class="vname">בנק לאומי</div><div class="vtag">חשבון סטודנטים</div><div class="vperk"><span>✅</span><span>פטור מעמלות עו״ש וכרטיסי אשראי ללא דמי כרטיס בתקופת הלימודים</span></div><a href="https://www.leumi.co.il/he/Articles/student_account_benefits" target="_blank" class="vlink">פתח חשבון ←</a></div>
+      <div class="vi"><div class="vname">בנק יהב</div><div class="vtag">הטבות סטודנטים</div><div class="vperk"><span>✅</span><span>פתרונות מימון נוחים והטבות בחשבון השוטף לניהול תקציב חכם</span></div><a href="https://www.bank-yahav.co.il/account-management/student-benfits/" target="_blank" class="vlink">פתח חשבון ←</a></div>
+    </div>
+
+    <div class="card">
+      <span class="slbl">📈 השקעות ומסחר</span>
+      <div class="vi"><div class="vname">הפועלים טרייד</div><div class="vtag">מסחר לצעירים</div><div class="vperk"><span>✅</span><span>חבילת מסחר לצעירים בבורסה עם עמלות מוזלות למשקיעים מתחילים</span></div><a href="https://www.bankhapoalim.co.il/he/capital-market/trade-package-info" target="_blank" class="vlink">למידע נוסף ←</a></div>
+      <div class="vi"><div class="vname">דיסקונט משקיע צעיר</div><div class="vtag">הטבות מסחר</div><div class="vperk"><span>✅</span><span>הטבות משמעותיות במסחר בשוק ההון ועלויות נמוכות במיוחד</span></div><a href="https://www.discountbank.co.il/private/savings-investments/capital-market/young_investor/" target="_blank" class="vlink">למידע נוסף ←</a></div>
+      <div class="vi"><div class="vname">אינטראקטיב ברוקרס ישראל</div><div class="vtag">הסטנדרט החדש למשקיע הצעיר</div><div class="vperk"><span>✅</span><span>עמלות מסחר נמוכות במיוחד, הפקדה החל מ-0 שקלים וגישה ישירה ל-160 שווקים ב-35 מדינות בעולם. הכל מנוהל תחת חשבון אחד הכולל מניות, קרנות סל, אג״ח ואופציות.</span></div><a href="https://www.inter-il.com" target="_blank" class="vlink">פתח חשבון ←</a></div>
+      <div class="vtip">💡 Interactive Brokers הוא הברוקר הזול ביותר למשקיע ישראלי קטן. עמלות נמוכות פי 10 מהבנק.</div>
+    </div>
+
+    <div class="card">
+      <span class="slbl">🎫 הנחות נסתרות לנוער / סטודנטים</span>
+      <div class="dg">
+        <div class="db"><div class="dpct">33%</div><div class="dname">תחבורה ציבורית</div><div class="dsub">גילאי 18 עד 26 ברכישת כרטיסייה</div></div>
+        <div class="db"><div class="dpct">10%</div><div class="dname">Apple Student</div><div class="dsub">מחשבים ואייפד עם אימות סטודנט</div></div>
+        <div class="db"><div class="dpct">50%</div><div class="dname">Spotify Student</div><div class="dsub">מנוי סטודנט עם אישור אקדמי</div></div>
+        <div class="db"><div class="dpct">✓</div><div class="dname">Microsoft 365</div><div class="dsub">חינמי לחלוטין לסטודנטים</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAYSTUB -->
+  <div id="pane-pay" class="pane">
+    <div class="card">
+      <span class="slbl">📋 מפענח התלוש</span>
+      <p style="font-size:.82rem;color:rgba(255,255,255,.5);margin-bottom:14px;line-height:1.6">הכנס את נתוני המשכורת ונבדוק שהמעסיק לא מקצץ לך בזכויות.</p>
+      <div class="pgrid">
+        <div class="pfield"><label>ברוטו חודשי (₪)</label><input type="number" class="inp" id="pBruto" placeholder="5000"></div>
+        <div class="pfield"><label>נטו שקיבלת (₪)</label><input type="number" class="inp" id="pNeto" placeholder="4200"></div>
+        <div class="pfield"><label>ניכוי פנסיה (₪)</label><input type="number" class="inp" id="pPension" placeholder="250"></div>
+        <div class="pfield"><label>גיל</label><input type="number" class="inp" id="pAge" placeholder="20"></div>
+      </div>
+      <button class="bg" style="width:100%;border-radius:12px;padding:12px" id="payBtn">בדוק את התלוש שלי 🔍</button>
+      <div id="payA1" class="palert" style="margin-top:12px"></div>
+      <div id="payA2" class="palert"></div>
+      <div id="payA3" class="palert"></div>
+    </div>
+    <div class="card cn">
+      <span class="slbl">📚 חוק עבודת נוער</span>
+      <div style="font-size:.8rem;color:rgba(255,255,255,.75);line-height:1.8">
+        ✅ מגיל 16: מינימום 35.40 ₪ לשעה (2026)<br>
+        ✅ מגיל 18: שכר מינימום מלא<br>
+        ✅ פנסיה חובה אחרי 6 חודשי עבודה (6.5% מעסיק)<br>
+        ✅ מגיל 16 עד 17: עד 8 שעות ביום בימי לימוד<br>
+        🔴 אסור לעבוד בלילה מתחת לגיל 18 (אחרי 22:00)
+      </div>
+    </div>
+  </div>
+
+  <!-- SIMULATOR -->
+  <div id="pane-sim" class="pane">
+    <div class="card cg">
+      <span class="slbl">💸 כובש או מבזבז</span>
+      <p style="font-size:.82rem;color:rgba(255,255,255,.4);margin-bottom:14px;line-height:1.6">מה הפינוק של היום? הכנס שם ומחיר ותראה כמה זה שווה בעוד 20 שנה.</p>
+      <div style="display:flex;gap:8px;margin-bottom:10px">
+        <input type="text" class="inp" id="simName" placeholder="שם הפינוק..." style="flex:1.5">
+        <input type="number" class="inp" id="simAmt" placeholder="₪" style="flex:.7">
+      </div>
+      <button class="bg" style="width:100%;border-radius:12px;padding:13px" id="simBtn">חשב את העתיד שלך 🔮</button>
+      <div class="sr" id="simResult">
+        <div class="stitle" id="simHead"></div>
+        <div class="sfuture" id="simFuture"></div>
+        <p style="font-size:.72rem;color:rgba(255,255,255,.4);margin-bottom:12px">בהנחה של 7% תשואה שנתית למשך 20 שנה</p>
+        <div class="sbtns">
+          <button class="syes" id="simYes">השקעתי! 📈</button>
+          <button class="sno" id="simNo">בזבזתי 😔</button>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <span class="slbl">🌊 מחשבון ריבית דריבית</span>
+      <div class="cgrid">
+        <div class="cfield"><label>השקעה חודשית (₪)</label><input type="number" class="inp" id="ciM" placeholder="500"></div>
+        <div class="cfield"><label>שנים</label><input type="number" class="inp" id="ciY" placeholder="20"></div>
+      </div>
+      <div class="rg">
+        <div class="rbox rmain"><div class="rlbl">סכום סופי</div><div class="rval" id="ciTotal">₪0</div></div>
+        <div class="rbox"><div class="rlbl">רווח כולל</div><div class="rval" id="ciProfit">₪0</div></div>
+        <div class="rbox"><div class="rlbl">מכפיל</div><div class="rval" id="ciMult">x0</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROADMAP -->
+  <div id="pane-map" class="pane">
+    <span class="slbl">🗺️ מסלול ה-100K</span>
+    <div id="lvlList"></div>
+  </div>
+
+  <!-- CALC -->
+  <div id="pane-calc" class="pane">
+    <div class="card">
+      <span class="slbl">📊 מחשבון המשכורת הראשונה</span>
+      <div class="cgrid">
+        <div class="cfield"><label>משכורת חודשית (₪)</label><input type="number" class="inp" id="cSal" placeholder="4000"></div>
+        <div class="cfield"><label>הוצאות חודשיות (₪)</label><input type="number" class="inp" id="cExp" placeholder="2000"></div>
+        <div class="cfield"><label>% חיסכון יעד</label><input type="number" class="inp" id="cRate" placeholder="20"></div>
+        <div class="cfield"><label>חיסכון נוכחי (₪)</label><input type="number" class="inp" id="cCurr" placeholder="0"></div>
+      </div>
+      <div class="rg">
+        <div class="rbox rmain"><div class="rlbl">חיסכון חודשי</div><div class="rval" id="rM">₪0</div></div>
+        <div class="rbox"><div class="rlbl">חודשים ל-100K</div><div class="rval" id="rMo">—</div></div>
+        <div class="rbox"><div class="rlbl">שנת יעד</div><div class="rval" id="rY">—</div></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>אין באמור במדריך זה משום המלצה או מניע לפעולה. כל הנתונים מוצגים למטרות לימודיות בלבד. אין למפעילי האתר שיתוף פעולה מסחרי או זיקה לבנקים או לגופים המצוינים במדריך. האחריות על קבלת החלטות פיננסיות היא על המשתמש בלבד.</p>
+  </footer>
+</div>
+
+<script>
+var PW='ran208sqa';
+var LEVELS=[
+  {id:'l1',tag:'שלב 1',title:'הפקדה ראשונה',sub:'הפקדתי כסף מהמשכורת הראשונה שלי',icon:'💼'},
+  {id:'l2',tag:'שלב 2',title:'ניצחון על דמי הניהול',sub:'הורדתי עמלות מתחת ל-0.2%',icon:'⚡'},
+  {id:'l3',tag:'שלב 3',title:'S&P 500 ראשון',sub:'קניתי את קרן הסל הראשונה שלי',icon:'📈'},
+  {id:'l4',tag:'שלב 4',title:'מלך הריבית דריבית',sub:'הגעתי ל-10,000 ₪ בנכסים',icon:'👑'},
+  {id:'l5',tag:'שלב 5',title:'האליטה 100K',sub:'חציתי את מחסום ה-100,000 ₪',icon:'💎'}
+];
+var gChart=null, sAmt=0;
+
+function fmt(n){return Math.round(n).toLocaleString('he-IL')}
+function ls(k){return localStorage.getItem(k)}
+function sl(k,v){localStorage.setItem(k,v)}
+function flash(m){var e=document.createElement('div');e.className='flash';e.textContent=m;document.body.appendChild(e);setTimeout(function(){e.remove()},2200)}
+function gc(){if(typeof confetti!=='undefined')confetti({particleCount:90,spread:70,origin:{y:0.6},colors:['#facc15','#fde68a','#b45309','#fff','#1d4ed8']})}
+
+function showApp(){
+  document.getElementById('lock').style.display='none';
+  document.getElementById('app').style.display='block';
+  init();
+}
+
+document.getElementById('lockBtn').addEventListener('click',function(){
+  var v=document.getElementById('passIn').value;
+  if(v===PW){
+    document.getElementById('lockOk').style.display='block';
+    document.getElementById('lockErr').style.display='none';
+    sessionStorage.setItem('ok','1');
+    setTimeout(showApp,1200);
+  } else {
+    document.getElementById('lockErr').style.display='block';
+    document.getElementById('passIn').value='';
+  }
+});
+
+document.getElementById('passIn').addEventListener('keydown',function(e){
+  if(e.key==='Enter') document.getElementById('lockBtn').click();
+});
+
+document.getElementById('logoutBtn').addEventListener('click',function(){
+  sessionStorage.removeItem('ok');
+  location.reload();
+});
+
+if(sessionStorage.getItem('ok')==='1') showApp();
+
+function init(){
+  loadBal();
+  renderLevels();
+  loadCalc();
+  calcAll();
+  calcCI();
+  initChart();
+  setupTabs();
+  setupBoosts();
+  setupSim();
+  setupPay();
+  setupSaveBtn();
+}
+
+function setupTabs(){
+  document.querySelectorAll('.tab').forEach(function(t){
+    t.addEventListener('click',function(){
+      document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on')});
+      document.querySelectorAll('.pane').forEach(function(x){x.classList.remove('on')});
+      t.classList.add('on');
+      document.getElementById('pane-'+t.dataset.tab).classList.add('on');
+    });
+  });
+}
+
+function loadBal(){
+  var b=parseFloat(ls('bal'))||0;
+  document.getElementById('balIn').value=b||'';
+  updateProg(b);
+}
+
+function setupSaveBtn(){
+  document.getElementById('saveBalBtn').addEventListener('click',function(){
+    var b=parseFloat(document.getElementById('balIn').value)||0;
+    sl('bal',b);
+    updateProg(b);
+    flash('✅ יתרה עודכנה!');
+    checkMs(b);
+  });
+}
+
+function updateProg(b){
+  var pct=Math.min((b/100000)*100,100);
+  document.getElementById('progBar').style.width=pct+'%';
+  document.getElementById('dispBal').textContent='₪'+fmt(b);
+  document.getElementById('dispPct').textContent=pct.toFixed(1)+'%';
+  var m=parseFloat(ls('monthly'))||0;
+  document.getElementById('projTxt').textContent=m>0?Math.ceil(Math.max(0,100000-b)/m)+' חודשים נותרו':'הכנס נתונים';
+  document.getElementById('hereLabel').textContent='₪'+fmt(b);
+  if(gChart) updateChart(b,m);
+}
+
+function addBal(add,msg){
+  var b=(parseFloat(ls('bal'))||0)+add;
+  sl('bal',b);
+  document.getElementById('balIn').value=Math.round(b);
+  updateProg(b);
+  flash(msg);
+  gc();
+  checkMs(b);
+}
+
+function setupBoosts(){
+  document.getElementById('b1btn').addEventListener('click',function(){
+    var s=parseFloat(document.getElementById('b1').value)||0;
+    if(!s){flash('⚠️ הכנס סכום משכורת');return}
+    addBal(s*0.2,'🚀 +₪'+fmt(s*0.2)+' הופקדו!');
+    document.getElementById('b1').value='';
+  });
+  document.getElementById('b2btn').addEventListener('click',function(){
+    var a=parseFloat(document.getElementById('b2').value)||0;
+    if(!a){flash('⚠️ הכנס סכום');return}
+    addBal(a,'🎁 +₪'+fmt(a)+' נוספו!');
+    document.getElementById('b2').value='';
+  });
+  document.getElementById('b3btn').addEventListener('click',function(){
+    var a=parseFloat(document.getElementById('b3').value)||0;
+    if(!a){flash('⚠️ הכנס סכום');return}
+    addBal(a,'💪 +₪'+fmt(a)+' נחסכו!');
+    document.getElementById('b3').value='';
+  });
+}
+
+function setupPay(){
+  document.getElementById('payBtn').addEventListener('click',function(){
+    var bruto=parseFloat(document.getElementById('pBruto').value)||0;
+    var neto=parseFloat(document.getElementById('pNeto').value)||0;
+    var pension=parseFloat(document.getElementById('pPension').value)||0;
+    var age=parseFloat(document.getElementById('pAge').value)||0;
+    var a1=document.getElementById('payA1'),a2=document.getElementById('payA2'),a3=document.getElementById('payA3');
+    [a1,a2,a3].forEach(function(a){a.style.display='none';a.className='palert'});
+    if(!bruto||!neto){flash('⚠️ הכנס ברוטו ונטו');return}
+    var exp=bruto*0.065;
+    if(pension<exp*0.8){
+      a1.className='palert awarn';a1.style.display='block';
+      a1.innerHTML='⚠️ <strong>פנסיה חסרה:</strong> המעסיק חייב להפריש לפחות 6.5% מהברוטו ('+fmt(exp)+' ₪). בדוק את התלוש!';
+    }
+    var ded=bruto-neto;
+    if(ded>bruto*0.35){
+      a2.className='palert awarn';a2.style.display='block';
+      a2.innerHTML='⚠️ <strong>ניכוי גבוה:</strong> '+fmt(ded)+' ₪ נוכה ממשכורתך. בדוק שאין טעות.';
+    }
+    if(!a1.style.display||a1.style.display==='none'){
+      a1.className='palert aok';a1.style.display='block';a1.textContent='✅ הכל נראה תקין! ממשיכים לנפח.';
+    }
+  });
+}
+
+function setupSim(){
+  document.getElementById('simBtn').addEventListener('click',function(){
+    var name=document.getElementById('simName').value||'הפינוק';
+    sAmt=parseFloat(document.getElementById('simAmt').value)||0;
+    if(!sAmt){flash('⚠️ הכנס מחיר');return}
+    var future=Math.round(sAmt*Math.pow(1.07,20));
+    document.getElementById('simHead').textContent=name+' (₪'+fmt(sAmt)+') עולה לך:';
+    document.getElementById('simFuture').textContent='₪'+fmt(future)+' מהעתיד שלך';
+    document.getElementById('simResult').style.display='block';
+  });
+  document.getElementById('simYes').addEventListener('click',function(){
+    addBal(sAmt,'📈 +₪'+fmt(sAmt)+' הושקעו!');
+    document.getElementById('simResult').style.display='none';
+  });
+  document.getElementById('simNo').addEventListener('click',function(){
+    flash('😔 בסדר, בפעם הבאה תבחר נכון');
+    document.getElementById('simResult').style.display='none';
+  });
+
+  document.getElementById('ciM').addEventListener('input',calcCI);
+  document.getElementById('ciY').addEventListener('input',calcCI);
+}
+
+function calcCI(){
+  var m=parseFloat(document.getElementById('ciM').value)||0;
+  var y=parseFloat(document.getElementById('ciY').value)||20;
+  var r=0.07/12,n=y*12;
+  var total=m>0?m*(Math.pow(1+r,n)-1)/r:0;
+  var inv=m*n;
+  document.getElementById('ciTotal').textContent='₪'+fmt(total);
+  document.getElementById('ciProfit').textContent='₪'+fmt(total-inv);
+  document.getElementById('ciMult').textContent='x'+(inv>0?(total/inv).toFixed(1):'0');
+}
+
+function renderLevels(){
+  var done=JSON.parse(ls('lvl')||'{}');
+  var html='';
+  LEVELS.forEach(function(l){
+    html+='<div class="lv'+(done[l.id]?' done':'')+'" data-id="'+l.id+'">';
+    html+='<div class="lchk">'+(done[l.id]?'✓':l.icon)+'</div>';
+    html+='<div><div class="ltag">'+l.tag+'</div><div class="ltitle">'+l.title+'</div><div class="lsub2">'+l.sub+'</div></div>';
+    html+='</div>';
+  });
+  document.getElementById('lvlList').innerHTML=html;
+  document.querySelectorAll('.lv').forEach(function(el){
+    el.addEventListener('click',function(){
+      var id=el.dataset.id;
+      var done2=JSON.parse(ls('lvl')||'{}');
+      done2[id]=!done2[id];
+      sl('lvl',JSON.stringify(done2));
+      if(done2[id]) gc();
+      renderLevels();
+    });
+  });
+}
+
+function loadCalc(){
+  ['cSal','cExp','cRate','cCurr'].forEach(function(k){
+    var v=ls(k);if(v) document.getElementById(k).value=v;
+    document.getElementById(k).addEventListener('input',calcAll);
+  });
+}
+
+function calcAll(){
+  var s=parseFloat(document.getElementById('cSal').value)||0;
+  var e=parseFloat(document.getElementById('cExp').value)||0;
+  var r=parseFloat(document.getElementById('cRate').value)||20;
+  var c=parseFloat(document.getElementById('cCurr').value)||0;
+  ['cSal','cExp','cRate','cCurr'].forEach(function(k){sl(k,document.getElementById(k).value)});
+  var m=Math.max(0,(s-e)*(r/100));
+  sl('monthly',m);
+  document.getElementById('rM').textContent='₪'+fmt(m);
+  if(m>0){
+    var mo=Math.ceil(Math.max(0,100000-c)/m);
+    var d=new Date();d.setMonth(d.getMonth()+mo);
+    document.getElementById('rMo').textContent=mo;
+    document.getElementById('rY').textContent=d.getFullYear();
+    updateProg(parseFloat(ls('bal'))||0);
+  } else {
+    document.getElementById('rMo').textContent='—';
+    document.getElementById('rY').textContent='—';
+  }
+}
+
+function initChart(){
+  var ctx=document.getElementById('growthChart').getContext('2d');
+  gChart=new Chart(ctx,{
+    type:'line',
+    data:{labels:[],datasets:[{
+      data:[],borderColor:'#facc15',backgroundColor:'rgba(250,204,21,0.08)',
+      borderWidth:2,tension:0.4,fill:true,pointRadius:0,
+      pointBackgroundColor:[],pointBorderColor:[]
+    }]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:function(v){return '₪'+fmt(v.raw)}}}},
+      scales:{
+        x:{ticks:{color:'rgba(255,255,255,0.3)',font:{size:9}},grid:{color:'rgba(255,255,255,0.04)'}},
+        y:{ticks:{color:'rgba(255,255,255,0.3)',font:{size:9},callback:function(v){return '₪'+fmt(v)}},grid:{color:'rgba(255,255,255,0.04)'}}
+      }
+    }
+  });
+  updateChart(0,0);
+}
+
+function updateChart(cur,mon){
+  if(!gChart) return;
+  var labels=[],data=[],pc=[],ps=[];var b=cur;
+  for(var i=0;i<=24;i++){
+    labels.push(i===0?'היום':'+'+i+'חו');
+    data.push(Math.round(b));
+    pc.push(i===0?'#facc15':'rgba(0,0,0,0)');
+    ps.push(i===0?8:0);
+    b+=mon;
+  }
+  gChart.data.labels=labels;
+  gChart.data.datasets[0].data=data;
+  gChart.data.datasets[0].pointBackgroundColor=pc;
+  gChart.data.datasets[0].pointRadius=ps;
+  gChart.data.datasets[0].pointBorderColor=pc;
+  gChart.update();
+}
+
+function checkMs(b){
+  var r=JSON.parse(ls('ms')||'[]');
+  [10000,25000,50000,75000,100000].forEach(function(m){
+    if(b>=m&&r.indexOf(m)===-1){r.push(m);sl('ms',JSON.stringify(r));gc();flash('🏆 הגעת ל-₪'+fmt(m)+'!')}
+  });
+}
+</script>
+</body>
+</html>
