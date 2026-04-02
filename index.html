@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>מנפחים ת'כיס — חינוך פיננסי לדור הצעיר</title>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.10/dist/dotlottie-wc.js" type="module"></script>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         :root {
@@ -41,7 +42,7 @@
         .ticker-wrap { background:#030c18; border-bottom:1px solid rgba(14,165,233,0.15); }
 
         /* HERO */
-        .hero { text-align:center; padding:90px 20px 80px; overflow:hidden; }
+        .hero { text-align:center; padding:90px 20px 80px; overflow:hidden; position:relative; }
         .hero-glow { position:absolute; top:-100px; left:50%; transform:translateX(-50%); width:800px; height:500px; pointer-events:none; background:radial-gradient(ellipse,rgba(14,165,233,0.15) 0%,rgba(250,204,21,0.05) 50%,transparent 70%); }
         .logo-container{position:relative;width:110px;height:110px;margin:0 auto 28px;cursor:pointer;}
         .logo-ring{position:absolute;inset:-10px;border-radius:50%;border:2px solid transparent;background:linear-gradient(var(--dark),var(--dark)) padding-box,conic-gradient(var(--yellow),var(--blue),var(--yellow2),var(--blue2),var(--yellow)) border-box;animation:spinRing 4s linear infinite;}
@@ -63,6 +64,16 @@
         .btn-outline { background:transparent; color:var(--blue2); border:1.5px solid var(--blue); padding:15px 36px; border-radius:50px; font-size:1rem; font-weight:700; text-decoration:none; transition:all 0.2s; }
         .btn-outline:hover { background:rgba(14,165,233,0.1); transform:translateY(-2px); }
 
+        /* NEXT PAGE BANNER */
+        .next-page-banner { background:linear-gradient(135deg,rgba(255,241,0,0.08),rgba(255,241,0,0.03)); border:1px solid rgba(255,241,0,0.3); border-radius:20px; padding:28px 36px; max-width:860px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; }
+        .next-page-banner-text { display:flex; align-items:center; gap:14px; }
+        .next-page-banner-text .icon { font-size:2rem; }
+        .next-page-banner-text h3 { font-size:1.1rem; font-weight:800; color:#fff; margin-bottom:4px; }
+        .next-page-banner-text p { font-size:0.88rem; color:#94a3b8; }
+        .btn-yellow-next { background:var(--yellow); color:#000; padding:13px 30px; border-radius:50px; font-size:0.95rem; font-weight:800; text-decoration:none; box-shadow:0 0 20px rgba(255,241,0,0.4); transition:all 0.2s; white-space:nowrap; }
+        .btn-yellow-next:hover { background:var(--yellow2); transform:translateY(-2px); box-shadow:0 0 32px rgba(255,241,0,0.6); }
+        @media(max-width:540px){ .next-page-banner { flex-direction:column; text-align:center; } .next-page-banner-text { flex-direction:column; gap:8px; } }
+
         /* DIVIDER */
         .divider { height:1px; max-width:860px; margin:70px auto; background:linear-gradient(90deg,transparent,rgba(14,165,233,0.3) 30%,rgba(250,204,21,0.3) 70%,transparent); }
 
@@ -80,10 +91,20 @@
         .highlight-stat { display:inline-block; background:rgba(250,204,21,0.08); border:1px solid rgba(250,204,21,0.3); border-radius:12px; padding:16px 32px; font-size:1.05rem; color:var(--yellow2); font-weight:700; }
         .highlight-stat strong { font-size:1.25rem; color:var(--yellow); }
 
+        /* NEWSLETTER INLINE (mid-page) */
+        .newsletter-mid { background:linear-gradient(135deg,rgba(14,165,233,0.08),rgba(250,204,21,0.05)); border:1px solid rgba(14,165,233,0.2); border-radius:20px; padding:40px 36px; text-align:center; max-width:1060px; margin:0 auto; }
+        .newsletter-mid h3 { font-size:clamp(1.3rem,3vw,1.9rem); font-weight:900; color:#fff; margin-bottom:10px; }
+        .newsletter-mid p { color:#94a3b8; font-size:0.95rem; margin-bottom:22px; }
+        .nl-form { display:flex; gap:10px; max-width:420px; margin:0 auto 14px; flex-wrap:wrap; justify-content:center; }
+        .nl-form input { flex:1; min-width:180px; background:#07101f; border:1px solid var(--border); border-radius:50px; padding:12px 20px; color:#fff; font-size:0.95rem; font-family:'Heebo',sans-serif; outline:none; }
+        .nl-form button { background:var(--yellow); color:#000; border:none; border-radius:50px; padding:12px 26px; font-size:0.95rem; font-weight:800; font-family:'Heebo',sans-serif; cursor:pointer; white-space:nowrap; }
+        .nl-hints { font-size:0.78rem; color:var(--muted); }
+
         /* COURSE CARDS */
         .courses-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:18px; }
-        .course-card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:28px 24px; display:flex; flex-direction:column; gap:12px; text-decoration:none; color:inherit; transition:transform 0.2s,border-color 0.2s,box-shadow 0.2s; }
-        .course-card:hover { transform:translateY(-4px); border-color:var(--blue); box-shadow:0 12px 36px rgba(0,0,0,0.35); }
+        .course-card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:28px 24px; display:flex; flex-direction:column; gap:12px; text-decoration:none; color:inherit; transition:transform 0.25s ease,border-color 0.25s ease,box-shadow 0.25s ease,background 0.25s ease; }
+        .course-card:hover, .course-card:active { transform:translateY(-8px) scale(1.02); border-color:var(--yellow); background:linear-gradient(135deg,rgba(255,241,0,0.06),rgba(14,165,233,0.04)); box-shadow:0 16px 40px rgba(0,0,0,0.4),0 0 24px rgba(255,241,0,0.25),0 0 48px rgba(255,241,0,0.1); }
+        .course-card:hover h3 { color:var(--yellow); }
         .course-icon { font-size:2rem; line-height:1; }
         .course-card h3 { font-size:1.05rem; font-weight:800; color:#fff; }
         .course-card p { color:#94a3b8; font-size:0.88rem; line-height:1.6; flex:1; }
@@ -93,8 +114,12 @@
 
         /* DEVICE MOCKUP */
         .device-section { text-align:center; padding:0 20px 80px; }
-        .device-wrap { display:inline-block; position:relative; max-width:860px; width:100%; }
-        .macbook-frame { background:linear-gradient(145deg,#1c1c1e,#2c2c2e); border-radius:16px 16px 4px 4px; padding:22px 22px 12px; box-shadow:0 40px 80px rgba(0,0,0,0.7),0 0 0 1px #3a3a3c,inset 0 1px 0 rgba(255,255,255,0.1); }
+        .device-wrap { display:inline-block; position:relative; max-width:860px; width:100%; transition:transform 0.3s ease; }
+        .device-wrap::before { content:''; position:absolute; inset:-12px; border-radius:28px; background:linear-gradient(135deg,rgba(255,241,0,0.25),rgba(14,165,233,0.25)); filter:blur(24px); opacity:0; transition:opacity 0.4s ease; z-index:0; pointer-events:none; }
+        .device-wrap:hover::before, .device-wrap:active::before { opacity:1; }
+        .device-wrap:hover { transform:translateY(-6px); }
+        .macbook-frame { background:linear-gradient(145deg,#1c1c1e,#2c2c2e); border-radius:16px 16px 4px 4px; padding:22px 22px 12px; box-shadow:0 40px 80px rgba(0,0,0,0.7),0 0 0 1px #3a3a3c,inset 0 1px 0 rgba(255,255,255,0.1); transition:box-shadow 0.4s ease; position:relative; z-index:1; }
+        .device-wrap:hover .macbook-frame { box-shadow:0 40px 80px rgba(0,0,0,0.7),0 0 0 1px rgba(255,241,0,0.4),0 0 40px rgba(255,241,0,0.15),0 0 80px rgba(14,165,233,0.1),inset 0 1px 0 rgba(255,255,255,0.1); }
         .macbook-screen { background:#111f38; border-radius:8px; overflow:hidden; border:1px solid #333; aspect-ratio:16/10; display:flex; flex-direction:column; }
         .screen-bar { background:#111; padding:8px 14px; display:flex; align-items:center; gap:8px; border-bottom:1px solid #222; }
         .dot { width:12px; height:12px; border-radius:50%; }
@@ -123,6 +148,23 @@
         .device-caption { margin-top:24px; color:var(--muted); font-size:0.85rem; }
         .device-caption strong { color:var(--yellow); }
 
+        /* MOBILE – switch MacBook to phone mockup */
+        @media(max-width:600px){
+            .macbook-stand,.macbook-foot,.macbook-base,.macbook-notch { display:none; }
+            .device-wrap { max-width:300px; }
+            .macbook-frame { border-radius:36px; padding:14px; box-shadow:0 20px 60px rgba(0,0,0,0.7),0 0 0 1px #3a3a3c; }
+            .macbook-screen { aspect-ratio:9/19; border-radius:28px; }
+            .screen-bar { border-radius:0; justify-content:center; }
+            .screen-bar .dot { display:none; }
+            .url-bar { max-width:180px; margin:0 auto; }
+            .mock-nav-links { display:none; }
+            .mock-cards { grid-template-columns:repeat(2,1fr); }
+            .mock-card-icon { font-size:0.8rem; }
+            .mock-card-title { font-size:0.6rem; }
+            .mock-card-text { font-size:0.48rem; }
+            .mock-hero-title { font-size:0.9rem; }
+        }
+
         /* CALCULATOR */
         .calc-wrap { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:40px 32px; max-width:700px; margin:0 auto; }
         .calc-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:22px; }
@@ -145,13 +187,10 @@
         .res-val { font-size:1.5rem; font-weight:900; color:#fff; }
         .res-box.main .res-val { color:var(--yellow); }
 
-        /* NEWSLETTER */
+        /* NEWSLETTER (bottom - kept for footer area) */
         .newsletter { background:linear-gradient(135deg,rgba(14,165,233,0.08),rgba(250,204,21,0.05)); border:1px solid rgba(14,165,233,0.2); border-radius:20px; padding:52px 36px; text-align:center; }
         .newsletter h2 { font-size:clamp(1.6rem,3.5vw,2.4rem); font-weight:900; color:#fff; margin-bottom:14px; }
         .newsletter p { color:#94a3b8; font-size:1rem; margin-bottom:28px; }
-        .nl-form { display:flex; gap:10px; max-width:420px; margin:0 auto 14px; flex-wrap:wrap; justify-content:center; }
-        .nl-form input { flex:1; min-width:180px; background:#07101f; border:1px solid var(--border); border-radius:50px; padding:12px 20px; color:#fff; font-size:0.95rem; font-family:'Heebo',sans-serif; outline:none; }
-        .nl-form button { background:var(--yellow); color:#000; border:none; border-radius:50px; padding:12px 26px; font-size:0.95rem; font-weight:800; font-family:'Heebo',sans-serif; cursor:pointer; white-space:nowrap; }
         .nl-hints { font-size:0.78rem; color:var(--muted); }
 
         /* CTA */
@@ -179,6 +218,19 @@
 
         .fade-up { opacity:0; transform:translateY(24px); transition:opacity 0.6s ease,transform 0.6s ease; }
         .fade-up.visible { opacity:1; transform:translateY(0); }
+
+        /* SHARE UNIT */
+        .share-unit { display:none; margin-top:28px; border-top:1px solid var(--border); padding-top:24px; text-align:center; }
+        .share-unit.show { display:block; animation:shareAppear 0.4s ease; }
+        @keyframes shareAppear { from{opacity:0;transform:translateY(12px);} to{opacity:1;transform:translateY(0);} }
+        .share-fomo { font-size:0.95rem; font-weight:700; color:#fff; margin-bottom:18px; line-height:1.7; }
+        .share-buttons { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-bottom:14px; }
+        .btn-share-wa { background:var(--yellow); color:#000; border:none; border-radius:50px; padding:13px 28px; font-size:0.95rem; font-weight:800; font-family:Heebo,sans-serif; cursor:pointer; box-shadow:0 0 20px rgba(255,241,0,0.4); animation:sharePulse 2s ease-in-out infinite; transition:all 0.2s; text-decoration:none; display:inline-flex; align-items:center; gap:4px; }
+        .btn-share-wa:hover { box-shadow:0 0 0 3px rgba(14,165,233,0.6),0 0 28px rgba(14,165,233,0.4); animation:none; transform:translateY(-2px); }
+        @keyframes sharePulse { 0%,100%{box-shadow:0 0 20px rgba(255,241,0,0.4);} 50%{box-shadow:0 0 36px rgba(255,241,0,0.75);} }
+        .btn-export { background:transparent; color:var(--blue2); border:1.5px solid var(--blue); border-radius:50px; padding:13px 28px; font-size:0.95rem; font-weight:700; font-family:Heebo,sans-serif; cursor:pointer; transition:all 0.2s; display:inline-flex; align-items:center; gap:4px; }
+        .btn-export:hover { background:rgba(14,165,233,0.1); box-shadow:0 0 0 3px rgba(14,165,233,0.3); transform:translateY(-2px); }
+        .share-disclaimer { font-size:0.72rem; color:#fff; margin-top:20px; line-height:1.6; }
     </style>
 </head>
 <body>
@@ -195,7 +247,7 @@
         <li><a href="assets.html">נכסים</a></li>
         <li><a href="stock.html">שוק ההון</a></li>
         <li><a href="protocol.html">פרוטוקול ה-10</a></li>
-        <li><a href="premium.html" class="cta-nav">⭐ פרימיום</a></li>
+        <li><a href="premium.html" class="cta-nav">מנפחים מתקדמים</a></li>
     </ul>
     <button class="hamburger" onclick="document.getElementById('mob').classList.toggle('open')">☰</button>
 </nav>
@@ -219,33 +271,54 @@
 
 <section class="hero">
     <div class="hero-glow"></div>
+    <dotlottie-wc
+        src="https://lottie.host/df105962-cb2f-4a99-ba3d-191c09f03bdb/Uvi6djeDAY.lottie"
+        autoplay loop
+        style="position:absolute;inset:0;width:100%;height:100%;opacity:0.15;filter:brightness(0) invert(1) drop-shadow(0 0 12px rgba(255,255,255,0.9));pointer-events:none;z-index:0;object-fit:cover;">
+    </dotlottie-wc>
     <div class="logo-container">
         <div class="logo-glow-outer"></div>
         <div class="logo-ring"></div>
         <img src="logo.jpg" alt="לוגו מנפחים תכיס" class="hero-logo">
     </div>
     <h1><span class="blue">מנפחים</span> <span class="yellow">ת'כיס</span></h1>
-    <h2>חינוך פיננסי לדור הצעיר</h2>
+    <h2>חינוך פיננסי לדור הצעיר.</h2>
     <div class="hero-buttons">
         <a href="metchilim.html" class="btn-yellow">אני רוצה להתחיל לנפח 🚀</a>
         <a href="premium.html" class="btn-outline">לראות את המסלולים</a>
     </div>
 </section>
 
+
+
 <div class="divider"></div>
 
 <div class="section fade-up">
     <div class="intro-card">
-        <h2>הגיע הזמן לנפח ת'כיס</h2>
+        <h2>הגיע הזמן לנפח ת'כיס.</h2>
         <p>כסף שעובד בשבילך, לא אתה שעובד בשביל הכסף. הריבית דריבית היא הנשק הכלכלי הכי עוצמתי שקיים, והיא עובדת בשבילך 24 שעות ביממה, 7 ימים בשבוע, גם כשאתה ישן.</p>
         <div class="highlight-stat">השקעה של ₪500 בחודש מגיל 20 = <strong>₪1.5 מיליון</strong> עד גיל 60 (תשואה שנתית 8%)</div>
+    </div>
+</div>
+
+<!-- NEWSLETTER MID-PAGE -->
+<div style="padding:0 20px 80px;">
+    <div class="newsletter-mid fade-up">
+        <span class="section-tag">📩 ניוזלטר שבועי</span>
+        <h3>קבל/י טיפ פיננסי שבועי בחינם</h3>
+        <p>אחת לשבוע, ישירות למייל. בלי ספאם, בלי שטויות.</p>
+        <div class="nl-form">
+            <input type="email" id="nl-email-mid" placeholder="המייל שלך" dir="rtl" style="text-align:right;">
+            <button onclick="joinNewsletter()" style="background:var(--yellow);color:#000;font-weight:800;font-size:0.95rem;padding:12px 26px;border-radius:50px;border:none;font-family:'Heebo',sans-serif;cursor:pointer;white-space:nowrap;">הצטרף/י בחינם 🚀</button>
+        </div>
+        <p class="nl-hints">✅ ללא עלות &nbsp;•&nbsp; ✅ ביטול בכל עת &nbsp;•&nbsp; ✅ ללא ספאם</p>
     </div>
 </div>
 
 <div class="section">
     <div class="section-head fade-up">
         <span class="section-tag">📚 המדריכים שלנו</span>
-        <h2>ככה מנפחים ת'כיס באמת</h2>
+        <h2>ככה מנפחים ת'כיס באמת.</h2>
         <p>לא צריך להיות גאון פיננסי. צריך להתחיל מוקדם, להיות עקבי ולהבין את הכלים הנכונים.</p>
     </div>
     <div class="courses-grid">
@@ -293,7 +366,7 @@
 <div class="device-section fade-up">
     <div class="section-head" style="max-width:1060px;margin:0 auto 40px;padding:0 20px">
         <span class="section-tag">💻 פלטפורמה מקצועית</span>
-        <h2 style="font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;color:#fff">גישה מכל מקום, בכל זמן</h2>
+        <h2 style="font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;color:#fff">גישה מכל מקום, בכל זמן.</h2>
     </div>
     <div class="device-wrap">
         <div class="macbook-frame">
@@ -302,22 +375,32 @@
                     <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
                     <div class="url-bar">🔒 shohamabo-lab.github.io</div>
                 </div>
-                <div class="screen-content">
+                <div class="screen-content" style="overflow:hidden;display:flex;flex-direction:column;gap:5px;padding:10px 16px;">
                     <div class="mock-nav">
-                        <div class="mock-logo"></div>
+                        <img src="logo.jpg" alt="לוגו" style="width:24px;height:24px;border-radius:50%;object-fit:cover;border:1.5px solid var(--yellow);box-shadow:0 0 6px rgba(250,204,21,0.5),0 0 12px rgba(14,165,233,0.2);flex-shrink:0;">
                         <div class="mock-nav-text"><span class="b">מנפחים</span> <span class="y">ת'כיס</span></div>
                         <div class="mock-nav-links">
                             <div class="mock-link">בית</div>
+                            <div class="mock-link">פסיכולוגיה</div>
+                            <div class="mock-link">נכסים</div>
                             <div class="mock-link">שוק ההון</div>
-                            <div class="mock-link active">⭐ פרימיום</div>
+                            <div class="mock-link active">⭐ פרימיום ⭐</div>
                         </div>
                     </div>
-                    <div class="mock-hero-title"><span class="b">מנפחים</span> <span class="y">ת'כיס</span></div>
-                    <div class="mock-hero-sub">חינוך פיננסי לדור הצעיר</div>
-                    <div class="mock-cards">
-                        <div class="mock-card"><div class="mock-card-icon">🚀</div><div class="mock-card-title">מתחילים לנפח</div><div class="mock-card-text">היסודות שכל אחד חייב לדעת</div></div>
-                        <div class="mock-card"><div class="mock-card-icon">📈</div><div class="mock-card-title">שוק ההון</div><div class="mock-card-text">השקעה במדדים וקרנות סל</div></div>
-                        <div class="mock-card"><div class="mock-card-icon">💎</div><div class="mock-card-title">נכסים</div><div class="mock-card-text">כסף שעובד בשבילך</div></div>
+                    <div class="mock-hero-title" style="font-size:1rem;margin:2px 0;"><span class="b">מנפחים</span> <span class="y">ת'כיס</span></div>
+                    <div class="mock-hero-sub" style="margin-bottom:4px;">חינוך פיננסי לדור הצעיר</div>
+                    <div class="mock-cards" style="grid-template-columns:repeat(3,1fr);gap:4px;">
+                        <div class="mock-card"><div class="mock-card-icon" style="font-size:0.7rem;">🚀</div><div class="mock-card-title">מתחילים לנפח</div><div class="mock-card-text">היסודות שכל אחד חייב לדעת</div></div>
+                        <div class="mock-card"><div class="mock-card-icon" style="font-size:0.7rem;">🧠</div><div class="mock-card-title">פסיכולוגיה</div><div class="mock-card-text">מנטליות של עושר</div></div>
+                        <div class="mock-card"><div class="mock-card-icon" style="font-size:0.7rem;">💎</div><div class="mock-card-title">נכסים</div><div class="mock-card-text">כסף שעובד בשבילך</div></div>
+                        <div class="mock-card"><div class="mock-card-icon" style="font-size:0.7rem;">🏦</div><div class="mock-card-title">בנקאית</div><div class="mock-card-text">מונחים פיננסיים</div></div>
+                        <div class="mock-card"><div class="mock-card-icon" style="font-size:0.7rem;">📈</div><div class="mock-card-title">שוק ההון</div><div class="mock-card-text">השקעה במדדים</div></div>
+                        <div class="mock-card"><div class="mock-card-icon" style="font-size:0.7rem;">✈️</div><div class="mock-card-title">פרוטוקול ה-10</div><div class="mock-card-text">ניהול תזרים חכם</div></div>
+                    </div>
+                    <div class="mock-card" style="border-color:rgba(255,241,0,0.4);background:rgba(255,241,0,0.05);display:flex;align-items:center;justify-content:center;gap:8px;padding:6px 8px;text-align:center;">
+                        <span style="font-size:1rem;">⭐</span>
+                        <div><div class="mock-card-title" style="color:var(--yellow);font-size:0.65rem;">מנפחים מתקדמים — פרימיום</div><div class="mock-card-text" style="font-size:0.5rem;">כלים מתקדמים לניהול ובניית הון</div></div>
+                        <span style="font-size:1rem;">⭐</span>
                     </div>
                 </div>
             </div>
@@ -334,7 +417,7 @@
 <div class="section">
     <div class="section-head fade-up">
         <span class="section-tag">🧮 מחשבון</span>
-        <h2>מחשבון ריבית דריבית</h2>
+        <h2>מחשבון ריבית דריבית.</h2>
         <p>גלה כמה שווה הכסף שלך בעוד 20 שנה.</p>
     </div>
     <div class="calc-wrap fade-up">
@@ -350,6 +433,15 @@
             <div class="res-box"><div class="res-label">רווח כולל</div><div class="res-val" id="rp">₪0</div></div>
             <div class="res-box"><div class="res-label">מכפיל הון</div><div class="res-val" id="rm">x0</div></div>
         </div>
+        <!-- SHARE UNIT -->
+        <div class="share-unit" id="share-unit">
+            <p class="share-fomo" style="color:#fff;">וואו, ראית איזה פוטנציאל? 🤯<br>אל תשמור את זה לעצמך! שלח לחבר שרוצה ללמוד איך הכסף שלו יכול לעבוד בשבילו.</p>
+            <div class="share-buttons">
+                <a id="wa-btn" href="#" target="_blank" class="btn-share-wa">שתף בוואטסאפ</a>
+                <button class="btn-export" onclick="exportPDF()">ייצא לקובץ</button>
+            </div>
+            <p class="share-disclaimer">*החישוב הינו סימולציה תיאורטית בלבד ואינו מהווה הבטחה לתשואה או ייעוץ פיננסי.</p>
+        </div>
     </div>
 </div>
 
@@ -358,30 +450,17 @@
 <div class="section">
     <div class="section-head fade-up">
         <span class="section-tag">💡 הסיפור שלנו</span>
-        <h2>למה קמנו</h2>
-        <p>בזמן שלימדו אתכם בבית הספר נוסחאות ששכחתם לפני המבחן, החיים האמיתיים קרו בחוץ ואף אחד לא הכין אתכם אליהם. האתר הזה קם כדי למסור לכם את המפתחות להבנת המערכת הפיננסית, ידע שפעם היה שמור רק למעטים.</p>
+        <h2>למה קמנו.</h2>
+        <p>מנפחים ת'כיס הוקם מתוך הצורך להוביל שינוי חיובי בקרב הדור הצעיר בישראל. בזמן שלימדו אותנו בבית הספר נוסחאות שנשכח יום אחרי המבחן, החיים האמיתיים קרו ואף אחד לא הכין אותנו אליהם. הפלטפורמה קמה כדי למסור לכם, הדור הצעיר שיוביל את המדינה הזו בעוד כמה שנים, את המפתחות להבנת המערכת הפיננסית, ידע שפעם היה שמור רק למעטים.</p>
     </div>
 </div>
 
 <div class="divider"></div>
 
-<div class="section fade-up">
-    <div class="newsletter">
-        <span class="section-tag">📩 ניוזלטר שבועי</span>
-        <h2>קבל טיפ פיננסי שבועי — בחינם</h2>
-        <p>אחת לשבוע, ישירות למייל. בלי ספאם, בלי שטויות.</p>
-        <div class="nl-form">
-            <input type="email" id="nl-email" placeholder="המייל שלך" dir="ltr">
-            <a href="https://skilled-musician-4118.kit.com/b231feddda" target="_blank" style="background:var(--yellow);color:#000;font-weight:800;font-size:1rem;padding:14px 36px;border-radius:40px;text-decoration:none;display:inline-block;">הצטרף בחינם 🚀</a>
-        </div>
-        <p class="nl-hints">✅ ללא עלות &nbsp;•&nbsp; ✅ ביטול בכל עת &nbsp;•&nbsp; ✅ ללא ספאם</p>
-    </div>
-</div>
-
 <div class="cta-strip fade-up">
-    <h2>מוכן להתחיל לנפח?</h2>
-    <p>הצטרף לאלפי צעירים שכבר לוקחים שליטה על העתיד הפיננסי שלהם.</p>
-    <a href="metchilim.html" class="btn-yellow">מתחילים עכשיו 💰</a>
+    <h2>מוכן/ה להתחיל לנפח?</h2>
+    <p>הצטרפו להמון צעירים שכבר לוקחים שליטה על העתיד הפיננסי שלהם.</p>
+    <a href="metchilim.html" class="btn-yellow">מתחילים עכשיו 🤯</a>
 </div>
 
 <footer>
@@ -418,8 +497,8 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2025 מנפחים ת'כיס. כל הזכויות שמורות.</p>
-            <p>⚠️ המידע באתר הוא לימודי בלבד ואינו מהווה ייעוץ פיננסי.</p>
+            <p>© 2026 מנפחים ת'כיס. כל הזכויות שמורות.</p>
+            <p style="color:#fff;font-weight:700;">⚠️ המידע באתר הוא לימודי בלבד ואינו מהווה ייעוץ פיננסי.</p>
         </div>
     </div>
 </footer>
@@ -429,9 +508,44 @@
     const obs = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);} }), {threshold:0.1});
     document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
     function fmt(n){ return '₪'+Math.round(n).toLocaleString('he-IL'); }
-    function calc(){ const P=parseFloat(document.getElementById('ci').value)||0,m=parseFloat(document.getElementById('cm').value)||0,y=parseFloat(document.getElementById('cy').value),r=parseFloat(document.getElementById('cr').value)/100/12,n=y*12,total=P*Math.pow(1+r,n)+m*(Math.pow(1+r,n)-1)/r,inv=P+m*n; document.getElementById('rt').textContent=fmt(total); document.getElementById('rp').textContent=fmt(total-inv); document.getElementById('rm').textContent='x'+(inv>0?(total/inv).toFixed(1):'∞'); }
+    function joinNewsletter(){
+        const email=document.getElementById('nl-email-mid').value.trim();
+        if(!email||!email.includes('@')){ alert('נא להזין כתובת מייל תקינה'); return; }
+        window.open('https://skilled-musician-4118.kit.com/b231feddda?email='+encodeURIComponent(email),'_blank');
+    }
+    function calc(){
+        const P=parseFloat(document.getElementById('ci').value)||0,
+              m=parseFloat(document.getElementById('cm').value)||0,
+              y=parseFloat(document.getElementById('cy').value),
+              r=parseFloat(document.getElementById('cr').value)/100/12,
+              n=y*12,
+              total=P*Math.pow(1+r,n)+m*(Math.pow(1+r,n)-1)/r,
+              inv=P+m*n;
+        document.getElementById('rt').textContent=fmt(total);
+        document.getElementById('rp').textContent=fmt(total-inv);
+        document.getElementById('rm').textContent='x'+(inv>0?(total/inv).toFixed(1):'∞');
+        // Show share unit
+        const su=document.getElementById('share-unit');
+        su.classList.add('show');
+        // Build WhatsApp message
+        const totalTxt=fmt(total);
+        const msg=encodeURIComponent('שומע? בדקתי עכשיו במחשבון של מנפחים ת\u2019כיס סימולציה של פוטנציאל השקעה... המספר שיצא לי פשוט מטורף! 🤯\nזה רק כלי לימודי אבל זה פתח לי את העיניים.\nתבדוק מה הפוטנציאל שלך לפני שהזמן בורח: https://shohamabo-lab.github.io/index.html');
+        document.getElementById('wa-btn').href='https://wa.me/?text='+msg;
+    }
     calc();
-    function subscribe(){ const e=document.getElementById('nl-email').value.trim(); if(!e||!e.includes('@')){alert('נא להזין כתובת מייל תקינה');return;} alert('🎉 נרשמת!\n'+e); document.getElementById('nl-email').value=''; }
+
+    function exportPDF(){
+        const total=document.getElementById('rt').textContent;
+        const profit=document.getElementById('rp').textContent;
+        const mult=document.getElementById('rm').textContent;
+        const years=document.getElementById('yl').textContent;
+        const rate=document.getElementById('rl').textContent;
+        const monthly=document.getElementById('cm').value;
+        const w=window.open('','_blank');
+        w.document.write(`<!DOCTYPE html><html dir="rtl" lang="he"><head><meta charset="UTF-8"><title>סימולציית ריבית דריבית</title><style>body{font-family:Arial,sans-serif;background:#fff;color:#111;padding:40px;max-width:600px;margin:auto;}h1{color:#0b1628;font-size:1.6rem;}table{width:100%;border-collapse:collapse;margin:24px 0;}td{padding:12px;border-bottom:1px solid #ddd;font-size:1rem;}td:first-child{font-weight:bold;color:#555;}.total{font-size:1.4rem;font-weight:900;color:#0ea5e9;}.disclaimer{margin-top:40px;font-size:0.72rem;color:#888;border-top:1px solid #ddd;padding-top:16px;line-height:1.6;}</style></head><body><h1>🚀 סימולציית ריבית דריבית</h1><p>מנפחים ת'כיס | shohamabo-lab.github.io</p><table><tr><td>השקעה חודשית</td><td>₪${monthly}</td></tr><tr><td>תקופה</td><td>${years}</td></tr><tr><td>תשואה שנתית</td><td>${rate}</td></tr><tr><td>רווח כולל</td><td>${profit}</td></tr><tr><td>מכפיל הון</td><td class="total">${mult}</td></tr><tr><td>סכום סופי</td><td class="total">${total}</td></tr></table><p class="disclaimer">הנתונים הם סימולציה למטרות לימודיות בלבד ואינם מהווים ייעוץ השקעות, ייעוץ פיננסי או הבטחה לתשואה כלשהי. יש להתייעץ עם בעל רישיון לפני קבלת החלטות פיננסיות.</p></body></html>`);
+        w.document.close();
+        setTimeout(()=>w.print(),400);
+    }
 </script>
 </body>
 </html>
