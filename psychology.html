@@ -6,9 +6,10 @@
 <title>הפסיכולוגיה של הכיס - מנפחים ת'כיס</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;900&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.10/dist/dotlottie-wc.js" type="module"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0b1628;--yellow:#FFF100;--neon:#00E5FF;--text:#fff;--card:#111f38;--font:'Heebo',sans-serif}
+:root{--bg:#0b1628;--yellow:#FFF100;--neon:#00E5FF;--text:#fff;--card:#111f38;--font:'Heebo',sans-serif;--blue:#00E5FF;--blue2:#38d4f5;--yellow2:#ffe566;--dark:#0b1628;}
 body{background:var(--bg);color:var(--text);font-family:var(--font);direction:rtl;overflow-x:hidden}
 a{text-decoration:none;color:inherit}
 nav{position:fixed;top:0;width:100%;background:rgba(11,22,40,0.95);backdrop-filter:blur(10px);z-index:1000;border-bottom:1px solid rgba(0,229,255,0.2);padding:0 20px}
@@ -21,27 +22,32 @@ nav{position:fixed;top:0;width:100%;background:rgba(11,22,40,0.95);backdrop-filt
 .nav-cta{background:var(--yellow);color:#0b1628!important;font-weight:700;padding:8px 18px!important;border-radius:8px}
 .hamburger{display:none;background:none;border:none;color:var(--text);font-size:1.6rem;cursor:pointer}
 .mobile-menu{display:none;flex-direction:column;background:rgba(11,22,40,0.98);padding:20px;gap:10px}
-.mobile-menu a{display:block;padding:12px 16px;border-radius:8px;border:1px solid rgba(0,229,255,0.15);color:var(--text);font-size:1rem}
+.mobile-menu a{display:block;padding:12px 16px;border-radius:8px;border:1px solid rgba(0,229,255,0.15);color:var(--text);font-size:1rem;transition:all 0.2s}
+.mobile-menu a:hover{background:rgba(0,229,255,0.1);color:var(--neon)}
 .mobile-menu.open{display:flex}
 @media(max-width:768px){.nav-links{display:none}.hamburger{display:block}}
+
 .hero{min-height:70vh;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden;padding:100px 20px 60px}
 .hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#051020 0%,#0b1628 40%,#101820 100%)}
 .hero-overlay{position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2300E5FF' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
 .hero-content{position:relative;z-index:1;max-width:800px}
 .hero-badge{display:inline-block;background:rgba(255,241,0,0.1);border:1px solid rgba(255,241,0,0.3);border-radius:50px;padding:8px 20px;font-size:0.85rem;color:var(--yellow);margin-bottom:24px}
-.hero h1{font-size:clamp(2.5rem,6vw,4.5rem);font-weight:900;line-height:1.1;margin-bottom:20px;color:var(--yellow)}
+.hero h1{font-size:clamp(2.5rem,6vw,4.5rem);font-weight:900;line-height:1.1;margin-bottom:20px}
 .hero p{font-size:clamp(1rem,2vw,1.15rem);color:rgba(255,255,255,0.75);line-height:1.8;max-width:650px;margin:0 auto}
-.lesson{padding:80px 20px}
+
+.lesson{padding:80px 20px;transition:all 0.3s;}
 .lesson:nth-child(odd){background:var(--bg)}
 .lesson:nth-child(even){background:linear-gradient(135deg,#0d2040 0%,#0b1628 100%)}
 .container{max-width:1100px;margin:0 auto}
 .lesson-inner{display:grid;grid-template-columns:auto 1fr;gap:50px;align-items:start}
 @media(max-width:768px){.lesson-inner{grid-template-columns:1fr;gap:30px}}
-.lesson-num{font-size:5rem;font-weight:900;color:rgba(0,229,255,0.15);line-height:1;min-width:120px;text-align:center;padding-top:10px}
+.lesson-num{font-size:5rem;font-weight:900;color:rgba(0,229,255,0.15);line-height:1;min-width:120px;text-align:center;padding-top:10px;transition:color 0.3s;}
 @media(max-width:768px){.lesson-num{font-size:3rem;min-width:unset;text-align:right}}
 .lesson-tag{display:inline-block;background:rgba(0,229,255,0.1);border:1px solid rgba(0,229,255,0.3);border-radius:50px;padding:5px 14px;font-size:0.75rem;color:var(--neon);margin-bottom:16px;letter-spacing:1px}
-.lesson-title{font-size:clamp(1.4rem,3vw,2rem);font-weight:900;color:var(--yellow);margin-bottom:20px;line-height:1.3}
-.lesson-img{width:100%;height:180px;border-radius:12px;margin-bottom:20px;display:flex;align-items:center;justify-content:center;font-size:4rem;border:1px solid rgba(0,229,255,0.15)}
+.lesson-title{font-size:clamp(1.4rem,3vw,2rem);font-weight:900;color:var(--yellow);margin-bottom:20px;line-height:1.3;text-shadow:0 0 20px rgba(255,241,0,0.4);}
+.lesson-img{width:100%;height:180px;border-radius:12px;margin-bottom:20px;display:flex;align-items:center;justify-content:center;font-size:4rem;border:1px solid rgba(0,229,255,0.15);transition:border-color 0.3s,box-shadow 0.3s;}
+.lesson:hover .lesson-img{border-color:rgba(255,241,0,0.5);box-shadow:0 0 20px rgba(255,241,0,0.1);}
+.lesson:hover .lesson-num{color:rgba(255,241,0,0.25);}
 .lesson-text{font-size:1rem;color:rgba(255,255,255,0.8);line-height:1.85;margin-bottom:20px}
 .lesson-psychology{background:rgba(255,241,0,0.07);border:1px solid rgba(255,241,0,0.2);border-radius:10px;padding:16px;margin-bottom:16px}
 .lesson-psychology-label{font-size:0.75rem;color:var(--yellow);font-weight:700;margin-bottom:6px;letter-spacing:1px}
@@ -52,20 +58,23 @@ nav{position:fixed;top:0;width:100%;background:rgba(11,22,40,0.95);backdrop-filt
 .lesson-bottom{background:rgba(0,0,0,0.3);border-right:3px solid var(--yellow);border-radius:0 10px 10px 0;padding:14px 18px;margin-top:16px}
 .lesson-bottom-label{font-size:0.75rem;color:rgba(255,255,255,0.5);margin-bottom:4px;letter-spacing:1px}
 .lesson-bottom p{font-size:0.95rem;font-weight:700;color:var(--text);line-height:1.5}
+
 .glossary-section{padding:80px 20px;background:linear-gradient(135deg,#0a1824 0%,#0b1628 100%)}
-.glossary-title{font-size:clamp(1.8rem,3vw,2.5rem);font-weight:900;color:var(--yellow);margin-bottom:12px;text-align:center}
+.glossary-title{font-size:clamp(1.8rem,3vw,2.5rem);font-weight:900;color:var(--yellow);margin-bottom:12px;text-align:center;text-shadow:0 0 20px rgba(255,241,0,0.5),0 0 40px rgba(255,241,0,0.2);}
 .glossary-sub{font-size:1rem;color:rgba(255,255,255,0.6);text-align:center;margin-bottom:50px}
 .glossary-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;max-width:900px;margin:0 auto}
 @media(max-width:600px){.glossary-grid{grid-template-columns:1fr}}
-.gloss-card{background:var(--card);border:1px solid rgba(0,229,255,0.2);border-radius:14px;padding:24px;transition:all 0.3s}
-.gloss-card:hover{border-color:var(--neon);transform:translateY(-3px)}
+.gloss-card{background:var(--card);border:1px solid rgba(0,229,255,0.2);border-radius:14px;padding:24px;transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s}
+.gloss-card:hover,.gloss-card:active{border-color:rgba(255,241,0,0.8);transform:translateY(-4px);box-shadow:0 0 24px rgba(255,241,0,0.25);}
 .gloss-term{font-size:1.1rem;font-weight:900;color:var(--neon);margin-bottom:8px}
 .gloss-def{font-size:0.9rem;color:rgba(255,255,255,0.75);line-height:1.6}
+
 .fade-in{opacity:0;transform:translateY(30px);transition:opacity 0.7s ease,transform 0.7s ease}
 .fade-in.visible{opacity:1;transform:translateY(0)}
 @keyframes spinRing{to{transform:rotate(360deg)}}
-@keyframes glowPulse{0%,100%{transform:scale(1);opacity:0.7}50%{transform:scale(1.15);opacity:1}}
+@keyframes glowPulse{0%,100%{opacity:0.6}50%{opacity:1}}
 @keyframes logoFloat{0%,100%{transform:translateY(0px)}50%{transform:translateY(-12px)}}
+
 footer{background:#080e1a;border-top:1px solid rgba(0,229,255,0.1);padding:50px 20px 30px}
 .footer-inner{max-width:1200px;margin:0 auto}
 .footer-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px;margin-bottom:40px}
@@ -78,14 +87,13 @@ footer{background:#080e1a;border-top:1px solid rgba(0,229,255,0.1);padding:50px 
 .footer-col ul a:hover{color:var(--yellow)}
 .footer-bottom{border-top:1px solid rgba(255,255,255,0.06);padding-top:24px}
 .footer-copy{font-size:0.8rem;color:rgba(255,255,255,0.3)}
-.disclaimer{font-size:0.75rem;color:rgba(255,255,255,0.35);line-height:1.5;margin-top:8px}
+.disclaimer{font-size:0.8rem;color:#fff;font-weight:700;line-height:1.5;margin-top:8px}
 </style>
-    <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.10/dist/dotlottie-wc.js" type="module"></script>
 </head>
 <body>
 <nav>
   <div class="nav-inner">
-    <a href="index.html" class="logo"><img src="logo.jpg" alt="מנפחים ת'כיס" style="height:38px;width:auto;vertical-align:middle;border-radius:6px;"></a>
+    <a href="index.html" class="logo"><img src="logo.jpg" alt="" style="height:38px;width:auto;vertical-align:middle;border-radius:6px;"> <span style="color:#38d4f5;">מנפחים</span> <span style="color:#FFF100;">ת'כיס</span></a>
     <ul class="nav-links">
       <li><a href="index.html">בית</a></li>
       <li><a href="metchilim.html">מתחילים לנפח</a></li>
@@ -106,7 +114,7 @@ footer{background:#080e1a;border-top:1px solid rgba(0,229,255,0.1);padding:50px 
     <a href="bankayt.html">🏦 בנקאית</a>
     <a href="stock.html">📈 שוק ההון</a>
     <a href="protocol.html">✈️ פרוטוקול ה-10</a>
-    <a href="premium.html" style="color:#FFF100;border-color:rgba(255,241,0,0.4)">⭐ מנפחים מתקדמים</a>
+    <a href="premium.html" style="color:#FFF100;border-color:rgba(255,241,0,0.4)">מנפחים מתקדמים</a>
   </div>
 </nav>
 
@@ -115,16 +123,13 @@ footer{background:#080e1a;border-top:1px solid rgba(0,229,255,0.1);padding:50px 
   <div class="hero-overlay"></div>
   <div class="hero-content fade-in">
     <div style="position:relative;width:90px;height:90px;margin:0 auto 24px;">
-      <div style="position:absolute;inset:-18px;border-radius:50%;background:radial-gradient(circle,rgba(255,241,0,0.15) 0%,rgba(0,229,255,0.1) 50%,transparent 70%);animation:glowPulse 2.5s ease-in-out infinite;"></div>
-      <div style="position:absolute;inset:-10px;border-radius:50%;border:2px solid transparent;background:linear-gradient(#0b1628,#0b1628) padding-box,conic-gradient(#FFF100,#00E5FF,#ffe566,#38d4f5,#FFF100) border-box;animation:spinRing 4s linear infinite;"></div>
-      <img src="logo.jpg" alt="לוגו" style="width:90px;height:90px;border-radius:50%;object-fit:cover;border:3px solid #FFF100;display:block;position:relative;z-index:2;animation:logoFloat 3s ease-in-out infinite;filter:drop-shadow(0 0 20px rgba(255,241,0,0.4));">
+      <div style="position:absolute;inset:-18px;border-radius:50%;background:radial-gradient(circle,rgba(255,241,0,0.15) 0%,rgba(0,229,255,0.1) 50%,transparent 70%);animation:glowPulse 2.5s ease-in-out infinite;will-change:opacity;"></div>
+      <div style="position:absolute;inset:-10px;border-radius:50%;border:2px solid transparent;background:linear-gradient(#0b1628,#0b1628) padding-box,conic-gradient(#FFF100,#00E5FF,#ffe566,#38d4f5,#FFF100) border-box;animation:spinRing 4s linear infinite;will-change:transform;"></div>
+      <img src="logo.jpg" alt="לוגו" style="width:90px;height:90px;border-radius:50%;object-fit:cover;border:3px solid #FFF100;display:block;position:relative;z-index:2;animation:logoFloat 3s ease-in-out infinite;will-change:transform;filter:drop-shadow(0 0 20px rgba(255,241,0,0.4));">
     </div>
-    <div class="hero-badge">השיעור הכי חשוב שלא לימדו אתכם</div>
-    <div style="display:flex;justify-content:center;margin:16px 0">
-      <dotlottie-wc src="https://lottie.host/96857ee1-d002-4ce6-b6fd-e75ecde8e390/IqVaoFtOgE.lottie" style="width:120px;height:120px" autoplay loop></dotlottie-wc>
-    </div>
-    <h1>הפסיכולוגיה של הכיס</h1>
-    <p>להבין כסף זה לא רק מתמטיקה. זה לדעת לשלוט בדחפים שלכם. ההרגלים הבאים הם השיעור הכי חשוב שלא לימדו אתכם בבית הספר.</p>
+    <div class="hero-badge">השיעור הכי חשוב שלא לימדו אתכם 😎</div>
+    <h1 style="margin-top:32px;"><span style="color:#38d4f5;text-shadow:0 0 40px rgba(14,165,233,0.5)">הפסיכולוגיה</span> <span style="color:#FFF100;text-shadow:0 0 40px rgba(250,204,21,0.5)">של הכיס</span></h1>
+    <p style="margin-top:20px;">להבין כסף זה לא רק מתמטיקה. זה לדעת לשלוט בדחפים שלכם. ההרגלים הבאים הם השיעור הכי חשוב שלא לימדו אתכם בבית הספר.</p>
   </div>
 </section>
 
@@ -162,10 +167,10 @@ footer{background:#080e1a;border-top:1px solid rgba(0,229,255,0.1);padding:50px 
         <div class="lesson-tag">ניהול אורח חיים</div>
         <h2 class="lesson-title">הנכס הכי יקר שתוכלו לקנות הוא לא בית, אלא זמן.</h2>
         <div class="lesson-img" style="background:linear-gradient(135deg,#0d2040,#111f38)">⏳</div>
-        <p class="lesson-text">היכולת הפיננסית הכי קשה לצעירים היא לצאת מהמלכודת של "כמה שאני מרוויח יותר, כך אני מוציא יותר". אם רמת החיים שלכם עולה בכל פעם שמשתכרים יותר, אתם לא מתקדמים: אתם רצים במקום. כל עלייה בשכר שנבלעת מיד בהוצאות היא שנה נוספת שתצטרכו לעבוד.</p>
+        <p class="lesson-text">היכולת הפיננסית הכי קשה לצעירים היא לצאת מהמלכודת של "כמה שאני מרוויח יותר, כך אני מוציא יותר". אם רמת החיים שלכם עולה בכל פעם שאתם משתכרים יותר, אתם לא מתקדמים, אתם רצים במקום. כל עלייה בשכר שנבלעת מיד בהוצאות היא שנה נוספת שתצטרכו לעבוד.</p>
         <div class="lesson-lesson">
           <div class="lesson-lesson-label">💡 השיעור:</div>
-          <p>כל פעם שהשכר עולה, הגדל את ההשקעות: לא את ההוצאות.</p>
+          <p>כל פעם שהשכר עולה, הגדל את ההשקעות. לא את ההוצאות.</p>
         </div>
         <div class="lesson-bottom">
           <div class="lesson-bottom-label">שורה תחתונה</div>
@@ -206,14 +211,14 @@ footer{background:#080e1a;border-top:1px solid rgba(0,229,255,0.1);padding:50px 
         <div class="lesson-tag">חופש פיננסי</div>
         <h2 class="lesson-title">לקנות את החופש שלכם.</h2>
         <div class="lesson-img" style="background:linear-gradient(135deg,#0d2040,#111f38)">🏖️</div>
-        <p class="lesson-text">הכוח להגיד "לא": זה הנכס הכי חזק שלכם. התועלת הכי גדולה שכסף יתן לכם היא לא מספרים בבנק, אלא היכולת להתעורר בבוקר ולבחור מה לעשות עם הזמן שלכם. בנו לעצמכם "גב כלכלי": אתם לא חייבים לסבול בעבודה, ואתם לא צריכים לקבל כל הצעה כי אין לכם ברירה.</p>
+        <p class="lesson-text">הכוח להגיד "לא" הוא הנכס הכי חזק שלכם. התועלת הכי גדולה שכסף יתן לכם היא לא מספרים בבנק, אלא היכולת להתעורר בבוקר ולבחור מה לעשות עם הזמן שלכם. בנו לעצמכם "גב כלכלי". אתם לא חייבים לסבול בעבודה, ואתם לא צריכים לקבל כל הצעה כי אין לכם ברירה.</p>
         <div class="lesson-lesson">
           <div class="lesson-lesson-label">💡 השיעור:</div>
-          <p>תחשבו על כסף כ"לקנות" זמן. כל שיש לכם יותר נכסים: כך יש לכם יותר בחירות.</p>
+          <p>תחשבו על כסף כ"לקנות" זמן. כל שיש לכם יותר נכסים, כך יש לכם יותר בחירות.</p>
         </div>
         <div class="lesson-bottom">
           <div class="lesson-bottom-label">שורה תחתונה</div>
-          <p>חופש פיננסי לא אומר עשיר: אומר שהכסף לא שולט בהחלטות שלכם.</p>
+          <p>חופש פיננסי לא אומר עשיר. אומר שהכסף לא שולט בהחלטות שלכם.</p>
         </div>
       </div>
     </div>
@@ -225,16 +230,16 @@ footer{background:#080e1a;border-top:1px solid rgba(0,229,255,0.1);padding:50px 
     <h2 class="glossary-title">מילון מנפחים</h2>
     <p class="glossary-sub">המונחים הבסיסיים שכל מי שרוצה להבין כסף חייב להכיר</p>
     <div class="glossary-grid">
-      <div class="gloss-card"><div class="gloss-term">נכס 💎</div><div class="gloss-def">כל מה שמכניס לך כסף בזמן שאתה ישן: מניות, נדל"ן, עסק שמניב הכנסה</div></div>
-      <div class="gloss-card"><div class="gloss-term">התחייבות ⛓️</div><div class="gloss-def">כל מה שגונב לך כסף מהמשכורת: תשלומים, חובות, עלויות קבועות שלא מייצרות הכנסה</div></div>
-      <div class="gloss-card"><div class="gloss-term">ריבית דריבית 🌊</div><div class="gloss-def">רווחים שמייצרים רווחים: הכוח הפיננסי הכי גדול בעולם, עובד לטובתך ולרעתך</div></div>
-      <div class="gloss-card"><div class="gloss-term">אינפלציה 🔥</div><div class="gloss-def">הכסף שלך מאבד מערכו עם עליית המחירים: ₪100 היום שווים פחות בעוד 10 שנים</div></div>
+      <div class="gloss-card"><div class="gloss-term">נכס 💎</div><div class="gloss-def">כל מה שמכניס לך כסף בזמן שאתה ישן. מניות, נדל"ן, עסק שמניב הכנסה.</div></div>
+      <div class="gloss-card"><div class="gloss-term">התחייבות ⛓️</div><div class="gloss-def">כל מה שגונב לך כסף מהמשכורת. תשלומים, חובות, עלויות קבועות שלא מייצרות הכנסה.</div></div>
+      <div class="gloss-card"><div class="gloss-term">ריבית דריבית 🌊</div><div class="gloss-def">רווחים שמייצרים רווחים. הכוח הפיננסי הכי גדול בעולם, עובד לטובתך ולרעתך.</div></div>
+      <div class="gloss-card"><div class="gloss-term">אינפלציה 🔥</div><div class="gloss-def">הכסף שלך מאבד מערכו עם עליית המחירים. ₪100 היום שווים פחות בעוד 10 שנים.</div></div>
     </div>
   </div>
 </div>
 
-<div style="text-align:center;padding:40px 20px">
-  <a href="https://shohamabo-lab.github.io/assets.html" style="display:inline-block;background:#FFF100;color:#0b1628;font-weight:900;font-family:Heebo,sans-serif;padding:16px 40px;border-radius:50px;font-size:1rem;text-decoration:none;box-shadow:0 4px 20px rgba(255,241,0,0.4);transition:all 0.3s" onmouseover="this.style.transform='translateY(-3px) scale(1.05)';this.style.boxShadow='0 8px 30px rgba(255,241,0,0.7)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(255,241,0,0.4)'">לדף הבא</a>
+<div style="text-align:center;padding:30px 20px;">
+  <a href="https://shohamabo-lab.github.io/assets.html" style="background:var(--yellow);color:#0b1628;font-weight:800;font-family:Heebo,sans-serif;padding:10px 24px;border-radius:50px;font-size:0.85rem;text-decoration:none;display:inline-block;box-shadow:0 0 16px rgba(255,241,0,0.35);transition:all 0.2s;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 0 28px rgba(255,241,0,0.6)'" onmouseout="this.style.transform='';this.style.boxShadow='0 0 16px rgba(255,241,0,0.35)'">לדף הבא</a>
 </div>
 
 <footer>
@@ -252,8 +257,8 @@ footer{background:#080e1a;border-top:1px solid rgba(0,229,255,0.1);padding:50px 
       <div class="footer-col"><h4>למידה</h4><ul><li><a href="bankayt.html">בנקאית</a></li><li><a href="stock.html">שוק ההון</a></li><li><a href="protocol.html">פרוטוקול ה-10</a></li><li><a href="premium.html">מתקדמים</a></li></ul></div>
     </div>
     <div class="footer-bottom">
-      <p class="footer-copy">© 2025 מנפחים ת'כיס. כל הזכויות שמורות.</p>
-      <p class="disclaimer" style="color:rgba(255,255,255,0.85);font-weight:700">⚠️ המידע באתר הוא לימודי בלבד ואינו מהווה ייעוץ פיננסי. יש להתייעץ עם בעל רישיון לפני קבלת החלטות פיננסיות.</p>
+      <p class="footer-copy">© 2026 מנפחים ת'כיס. כל הזכויות שמורות.</p>
+      <p class="disclaimer">⚠️ המידע באתר הוא לימודי בלבד ואינו מהווה ייעוץ פיננסי. יש להתייעץ עם בעל רישיון לפני קבלת החלטות פיננסיות.</p>
     </div>
   </div>
 </footer>
@@ -265,8 +270,10 @@ document.getElementById('hamburger').addEventListener('click',function(){
 });
 const observer=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});},{threshold:0.08});
 document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));
+
 const _p=document.createElement('div');_p.style.cssText='position:fixed;top:0;right:0;height:3px;background:linear-gradient(90deg,#FFF100,#00E5FF);z-index:9999;width:0;pointer-events:none';document.body.prepend(_p);
 window.addEventListener('scroll',()=>{const s=document.documentElement;_p.style.width=(s.scrollTop/(s.scrollHeight-s.clientHeight)*100)+'%'});
+
 const _f=document.createElement('a');_f.href='premium.html';_f.textContent='להתחיל 💰';_f.style.cssText='position:fixed;bottom:28px;left:28px;background:#FFF100;color:#0b1628;font-weight:900;font-family:Heebo,sans-serif;padding:14px 22px;border-radius:50px;font-size:0.95rem;box-shadow:0 4px 20px rgba(255,241,0,0.4);z-index:900;text-decoration:none;opacity:0;pointer-events:none;transition:all 0.3s';document.body.appendChild(_f);
 const _t=document.createElement('button');_t.textContent='↑';_t.style.cssText='position:fixed;bottom:28px;right:28px;width:46px;height:46px;background:rgba(0,229,255,0.15);border:1px solid rgba(0,229,255,0.4);border-radius:50%;color:#00E5FF;font-size:1.2rem;cursor:pointer;z-index:900;opacity:0;pointer-events:none;transition:all 0.3s';document.body.appendChild(_t);
 window.addEventListener('scroll',()=>{const s=window.scrollY>400;[_f,_t].forEach(e=>{e.style.opacity=s?'1':'0';e.style.pointerEvents=s?'auto':'none'})});
