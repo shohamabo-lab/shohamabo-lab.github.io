@@ -24,18 +24,12 @@ nav{position:fixed;top:0;width:100%;background:rgba(11,22,40,0.95);backdrop-filt
 .mobile-menu{display:none;flex-direction:column;background:rgba(11,22,40,0.98);padding:20px;gap:10px}
 .mobile-menu a{display:block;padding:12px 16px;border-radius:8px;border:1px solid rgba(0,229,255,0.15);color:var(--text);font-size:1rem}
 .mobile-menu.open{display:flex}
-@media(max-width:1024px){.nav-links{display:none}.hamburger{display:block}}
-@media(min-width:1025px){.hamburger{display:none}}
+@media(max-width:768px){.nav-links{display:none}.hamburger{display:block}}
 
-/* HERO */
-.hero{min-height:60vh;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden;padding:100px 20px 60px}
+.hero{min-height:70vh;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden;padding:120px 20px 80px}
 .hero-bg{
   position:absolute;inset:0;
-  background-image:url('https://shohamabo-lab.github.io/blog-hero.jpg');
-  background-size:contain;
-  background-position:center center;
-  background-repeat:no-repeat;
-  filter:brightness(0.35) saturate(1.2);
+  background:linear-gradient(135deg,#051020 0%,#0b1628 40%,#101820 100%);
 }
 .hero-color-overlay{
   position:absolute;inset:0;
@@ -181,7 +175,7 @@ nav{position:fixed;top:0;width:100%;background:rgba(11,22,40,0.95);backdrop-filt
   background:rgba(255,241,0,0.04);
   border-radius:12px;
   padding:16px 20px;
-  border:2px dashed rgba(255,241,0,0.4);
+  border:2px solid rgba(255,241,0,0.4);
   position:relative;
   transition:all 0.3s ease;
   cursor:default;
@@ -193,15 +187,7 @@ nav{position:fixed;top:0;width:100%;background:rgba(11,22,40,0.95);backdrop-filt
   box-shadow:4px 0 20px rgba(255,241,0,0.15);
   color:#fff;
 }
-.post-section.tip .post-section-content::before{
-  content:'💡';
-  position:absolute;
-  top:-12px;
-  right:16px;
-  background:var(--card);
-  padding:0 6px;
-  font-size:1rem;
-}
+.post-section.tip .post-section-content::before{display:none}
 
 /* CTA section */
 .post-section.cta .post-section-content{
@@ -341,7 +327,7 @@ footer{background:#080e1a;border-top:1px solid rgba(0,229,255,0.1);padding:50px 
       </div>
 
       <div class="post-section tip">
-        <div class="post-section-label">💡 הטיפ של מנפחים ת'כיס</div>
+        <div class="post-section-label">הטיפ של מנפחים ת'כיס</div>
         <div class="post-section-content">
           אני יודע שאתם נכנסים לאפליקציה כל שעה לראות אדום או ירוק. תשחררו. מינוס 4% מתחילת שנה אחרי פלוס 18% בשנה שעברה? זה לא קריסה, זה נשימה. מי שמפקיד כל חודש ב-S&P 500 או ב-MSCI ACWI קנה השבוע יותר יחידות במחיר נמוך יותר. זה בדיוק איך DCA (סכום קבוע, כל חודש, לא משנה מה המצב בחדשות) עובד בשבילכם, גם כשמרגיש לא נעים.
         </div>
@@ -369,6 +355,10 @@ footer{background:#080e1a;border-top:1px solid rgba(0,229,255,0.1);padding:50px 
 
   </div>
 </section>
+
+<div style="text-align:center;padding:50px 20px;background:var(--bg)">
+  <a href="https://shohamabo-lab.github.io/premium.html" style="display:inline-block;background:#FFF100;color:#0b1628;font-weight:900;font-family:Heebo,sans-serif;padding:16px 44px;border-radius:50px;font-size:1rem;text-decoration:none;box-shadow:0 4px 20px rgba(255,241,0,0.35);transition:all 0.3s">לדף הבא</a>
+</div>
 
 <footer>
   <div class="footer-inner">
