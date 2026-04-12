@@ -375,7 +375,7 @@
             <div class="macbook-screen">
                 <div class="screen-bar">
                     <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
-                    <div class="url-bar">🔒 shohamabo-lab.github.io</div>
+                    <div class="url-bar">🔒 minapchimtkis.github.io</div>
                 </div>
                 <div class="screen-content" style="overflow:hidden;display:flex;flex-direction:column;gap:5px;padding:10px 16px;">
                     <div class="mock-nav">
@@ -410,7 +410,7 @@
         <div class="macbook-base"><div class="macbook-notch"></div></div>
         <div class="macbook-stand"></div>
         <div class="macbook-foot"></div>
-        <p class="device-caption">האתר זמין ב<strong>shohamabo-lab.github.io</strong> מכל מכשיר</p>
+        <p class="device-caption">האתר זמין ב<strong>minapchimtkis.github.io</strong> מכל מכשיר</p>
     </div>
 </div>
 
@@ -531,7 +531,7 @@
         su.classList.add('show');
         // Build WhatsApp message
         const totalTxt=fmt(total);
-        const msg=encodeURIComponent('שומע? בדקתי עכשיו במחשבון של מנפחים ת\u2019כיס סימולציה של פוטנציאל השקעה... המספר שיצא לי פשוט מטורף! 🤯\nזה רק כלי לימודי אבל זה פתח לי את העיניים.\nתבדוק מה הפוטנציאל שלך לפני שהזמן בורח: https://shohamabo-lab.github.io/index.html');
+        const msg=encodeURIComponent('שומע? בדקתי עכשיו במחשבון של מנפחים ת\u2019כיס סימולציה של פוטנציאל השקעה... המספר שיצא לי פשוט מטורף! 🤯\nזה רק כלי לימודי אבל זה פתח לי את העיניים.\nתבדוק מה הפוטנציאל שלך לפני שהזמן בורח: https://minapchimtkis.github.io/index.html');
         document.getElementById('wa-btn').href='https://wa.me/?text='+msg;
     }
     calc();
@@ -544,7 +544,7 @@
         const rate=document.getElementById('rl').textContent;
         const monthly=document.getElementById('cm').value;
         const w=window.open('','_blank');
-        w.document.write(`<!DOCTYPE html><html dir="rtl" lang="he"><head><meta charset="UTF-8"><title>סימולציית ריבית דריבית</title><style>body{font-family:Arial,sans-serif;background:#fff;color:#111;padding:40px;max-width:600px;margin:auto;}h1{color:#0b1628;font-size:1.6rem;}table{width:100%;border-collapse:collapse;margin:24px 0;}td{padding:12px;border-bottom:1px solid #ddd;font-size:1rem;}td:first-child{font-weight:bold;color:#555;}.total{font-size:1.4rem;font-weight:900;color:#0ea5e9;}.disclaimer{margin-top:40px;font-size:0.72rem;color:#888;border-top:1px solid #ddd;padding-top:16px;line-height:1.6;}</style></head><body><h1>🚀 סימולציית ריבית דריבית</h1><p>מנפחים ת'כיס | shohamabo-lab.github.io</p><table><tr><td>השקעה חודשית</td><td>₪${monthly}</td></tr><tr><td>תקופה</td><td>${years}</td></tr><tr><td>תשואה שנתית</td><td>${rate}</td></tr><tr><td>רווח כולל</td><td>${profit}</td></tr><tr><td>מכפיל הון</td><td class="total">${mult}</td></tr><tr><td>סכום סופי</td><td class="total">${total}</td></tr></table><p class="disclaimer">הנתונים הם סימולציה למטרות לימודיות בלבד ואינם מהווים ייעוץ השקעות, ייעוץ פיננסי או הבטחה לתשואה כלשהי. יש להתייעץ עם בעל רישיון לפני קבלת החלטות פיננסיות.</p></body></html>`);
+        w.document.write(`<!DOCTYPE html><html dir="rtl" lang="he"><head><meta charset="UTF-8"><title>סימולציית ריבית דריבית</title><style>body{font-family:Arial,sans-serif;background:#fff;color:#111;padding:40px;max-width:600px;margin:auto;}h1{color:#0b1628;font-size:1.6rem;}table{width:100%;border-collapse:collapse;margin:24px 0;}td{padding:12px;border-bottom:1px solid #ddd;font-size:1rem;}td:first-child{font-weight:bold;color:#555;}.total{font-size:1.4rem;font-weight:900;color:#0ea5e9;}.disclaimer{margin-top:40px;font-size:0.72rem;color:#888;border-top:1px solid #ddd;padding-top:16px;line-height:1.6;}</style></head><body><h1>🚀 סימולציית ריבית דריבית</h1><p>מנפחים ת'כיס | minapchimtkis.github.io</p><table><tr><td>השקעה חודשית</td><td>₪${monthly}</td></tr><tr><td>תקופה</td><td>${years}</td></tr><tr><td>תשואה שנתית</td><td>${rate}</td></tr><tr><td>רווח כולל</td><td>${profit}</td></tr><tr><td>מכפיל הון</td><td class="total">${mult}</td></tr><tr><td>סכום סופי</td><td class="total">${total}</td></tr></table><p class="disclaimer">הנתונים הם סימולציה למטרות לימודיות בלבד ואינם מהווים ייעוץ השקעות, ייעוץ פיננסי או הבטחה לתשואה כלשהי. יש להתייעץ עם בעל רישיון לפני קבלת החלטות פיננסיות.</p></body></html>`);
         w.document.close();
         setTimeout(()=>w.print(),400);
     }
