@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+כ<!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -425,14 +425,6 @@ window.addEventListener('scroll',()=>{
   prog.style.width=(s.scrollTop/(s.scrollHeight-s.clientHeight)*100)+'%';
 });
 
-const fab=document.createElement('a');
-fab.href='premium.html';
-fab.textContent='להתחיל 💰';
-fab.style.cssText='position:fixed;bottom:28px;left:28px;background:#FFF100;color:#0b1628;font-weight:900;font-family:Heebo,sans-serif;padding:14px 22px;border-radius:50px;font-size:0.95rem;box-shadow:0 4px 20px rgba(255,241,0,0.4);z-index:900;transition:all 0.3s;text-decoration:none;display:none';
-document.body.appendChild(fab);
-window.addEventListener('scroll',()=>{ fab.style.display=window.scrollY>400?'block':'none'; });
-fab.addEventListener('mouseover',()=>fab.style.transform='translateY(-3px) scale(1.05)');
-fab.addEventListener('mouseout',()=>fab.style.transform='');
 
 const observer=new IntersectionObserver((entries)=>{
   entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
