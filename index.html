@@ -248,7 +248,6 @@
         <li><a href="stock.html">שוק ההון</a></li>
         <li><a href="protocol.html">פרוטוקול ה-10</a></li>
         <li><a href="blog.html">📰 סיכום השבוע</a></li>
-        
     </ul>
     <button class="hamburger" onclick="document.getElementById('mob').classList.toggle('open')">☰</button>
 </nav>
@@ -261,7 +260,6 @@
     <a href="stock.html">📈 שוק ההון</a>
     <a href="protocol.html">✈️ פרוטוקול ה-10</a>
     <a href="blog.html">📰 סיכום השבוע</a>
-    
 </div>
 
 <div class="ticker-wrap">
@@ -289,8 +287,6 @@
         <a href="metchilim.html" class="btn-yellow">אני רוצה להתחיל לנפח 🚀</a>
     </div>
 </section>
-
-
 
 <div class="divider"></div>
 
@@ -381,11 +377,10 @@
                         <img src="logo.jpg" alt="לוגו" style="width:24px;height:24px;border-radius:50%;object-fit:cover;border:1.5px solid var(--yellow);box-shadow:0 0 6px rgba(250,204,21,0.5),0 0 12px rgba(14,165,233,0.2);flex-shrink:0;">
                         <div class="mock-nav-text"><span class="b">מנפחים</span> <span class="y">ת'כיס</span></div>
                         <div class="mock-nav-links">
-                            <div class="mock-link">בית</div>
+                            <div class="mock-link active">בית</div>
                             <div class="mock-link">פסיכולוגיה</div>
                             <div class="mock-link">נכסים</div>
                             <div class="mock-link">שוק ההון</div>
-                            <div class="mock-link active">⭐ פרימיום ⭐</div>
                         </div>
                     </div>
                     <div class="mock-hero-title" style="font-size:1rem;margin:2px 0;"><span class="b">מנפחים</span> <span class="y">ת'כיס</span></div>
@@ -397,11 +392,6 @@
                         <div class="mock-card"><div class="mock-card-icon" style="font-size:0.7rem;">🏦</div><div class="mock-card-title">בנקאית</div><div class="mock-card-text">מונחים פיננסיים</div></div>
                         <div class="mock-card"><div class="mock-card-icon" style="font-size:0.7rem;">📈</div><div class="mock-card-title">שוק ההון</div><div class="mock-card-text">השקעה במדדים</div></div>
                         <div class="mock-card"><div class="mock-card-icon" style="font-size:0.7rem;">✈️</div><div class="mock-card-title">פרוטוקול ה-10</div><div class="mock-card-text">ניהול תזרים חכם</div></div>
-                    </div>
-                    <div class="mock-card" style="border-color:rgba(255,241,0,0.4);background:rgba(255,241,0,0.05);display:flex;align-items:center;justify-content:center;gap:8px;padding:6px 8px;text-align:center;">
-                        <span style="font-size:1rem;">⭐</span>
-                        <div><div class="mock-card-title" style="color:var(--yellow);font-size:0.65rem;">מנפחים מתקדמים — פרימיום</div><div class="mock-card-text" style="font-size:0.5rem;">כלים מתקדמים לניהול ובניית הון</div></div>
-                        <span style="font-size:1rem;">⭐</span>
                     </div>
                 </div>
             </div>
@@ -493,7 +483,6 @@
                     <li><a href="bankayt.html">לדבר בנקאית</a></li>
                     <li><a href="stock.html">שוק ההון</a></li>
                     <li><a href="protocol.html">פרוטוקול ה-10</a></li>
-                    
                 </ul>
             </div>
         </div>
@@ -525,11 +514,8 @@
         document.getElementById('rt').textContent=fmt(total);
         document.getElementById('rp').textContent=fmt(total-inv);
         document.getElementById('rm').textContent='x'+(inv>0?(total/inv).toFixed(1):'∞');
-        // Show share unit
         const su=document.getElementById('share-unit');
         su.classList.add('show');
-        // Build WhatsApp message
-        const totalTxt=fmt(total);
         const msg=encodeURIComponent('שומע? בדקתי עכשיו במחשבון של מנפחים ת\u2019כיס סימולציה של פוטנציאל השקעה... המספר שיצא לי פשוט מטורף! 🤯\nזה רק כלי לימודי אבל זה פתח לי את העיניים.\nתבדוק מה הפוטנציאל שלך לפני שהזמן בורח: https://minapchimtkis.github.io/index.html');
         document.getElementById('wa-btn').href='https://wa.me/?text='+msg;
     }
