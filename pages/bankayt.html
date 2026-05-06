@@ -102,7 +102,6 @@ footer{background:#080e1a;border-top:1px solid rgba(0,229,255,0.1);padding:50px 
       <li><a href="bankayt.html" class="active">בנקאית</a></li>
       <li><a href="stock.html">שוק ההון</a></li>
       <li><a href="protocol.html">פרוטוקול ה-10</a></li>
-      <li><a href="premium.html" class="nav-cta">מנפחים מתקדמים</a></li>
     </ul>
     <button class="hamburger" id="hamburger">☰</button>
   </div>
@@ -114,7 +113,6 @@ footer{background:#080e1a;border-top:1px solid rgba(0,229,255,0.1);padding:50px 
     <a href="bankayt.html">🏦 בנקאית</a>
     <a href="stock.html">📈 שוק ההון</a>
     <a href="protocol.html">✈️ פרוטוקול ה-10</a>
-    <a href="premium.html" style="color:#FFF100;border-color:rgba(255,241,0,0.4)">⭐ מנפחים מתקדמים</a>
   </div>
 </nav>
 
@@ -281,7 +279,7 @@ footer{background:#080e1a;border-top:1px solid rgba(0,229,255,0.1);padding:50px 
         </div>
       </div>
       <div class="footer-col"><h4>ניווט</h4><ul><li><a href="../index.html">בית</a></li><li><a href="metchilim.html">מתחילים לנפח</a></li><li><a href="psychology.html">פסיכולוגיה</a></li><li><a href="assets.html">נכסים</a></li></ul></div>
-      <div class="footer-col"><h4>למידה</h4><ul><li><a href="bankayt.html">בנקאית</a></li><li><a href="stock.html">שוק ההון</a></li><li><a href="protocol.html">פרוטוקול ה-10</a></li><li><a href="premium.html">מתקדמים</a></li></ul></div>
+      <div class="footer-col"><h4>למידה</h4><ul><li><a href="bankayt.html">בנקאית</a></li><li><a href="stock.html">שוק ההון</a></li><li><a href="protocol.html">פרוטוקול ה-10</a></li></ul></div>
     </div>
     <div class="footer-bottom">
       <p class="footer-copy">© 2025 מנפחים ת'כיס. כל הזכויות שמורות.</p>
@@ -299,11 +297,9 @@ const observer=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isI
 document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));
 const _p=document.createElement('div');_p.style.cssText='position:fixed;top:0;right:0;height:3px;background:linear-gradient(90deg,#FFF100,#00E5FF);z-index:9999;width:0;pointer-events:none';document.body.prepend(_p);
 window.addEventListener('scroll',()=>{const s=document.documentElement;_p.style.width=(s.scrollTop/(s.scrollHeight-s.clientHeight)*100)+'%'});
-const _f=document.createElement('a');_f.href='premium.html';_f.textContent='להתחיל 💰';_f.style.cssText='position:fixed;bottom:28px;left:28px;background:#FFF100;color:#0b1628;font-weight:900;font-family:Heebo,sans-serif;padding:14px 22px;border-radius:50px;font-size:0.95rem;box-shadow:0 4px 20px rgba(255,241,0,0.4);z-index:900;text-decoration:none;opacity:0;pointer-events:none;transition:all 0.3s';document.body.appendChild(_f);
 const _t=document.createElement('button');_t.textContent='↑';_t.style.cssText='position:fixed;bottom:28px;right:28px;width:46px;height:46px;background:rgba(0,229,255,0.15);border:1px solid rgba(0,229,255,0.4);border-radius:50%;color:#00E5FF;font-size:1.2rem;cursor:pointer;z-index:900;opacity:0;pointer-events:none;transition:all 0.3s';document.body.appendChild(_t);
-window.addEventListener('scroll',()=>{const s=window.scrollY>400;[_f,_t].forEach(e=>{e.style.opacity=s?'1':'0';e.style.pointerEvents=s?'auto':'none'})});
+window.addEventListener('scroll',()=>{const s=window.scrollY>400;[_t].forEach(e=>{e.style.opacity=s?'1':'0';e.style.pointerEvents=s?'auto':'none'})});
 _t.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
-_f.addEventListener('mouseover',()=>{_f.style.transform='translateY(-3px) scale(1.05)'});_f.addEventListener('mouseout',()=>{_f.style.transform=''});
 _t.addEventListener('mouseover',()=>{_t.style.background='rgba(0,229,255,0.3)'});_t.addEventListener('mouseout',()=>{_t.style.background='rgba(0,229,255,0.15)'});
 </script>
 </body>
